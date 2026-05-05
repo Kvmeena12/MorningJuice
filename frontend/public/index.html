@@ -1,0 +1,1708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Morning – Fresh Juice Delivered Daily</title>
+  <meta name="description" content="Mumbai's freshest cold-pressed juice subscription. Delivered to your doorstep every morning before 8 AM." />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --orange: #e76f51;
+      --orange-dark: #c85a3a;
+      --orange-light: #f4a261;
+      --green: #2d6a4f;
+      --cream: #fdf6ec;
+      --dark: #1a1a2e;
+      --mid: #4a4a6a;
+      --light: #f8fafc;
+      --white: #ffffff;
+      --border: #e8e0d5;
+      --shadow: 0 4px 24px rgba(0,0,0,.08);
+      --shadow-lg: 0 16px 48px rgba(0,0,0,.14);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--dark); background: #fff; overflow-x: hidden; }
+
+    h1, h2, h3 { font-family: 'Fraunces', serif; }
+
+    /* ─── ANNOUNCEMENT BAR ─── */
+    .announcement-bar { background: var(--dark); color: #fff; text-align: center; padding: 10px 40px; font-size: 13px; font-weight: 500; position: relative; }
+    .ann-close { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #fff; font-size: 18px; cursor: pointer; opacity: .7; }
+
+    /* ─── NAVBAR ─── */
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(255,255,255,.96); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); transition: .3s; }
+    .nav-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 900; color: var(--dark); text-decoration: none; }
+    .logo span { color: var(--orange); }
+    .nav-links { list-style: none; display: flex; align-items: center; gap: 32px; }
+    .nav-links a { text-decoration: none; font-size: 14px; font-weight: 500; color: var(--mid); transition: color .2s; }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-cta { background: var(--orange) !important; color: #fff !important; padding: 9px 20px; border-radius: 10px; font-weight: 600 !important; }
+    .nav-cta:hover { background: var(--orange-dark) !important; }
+    .hamburger { display: none; background: none; border: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--dark); border-radius: 2px; }
+
+    /* ─── BUTTONS ─── */
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 28px; border-radius: 12px; font-weight: 600; font-size: 15px; cursor: pointer; text-decoration: none; border: none; transition: .2s; font-family: 'DM Sans', sans-serif; }
+    .btn-primary { background: var(--orange); color: #fff; }
+    .btn-primary:hover { background: var(--orange-dark); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(231,111,81,.3); }
+    .btn-ghost { background: transparent; color: var(--dark); border: 2px solid var(--border); }
+    .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+    .btn svg { width: 16px; height: 16px; }
+
+    /* ─── HERO ─── */
+    .hero { min-height: 100vh; display: flex; align-items: center; padding: 100px 0 60px; background: var(--cream); position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(244,162,97,.15) 0%, transparent 70%); }
+    .hero-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; position: relative; z-index: 1; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(45,106,79,.1); color: var(--green); padding: 7px 16px; border-radius: 40px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+    .badge-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(1.3)} }
+    .hero h1 { font-size: clamp(42px, 5.5vw, 68px); font-weight: 900; line-height: 1.05; color: var(--dark); margin-bottom: 20px; }
+    .hero h1 em { font-style: italic; color: var(--orange); }
+    .hero-desc { font-size: 17px; line-height: 1.7; color: var(--mid); max-width: 460px; margin-bottom: 32px; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; }
+    .hero-stats { display: flex; align-items: center; gap: 32px; }
+    .stat-item strong { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 900; color: var(--orange); }
+    .stat-item span { font-size: 18px; color: var(--orange); font-weight: 700; }
+    .stat-item p { font-size: 12px; color: var(--mid); font-weight: 500; text-transform: uppercase; letter-spacing: .5px; margin-top: 2px; }
+    .stat-divider { width: 1px; height: 40px; background: var(--border); }
+    .hero-visual { display: flex; align-items: center; justify-content: center; position: relative; height: 420px; }
+    .juice-orb { width: 280px; height: 280px; position: relative; display: flex; align-items: center; justify-content: center; }
+    .orb-ring { position: absolute; border-radius: 50%; border: 2px solid; animation: spin 12s linear infinite; }
+    .r1 { width: 100%; height: 100%; border-color: rgba(231,111,81,.2); }
+    .r2 { width: 75%; height: 75%; border-color: rgba(244,162,97,.3); animation-direction: reverse; animation-duration: 8s; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .orb-center { width: 160px; height: 160px; background: linear-gradient(135deg, var(--orange), var(--orange-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 72px; box-shadow: 0 20px 60px rgba(231,111,81,.4); }
+    .floating-tag { position: absolute; background: #fff; border-radius: 12px; padding: 10px 16px; font-size: 13px; font-weight: 600; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 8px; animation: float 4s ease-in-out infinite; }
+    .ft1 { top: 20px; left: 0; animation-delay: 0s; }
+    .ft2 { bottom: 60px; left: -10px; animation-delay: 1.3s; }
+    .ft3 { top: 80px; right: 0; animation-delay: 2.6s; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+    /* ─── TRUST STRIP ─── */
+    .trust-strip { background: var(--dark); padding: 16px 0; }
+    .trust-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+    .trust-label { color: rgba(255,255,255,.5); font-size: 13px; white-space: nowrap; }
+    .trust-areas { display: flex; gap: 16px; flex-wrap: wrap; }
+    .trust-areas span { color: rgba(255,255,255,.8); font-size: 13px; font-weight: 500; }
+    .trust-areas span::before { content: '•'; margin-right: 8px; color: var(--orange); }
+
+    /* ─── SECTIONS ─── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 80px 0; }
+    .section-header { text-align: center; margin-bottom: 48px; }
+    .section-tag { display: inline-block; background: rgba(231,111,81,.1); color: var(--orange); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+    .section-header h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 900; color: var(--dark); margin-bottom: 14px; }
+    .section-header p { color: var(--mid); font-size: 16px; max-width: 520px; margin: 0 auto; line-height: 1.6; }
+    .section-header.light h2 { color: #fff; }
+    .section-header.light p { color: rgba(255,255,255,.75); }
+
+    /* ─── HOW IT WORKS ─── */
+    .how-section { background: #fff; }
+    .steps-wrapper { display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .step-card { flex: 1; min-width: 200px; max-width: 240px; text-align: center; padding: 32px 20px; background: var(--cream); border-radius: 20px; position: relative; }
+    .step-icon-wrap { width: 64px; height: 64px; border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 28px; margin: 0 auto 16px; }
+    .step-icon-wrap.green { background: rgba(45,106,79,.1); }
+    .step-icon-wrap.orange { background: rgba(231,111,81,.1); }
+    .step-icon-wrap.yellow { background: rgba(255,200,50,.1); }
+    .step-icon-wrap.red { background: rgba(220,38,38,.08); }
+    .step-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+    .step-card p { font-size: 13px; color: var(--mid); line-height: 1.6; }
+    .step-arrow { font-size: 24px; color: var(--orange); opacity: .4; align-self: center; flex-shrink: 0; }
+
+    /* ─── MENU ─── */
+    .menu-section { background: var(--dark); }
+    .menu-filter { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px; }
+    .filter-btn { padding: 9px 20px; border-radius: 20px; border: 2px solid rgba(255,255,255,.15); background: none; color: rgba(255,255,255,.6); font-size: 13px; font-weight: 600; cursor: pointer; transition: .2s; font-family: 'DM Sans', sans-serif; }
+    .filter-btn.active, .filter-btn:hover { background: var(--orange); border-color: var(--orange); color: #fff; }
+    .juice-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .juice-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 20px; padding: 24px; transition: .3s; }
+    .juice-card:hover { background: rgba(255,255,255,.1); transform: translateY(-4px); }
+    .juice-emoji { font-size: 40px; margin-bottom: 12px; }
+    .juice-card h3 { color: #fff; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+    .juice-card p { color: rgba(255,255,255,.6); font-size: 13px; line-height: 1.6; margin-bottom: 12px; }
+    .juice-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .juice-tag { padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; background: rgba(231,111,81,.2); color: var(--orange-light); }
+
+    /* ─── PLANS ─── */
+    .plans-section { background: var(--cream); }
+    .plan-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .plan-card { border: 2px solid var(--border); border-radius: 24px; padding: 32px; background: #fff; transition: .3s; position: relative; }
+    .plan-card:hover { border-color: var(--orange); box-shadow: 0 12px 40px rgba(231,111,81,.12); }
+    .plan-card.popular { border-color: var(--orange); background: linear-gradient(135deg, #fff8f5 0%, #fff 100%); }
+    .popular-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--orange); color: #fff; padding: 5px 20px; border-radius: 20px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .plan-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+    .plan-price { font-size: 40px; font-weight: 900; color: var(--orange); margin: 12px 0 4px; font-family: 'Fraunces', serif; }
+    .plan-price span { font-size: 16px; color: var(--mid); font-weight: 400; font-family: 'DM Sans', sans-serif; }
+    .plan-features { list-style: none; margin: 16px 0; }
+    .plan-features li { padding: 8px 0; font-size: 14px; color: var(--mid); border-bottom: 1px solid var(--border); }
+    .plan-features li:last-child { border-bottom: none; }
+    .plan-features li::before { content: "✓ "; color: var(--orange); font-weight: 700; }
+    .qty-wrap { display: flex; align-items: center; gap: 12px; margin: 16px 0; }
+    .qty-btn { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--orange); background: none; color: var(--orange); font-size: 20px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: .2s; }
+    .qty-btn:hover { background: var(--orange); color: #fff; }
+    .qty-val { font-size: 22px; font-weight: 700; color: var(--dark); min-width: 28px; text-align: center; }
+    .text-sm { font-size: 13px; color: var(--mid); }
+    .btn-full { width: 100%; padding: 14px; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; background: var(--orange); color: #fff; transition: .2s; font-family: 'DM Sans', sans-serif; }
+    .btn-full:hover { background: var(--orange-dark); transform: translateY(-2px); }
+    .mt16 { margin-top: 16px; }
+    .mt24 { margin-top: 24px; }
+
+    /* ─── WHY US ─── */
+    .why-section { background: #fff; }
+    .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 16px; }
+    .why-card { padding: 28px 24px; border: 2px solid var(--border); border-radius: 20px; transition: .3s; }
+    .why-card:hover { border-color: var(--orange); transform: translateY(-4px); }
+    .why-icon { font-size: 36px; margin-bottom: 14px; }
+    .why-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+    .why-card p { font-size: 14px; color: var(--mid); line-height: 1.6; }
+
+    /* ─── TESTIMONIALS ─── */
+    .testi-section { background: var(--cream); overflow: hidden; }
+    .testi-track-wrap { overflow: hidden; }
+    .testi-track { display: flex; transition: transform .4s ease; }
+    .testi-card { min-width: 340px; background: #fff; border-radius: 20px; padding: 28px; margin: 8px 12px; box-shadow: var(--shadow); flex-shrink: 0; }
+    .testi-stars { color: #f59e0b; font-size: 16px; margin-bottom: 12px; }
+    .testi-card p { font-size: 15px; line-height: 1.7; color: var(--mid); margin-bottom: 16px; font-style: italic; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar { width: 40px; height: 40px; border-radius: 50%; background: linear-gradient(135deg, var(--orange), var(--orange-light)); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .testi-author strong { font-size: 14px; display: block; }
+    .testi-author span { font-size: 12px; color: var(--mid); }
+    .testi-dots { display: flex; justify-content: center; gap: 8px; margin-top: 24px; }
+    .testi-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); cursor: pointer; transition: .2s; }
+    .testi-dot.active { background: var(--orange); width: 24px; border-radius: 4px; }
+    .testi-nav { display: flex; justify-content: center; gap: 12px; margin-top: 16px; }
+    .testi-btn { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--border); background: none; cursor: pointer; font-size: 16px; transition: .2s; }
+    .testi-btn:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ─── FAQ ─── */
+    .faq-section { background: #fff; }
+    .faq-list { max-width: 720px; margin: 0 auto; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q { padding: 20px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 16px; }
+    .faq-q::after { content: '+'; font-size: 22px; color: var(--orange); font-weight: 300; flex-shrink: 0; }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a { display: none; padding-bottom: 18px; font-size: 14px; color: var(--mid); line-height: 1.7; }
+    .faq-item.open .faq-a { display: block; }
+
+    /* ─── CONTACT ─── */
+    .contact-section { background: var(--dark); position: relative; overflow: hidden; }
+    .contact-section::before { content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(231,111,81,.15) 0%, transparent 70%); }
+    .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; position: relative; z-index: 1; }
+    .contact-left h2 { font-size: 40px; font-weight: 900; color: #fff; margin: 12px 0 16px; line-height: 1.15; }
+    .contact-left > p { color: rgba(255,255,255,.6); font-size: 16px; margin-bottom: 32px; }
+    .light-tag { background: rgba(231,111,81,.2); color: var(--orange-light); }
+    .contact-methods { display: flex; flex-direction: column; gap: 16px; }
+    .contact-method { display: flex; align-items: center; gap: 16px; text-decoration: none; color: inherit; }
+    .cm-icon { width: 48px; height: 48px; background: rgba(255,255,255,.08); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+    .contact-method strong { color: #fff; font-size: 15px; display: block; }
+    .contact-method p { color: rgba(255,255,255,.5); font-size: 14px; margin: 0; }
+    .contact-form-card { background: #fff; border-radius: 24px; padding: 36px; }
+    .contact-form-card h3 { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+    .contact-form-card > p { color: var(--mid); font-size: 14px; margin-bottom: 24px; }
+    .subscribe-form .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; color: #444; }
+    .form-group input, .form-group select { width: 100%; padding: 12px 14px; border: 2px solid var(--border); border-radius: 10px; font-size: 15px; font-family: 'DM Sans', sans-serif; transition: .2s; }
+    .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--orange); }
+    .full-width { width: 100%; }
+    .form-note { text-align: center; font-size: 12px; color: var(--mid); margin-top: 12px; }
+
+    /* ─── FOOTER ─── */
+    .footer { background: #111; }
+    .footer-top { padding: 60px 0 40px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; }
+    .footer-brand p { color: rgba(255,255,255,.5); font-size: 14px; line-height: 1.7; margin: 14px 0 20px; }
+    .social-links { display: flex; gap: 12px; }
+    .social-links a { width: 36px; height: 36px; background: rgba(255,255,255,.08); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: .2s; text-decoration: none; }
+    .social-links a:hover { background: var(--orange); }
+    .footer-col h4 { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 16px; text-transform: uppercase; letter-spacing: .5px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a, .footer-col ul li span { color: rgba(255,255,255,.5); font-size: 14px; text-decoration: none; transition: .2s; }
+    .footer-col ul li a:hover { color: var(--orange); }
+    .footer-logo { font-size: 28px; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding: 20px 0; }
+    .footer-bottom .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .footer-bottom p { color: rgba(255,255,255,.4); font-size: 13px; }
+    .footer-legal { display: flex; gap: 20px; }
+    .footer-legal a { color: rgba(255,255,255,.4); font-size: 13px; text-decoration: none; }
+    .footer-legal a:hover { color: var(--orange); }
+
+    /* ─── TOAST ─── */
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--dark); color: #fff; padding: 14px 22px; border-radius: 12px; font-size: 14px; font-weight: 600; opacity: 0; pointer-events: none; transform: translateY(10px); transition: .3s; z-index: 9999; max-width: 320px; }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast.error { background: #dc2626; }
+    .toast.success { background: #16a34a; }
+
+    /* ─── BACK TO TOP ─── */
+    .back-to-top { position: fixed; bottom: 80px; right: 24px; width: 44px; height: 44px; background: var(--orange); color: #fff; border: none; border-radius: 12px; font-size: 18px; cursor: pointer; opacity: 0; transition: .3s; z-index: 100; }
+    .back-to-top.show { opacity: 1; }
+
+    /* ══════════════════════════════════════════
+       AUTH MODAL
+    ══════════════════════════════════════════ */
+    .auth-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.65); z-index: 9000; align-items: center; justify-content: center; }
+    .auth-overlay.open { display: flex; }
+    .auth-box { background: #fff; border-radius: 24px; padding: 40px; max-width: 440px; width: 92%; box-shadow: var(--shadow-lg); position: relative; max-height: 90vh; overflow-y: auto; }
+    .auth-close { position: absolute; top: 16px; right: 20px; background: none; border: none; font-size: 22px; cursor: pointer; color: #999; }
+    .auth-tabs { display: flex; gap: 8px; margin-bottom: 28px; }
+    .auth-tab { flex: 1; padding: 11px; border: none; border-radius: 10px; font-weight: 600; font-size: 15px; cursor: pointer; background: #f1f5f9; color: #666; transition: .2s; font-family: 'DM Sans', sans-serif; }
+    .auth-tab.active { background: var(--orange); color: #fff; }
+    .auth-note { text-align: center; margin-top: 16px; font-size: 13px; color: #888; }
+    .auth-note a { color: var(--orange); text-decoration: none; font-weight: 600; }
+
+    /* ══════════════════════════════════════════
+       DASHBOARD — REDESIGNED
+    ══════════════════════════════════════════ */
+    #dashboardSection { display: none; min-height: 100vh; background: #f0f2f5; }
+    #dashboardSection.show { display: block; }
+    #homeSection.hide { display: none; }
+
+    /* Dashboard top bar */
+    .db-topbar { position: fixed; top: 0; left: 0; right: 0; height: 64px; background: #fff; border-bottom: 1px solid var(--border); z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; }
+    .db-topbar .logo { font-size: 20px; }
+    .db-user-pill { display: flex; align-items: center; gap: 10px; }
+    .db-avatar { width: 38px; height: 38px; background: linear-gradient(135deg, var(--orange), var(--orange-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 16px; }
+    .db-user-pill span { font-weight: 600; font-size: 14px; color: var(--dark); }
+    .db-topbar-actions { display: flex; align-items: center; gap: 16px; }
+
+    /* Dashboard layout */
+    .db-layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; padding-top: 64px; }
+
+    /* Sidebar */
+    .db-sidebar { background: #fff; border-right: 1px solid var(--border); padding: 28px 16px; position: sticky; top: 64px; height: calc(100vh - 64px); overflow-y: auto; }
+    .db-sidebar-section { margin-bottom: 28px; }
+    .db-sidebar-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #aaa; margin-bottom: 8px; padding: 0 12px; }
+    .db-nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 12px; border-radius: 12px; color: #555; font-weight: 500; font-size: 14px; cursor: pointer; transition: .2s; text-decoration: none; border: none; background: none; width: 100%; font-family: 'DM Sans', sans-serif; }
+    .db-nav-item:hover { background: #f5f5f5; color: var(--dark); }
+    .db-nav-item.active { background: linear-gradient(135deg, #fff3ef, #fde8e0); color: var(--orange); font-weight: 600; }
+    .db-nav-item .nav-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; background: rgba(0,0,0,.05); flex-shrink: 0; }
+    .db-nav-item.active .nav-icon { background: rgba(231,111,81,.15); }
+    .db-nav-item.danger { color: #dc2626; }
+    .db-nav-item.danger:hover { background: #fee2e2; }
+
+    /* Dashboard main */
+    .db-main { padding: 32px; overflow-y: auto; }
+    .db-page-header { margin-bottom: 28px; }
+    .db-page-header h1 { font-size: 28px; font-weight: 900; color: var(--dark); }
+    .db-page-header p { color: var(--mid); font-size: 14px; margin-top: 4px; }
+
+    /* Stat cards row */
+    .db-stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .db-stat-card { background: #fff; border-radius: 16px; padding: 20px 22px; border: 1px solid var(--border); }
+    .db-stat-card .stat-label { font-size: 12px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+    .db-stat-card .stat-value { font-size: 28px; font-weight: 900; color: var(--dark); font-family: 'Fraunces', serif; }
+    .db-stat-card .stat-sub { font-size: 12px; color: var(--mid); margin-top: 4px; }
+    .db-stat-card .stat-icon { font-size: 24px; float: right; margin-top: -36px; }
+
+    /* Content cards */
+    .db-card { background: #fff; border-radius: 20px; padding: 28px; border: 1px solid var(--border); margin-bottom: 24px; }
+    .db-card h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .db-card .card-sub { font-size: 13px; color: var(--mid); margin-bottom: 20px; }
+
+    /* Active subscription banner */
+    .sub-banner { border-radius: 20px; padding: 28px 32px; color: #fff; margin-bottom: 24px; background: linear-gradient(135deg, #1a1a2e 0%, #2d1b5e 50%, #4a1942 100%); position: relative; overflow: hidden; }
+    .sub-banner::before { content: ''; position: absolute; top: -40px; right: -40px; width: 180px; height: 180px; background: rgba(231,111,81,.15); border-radius: 50%; }
+    .sub-banner::after { content: '🥤'; position: absolute; right: 32px; bottom: 16px; font-size: 64px; opacity: .15; }
+    .sub-banner .sb-tag { background: rgba(255,255,255,.15); color: rgba(255,255,255,.9); display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; }
+    .sub-banner h3 { font-size: 24px; margin-bottom: 12px; }
+    .sub-banner .sb-meta { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 20px; }
+    .sub-banner .sb-meta span { font-size: 13px; opacity: .8; }
+    .sb-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .sb-btn { padding: 9px 18px; border-radius: 10px; font-size: 13px; font-weight: 600; cursor: pointer; border: 2px solid rgba(255,255,255,.3); background: rgba(255,255,255,.1); color: #fff; transition: .2s; font-family: 'DM Sans', sans-serif; }
+    .sb-btn:hover { background: rgba(255,255,255,.2); border-color: rgba(255,255,255,.5); }
+    .no-sub-card { background: #fff; border-radius: 20px; border: 2px dashed var(--border); padding: 48px 32px; text-align: center; margin-bottom: 24px; }
+    .no-sub-card .ns-icon { font-size: 48px; margin-bottom: 16px; }
+    .no-sub-card h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+    .no-sub-card p { color: var(--mid); font-size: 15px; margin-bottom: 24px; }
+
+    /* Upcoming deliveries */
+    .delivery-list { display: flex; flex-direction: column; gap: 10px; }
+    .delivery-row { display: flex; align-items: center; gap: 16px; padding: 14px 16px; border-radius: 12px; background: #f8fafc; border: 1px solid var(--border); }
+    .delivery-date-box { background: var(--orange); color: #fff; border-radius: 10px; padding: 8px 12px; text-align: center; min-width: 52px; flex-shrink: 0; }
+    .delivery-date-box .dday { font-size: 20px; font-weight: 900; font-family: 'Fraunces', serif; line-height: 1; }
+    .delivery-date-box .dmon { font-size: 10px; font-weight: 700; opacity: .85; text-transform: uppercase; }
+    .delivery-info { flex: 1; }
+    .delivery-info strong { font-size: 14px; display: block; }
+    .delivery-info span { font-size: 12px; color: var(--mid); }
+    .delivery-otp { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 700; color: #16a34a; }
+    .delivery-skip-btn { padding: 5px 12px; background: #fee2e2; color: #dc2626; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: .2s; }
+    .delivery-skip-btn:hover { background: #fca5a5; }
+
+    /* Status pills */
+    .pill { padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: capitalize; }
+    .pill-delivered { background: #dcfce7; color: #15803d; }
+    .pill-pending { background: #fef9c3; color: #92400e; }
+    .pill-out { background: #dbeafe; color: #1e40af; }
+    .pill-cancelled { background: #fee2e2; color: #991b1b; }
+
+    /* Orders table */
+    .orders-table { width: 100%; border-collapse: collapse; }
+    .orders-table th { background: #f8fafc; padding: 12px 14px; text-align: left; font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: .5px; }
+    .orders-table td { padding: 14px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+    .orders-table tr:last-child td { border-bottom: none; }
+    .orders-table tbody tr:hover { background: #fafafa; }
+
+    /* Schedule */
+    .sched-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+    .sched-card { border: 2px solid var(--border); border-radius: 16px; padding: 18px; transition: .2s; background: #fff; }
+    .sched-card.on { border-color: var(--orange); background: #fff8f5; }
+    .sched-day { font-weight: 700; font-size: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .sched-select { width: 100%; padding: 9px 10px; border: 2px solid var(--border); border-radius: 9px; font-size: 13px; font-family: 'DM Sans', sans-serif; margin-top: 8px; transition: .2s; }
+    .sched-select:focus { outline: none; border-color: var(--orange); }
+    .toggle-sw { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+    .toggle-sw input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; inset: 0; background: #ddd; border-radius: 12px; transition: .3s; cursor: pointer; }
+    .slider:before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: .3s; }
+    .toggle-sw input:checked + .slider { background: var(--orange); }
+    .toggle-sw input:checked + .slider:before { transform: translateX(20px); }
+
+    /* Payment */
+    .payment-box { background: #f8fafc; border-radius: 16px; padding: 28px; border: 1px solid var(--border); margin-top: 24px; }
+    .payment-box h3 { margin-bottom: 16px; font-size: 20px; }
+    .payment-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 15px; }
+    .payment-row:last-of-type { border-bottom: none; font-weight: 700; font-size: 18px; }
+    .btn-ghost-sm { background: none; border: 2px solid var(--orange); color: var(--orange); padding: 10px 22px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: .2s; font-family: 'DM Sans', sans-serif; font-size: 14px; }
+    .btn-ghost-sm:hover { background: var(--orange); color: #fff; }
+
+    /* Dashboard tab visibility */
+    .db-tab { display: none; }
+    .db-tab.show { display: block; }
+
+    /* Empty state */
+    .empty-msg { text-align: center; padding: 60px 20px; color: #999; }
+    .empty-msg .big { font-size: 48px; margin-bottom: 12px; }
+
+    @media (max-width: 1024px) {
+      .db-layout { grid-template-columns: 1fr; }
+      .db-sidebar { position: fixed; left: -260px; top: 64px; height: calc(100vh - 64px); z-index: 100; transition: left .3s; }
+      .db-sidebar.open { left: 0; }
+      .db-main { padding: 20px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-container { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .contact-inner { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .subscribe-form .form-row { grid-template-columns: 1fr; }
+      .db-stats-row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     AUTH MODAL
+══════════════════════════════════════════ -->
+<div class="auth-overlay" id="authOverlay">
+  <div class="auth-box">
+    <button class="auth-close" onclick="closeAuth()">✕</button>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin" onclick="switchTab('login')">Login</button>
+      <button class="auth-tab" id="tabReg" onclick="switchTab('register')">Register</button>
+    </div>
+
+    <!-- LOGIN FORM -->
+    <div id="loginForm">
+      <div class="form-group"><label>Phone Number</label>
+        <input type="tel" id="lPhone" placeholder="9XXXXXXXXX" /></div>
+      <div class="form-group"><label>Password</label>
+        <input type="password" id="lPass" placeholder="Enter password" /></div>
+      <button class="btn btn-primary" style="width:100%" onclick="handleLogin()">Login →</button>
+      <p class="auth-note">Don't have an account? <a href="#" onclick="switchTab('register')">Register here</a></p>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="registerForm" style="display:none">
+      <!-- Step 1 -->
+      <div id="regStep1">
+        <div class="form-group"><label>Full Name *</label>
+          <input type="text" id="rName" placeholder="Your full name" /></div>
+        <div class="form-group"><label>Phone *</label>
+          <input type="tel" id="rPhone" placeholder="9XXXXXXXXX" /></div>
+        <div class="form-group"><label>Password *</label>
+          <input type="password" id="rPass" placeholder="Create password (6+ chars)" /></div>
+        <button class="btn btn-primary" style="width:100%" onclick="goStep2()">Next →</button>
+        <p class="auth-note">Already have an account? <a href="#" onclick="switchTab('login')">Login here</a></p>
+      </div>
+
+      <!-- Step 2 -->
+      <div id="regStep2" style="display:none">
+        <p style="font-size:13px;color:#888;margin-bottom:16px">📍 Delivery Details</p>
+        <div class="form-group"><label>Delivery Address *</label>
+          <input type="text" id="rAddress" placeholder="Building, Street, Area" /></div>
+        <div style="display:flex;gap:10px">
+          <div class="form-group" style="flex:1"><label>Pincode *</label>
+            <input type="text" id="rPincode" placeholder="400058" maxlength="6" oninput="autofillArea(this.value)" /></div>
+          <div class="form-group" style="flex:1"><label>Area</label>
+            <input type="text" id="rArea" placeholder="Auto-filled" readonly style="background:#f8f9fa" /></div>
+        </div>
+        <div class="form-group"><label>Email (optional)</label>
+          <input type="email" id="rEmail" placeholder="you@email.com" /></div>
+        <button type="button" onclick="getLocation()"
+          style="width:100%;padding:10px;background:#f0fdf4;border:2px solid #16a34a;border-radius:8px;color:#16a34a;font-weight:600;cursor:pointer;margin-bottom:12px;font-size:14px;font-family:'DM Sans',sans-serif">
+          📍 Use My Location (optional)
+        </button>
+        <p id="locationStatus" style="font-size:12px;color:#888;margin-bottom:12px;text-align:center"></p>
+        <div style="display:flex;gap:10px">
+          <button type="button" onclick="backStep1()"
+            style="flex:1;padding:13px;background:#f1f5f9;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">
+            ← Back
+          </button>
+          <button type="button" onclick="handleRegister()"
+            style="flex:2;padding:13px;background:var(--orange);color:#fff;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:15px;font-family:'DM Sans',sans-serif" id="regSubmitBtn">
+            Create Account →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     ANNOUNCEMENT BAR
+══════════════════════════════════════════ -->
+<div class="announcement-bar">
+  <span>🎉 Launching in Mumbai — First Week FREE for Early Subscribers!</span>
+  <button class="ann-close" id="annClose">✕</button>
+</div>
+
+<!-- ══════════════════════════════════════════
+     NAVIGATION
+══════════════════════════════════════════ -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="#" class="logo" onclick="goHome()">Morning<span>Juice</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#how" onclick="goHome()">How It Works</a></li>
+      <li><a href="#menu" onclick="goHome()">Our Juices</a></li>
+      <li><a href="#plans" onclick="goHome()">Plans</a></li>
+      <li><a href="#why" onclick="goHome()">Why Us</a></li>
+      <li><a href="#contact" onclick="goHome()">Contact</a></li>
+      <li id="navDash" style="display:none">
+        <a href="#" onclick="showDashboard()" class="nav-cta">My Dashboard</a>
+      </li>
+      <li id="navLogin">
+        <a href="#" onclick="openAuth()" class="nav-cta">Login / Register</a>
+      </li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     HOME SECTION
+══════════════════════════════════════════ -->
+<div id="homeSection">
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-badge"><span class="badge-dot"></span>Now delivering in Powai ⚡</div>
+        <h1>Wake Up to<br><em>Fresh Juice</em><br>Every Morning</h1>
+        <p class="hero-desc">Fresh, cold-pressed juices made daily and delivered across Powai.
+Start your healthy morning routine today.
+</p>
+        <div class="hero-actions">
+          <a href="#plans" class="btn btn-primary">Start Subscription <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"/></svg></a>
+          <a href="#menu" class="btn btn-ghost">Explore Menu</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item"><strong>100</strong><span>+</span><p>Happy Customers</p></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><strong>10</strong><span>+</span><p>Juice Blends</p></div>
+          <div class="stat-divider"></div>
+          <div class="stat-item"><strong>7</strong><span>AM</span><p>Daily Delivery</p></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="juice-orb">
+          <div class="orb-ring r1"></div>
+          <div class="orb-ring r2"></div>
+          <div class="orb-center">🥤</div>
+        </div>
+        <div class="floating-tag ft1"><span>🍊</span> Fresh Fruites</div>
+        <div class="floating-tag ft2"><span>✅</span> No Sugar Added</div>
+        <div class="floating-tag ft3"><span>🥕</span> Fresh Vegetable</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <div class="trust-strip">
+    <div class="trust-container">
+      <span class="trust-label">Trusted by health-conscious Mumbaikars from</span>
+      <div class="trust-areas">
+        <span>Powai</span><span>IIT Bombay</span><span>Heeranandani</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section" id="how">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Simple Process</div>
+        <h2>How MorningJuice Works</h2>
+        <p>From local farm to your doorstep in 4 easy steps — fresh, fast, and fuss-free.</p>
+      </div>
+      <div class="steps-wrapper">
+        <div class="step-card"><div class="step-icon-wrap green">📱</div><h3>Choose Your Plan</h3><p>Pick a 7-day, 10-day, or 30-day subscription. Select your favourite juice blends.</p></div>
+        <div class="step-arrow">→</div>
+        <div class="step-card"><div class="step-icon-wrap orange">🧑‍🌾</div><h3>We Source Locally</h3><p>Every morning we collect the freshest fruits & vegetables from our local vendor partners.</p></div>
+        <div class="step-arrow">→</div>
+        <div class="step-card"><div class="step-icon-wrap yellow">⚡</div><h3>Cold Pressed Fresh</h3><p>Your juice is cold-pressed each morning, packed in eco-friendly bottles for maximum nutrients.</p></div>
+        <div class="step-arrow">→</div>
+        <div class="step-card"><div class="step-icon-wrap red">🛵</div><h3>Delivered by 8 AM</h3><p>Our dedicated delivery executive brings your juice straight to your door every morning.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JUICE MENU -->
+  <section class="menu-section" id="menu">
+    <div class="container">
+      <div class="section-header light">
+        <div class="section-tag">Our Menu</div>
+        <h2>Fresh Seasonal Blends</h2>
+        <p>No artificial flavors. No preservatives. Just pure, cold-pressed goodness crafted daily.</p>
+      </div>
+      <div class="menu-filter">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="immunity">Immunity</button>
+        <button class="filter-btn" data-filter="detox">Detox</button>
+        <button class="filter-btn" data-filter="energy">Energy</button>
+        <button class="filter-btn" data-filter="glow">Skin Glow</button>
+      </div>
+      <div class="juice-grid" id="juiceGrid"></div>
+    </div>
+  </section>
+
+  <!-- SUBSCRIPTION PLANS -->
+  <section class="plans-section" id="plans">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Pricing</div>
+        <h2>Flexible Subscription Plans</h2>
+        <p>Pre-pay and save more. All plans include morning doorstep delivery, fresh cold-pressed juice, and easy pause/cancel.</p>
+      </div>
+      <div class="plan-cards" style="margin-top:40px">
+        <div class="plan-card">
+          <h3>Weekly</h3>
+          <div class="plan-price">₹699 <span>/ 7 days</span></div>
+          <ul class="plan-features">
+            <li>7 fresh bottles</li>
+            <li>Morning delivery (6–8 AM)</li>
+            <li>Customise daily juice</li>
+            <li>Pause anytime</li>
+          </ul>
+          <div class="qty-wrap">
+            <button class="qty-btn" onclick="changeQty('weekly',-1)">−</button>
+            <span class="qty-val" id="qty-weekly">1</span>
+            <button class="qty-btn" onclick="changeQty('weekly',1)">+</button>
+            <span style="font-size:13px;color:var(--mid)">bottle/day</span>
+          </div>
+          <p class="text-sm" id="price-weekly">Total: ₹699</p>
+          <button class="btn-full mt16" onclick="startSubscription('weekly')">Subscribe Weekly</button>
+        </div>
+        <div class="plan-card popular">
+          <div class="popular-badge">⭐ Most Popular</div>
+          <h3>10-Day</h3>
+          <div class="plan-price">₹899 <span>/ 10 days</span></div>
+          <ul class="plan-features">
+            <li>10 fresh bottles</li>
+            <li>Morning delivery (6–8 AM)</li>
+            <li>Customise daily juice</li>
+            <li>Pause anytime</li>
+            <li>Save ₹90 vs weekly</li>
+          </ul>
+          <div class="qty-wrap">
+            <button class="qty-btn" onclick="changeQty('10day',-1)">−</button>
+            <span class="qty-val" id="qty-10day">1</span>
+            <button class="qty-btn" onclick="changeQty('10day',1)">+</button>
+            <span style="font-size:13px;color:var(--mid)">bottle/day</span>
+          </div>
+          <p class="text-sm" id="price-10day">Total: ₹899</p>
+          <button class="btn-full mt16" onclick="startSubscription('10day')">Subscribe 10-Day</button>
+        </div>
+        <div class="plan-card">
+          <h3>Monthly</h3>
+          <div class="plan-price">₹2,399 <span>/ 30 days</span></div>
+          <ul class="plan-features">
+            <li>30 fresh bottles</li>
+            <li>Morning delivery (6–8 AM)</li>
+            <li>Customise daily juice</li>
+            <li>Pause anytime</li>
+            <li>Save ₹596</li>
+            <li>Priority support</li>
+          </ul>
+          <div class="qty-wrap">
+            <button class="qty-btn" onclick="changeQty('monthly',-1)">−</button>
+            <span class="qty-val" id="qty-monthly">1</span>
+            <button class="qty-btn" onclick="changeQty('monthly',1)">+</button>
+            <span style="font-size:13px;color:var(--mid)">bottle/day</span>
+          </div>
+          <p class="text-sm" id="price-monthly">Total: ₹2,399</p>
+          <button class="btn-full mt16" onclick="startSubscription('monthly')">Subscribe Monthly</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="why-section" id="why">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Why MorningJuice</div>
+        <h2>Why 100+ Mumbaikars Trust Us</h2>
+      </div>
+      <div class="why-grid" id="whyGrid"></div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testi-section" id="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Testimonials</div>
+        <h2>What Our Customers Say</h2>
+      </div>
+      <div class="testi-track-wrap"><div class="testi-track" id="testiTrack"></div></div>
+      <div class="testi-dots" id="testiDots"></div>
+      <div class="testi-nav">
+        <button class="testi-btn" id="prevBtn">←</button>
+        <button class="testi-btn" id="nextBtn">→</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section" id="faq">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">FAQ</div>
+        <h2>Frequently Asked Questions</h2>
+      </div>
+      <div class="faq-list" id="faqList"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-section" id="contact">
+    <div class="container">
+      <div class="contact-inner">
+        <div class="contact-left">
+          <div class="section-tag light-tag">Get in Touch</div>
+          <h2>Start Your Healthy<br>Morning Ritual Today</h2>
+          <p>Subscribe now or reach out — we're just a WhatsApp message away.</p>
+          <div class="contact-methods">
+            <a href="https://wa.me/916375292488" class="contact-method" target="_blank">
+              <span class="cm-icon">💬</span><div><strong>WhatsApp</strong><p>+916375292488</p></div>
+            </a>
+            <a href="mailto:hello@morningjuice.in" class="contact-method">
+              <span class="cm-icon">📧</span><div><strong>Email</strong><p>hello@morningjuice.in</p></div>
+            </a>
+            <div class="contact-method">
+              <span class="cm-icon">🕗</span><div><strong>Delivery Hours</strong><p>7:30 AM – 9:00 AM daily</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="contact-right">
+          <div class="contact-form-card">
+            <h3>Subscribe Now</h3>
+            <p>Fill in your details and we'll call to confirm!</p>
+            <form id="subscribeForm" class="subscribe-form" onsubmit="handleContactForm(event)">
+              <div class="form-row">
+                <div class="form-group"><label>Full Name *</label><input type="text" id="fname" placeholder="Your full name" required /></div>
+                <div class="form-group"><label>Phone (WhatsApp) *</label><input type="tel" id="fphone" placeholder="+91 XXXXX XXXXX" required /></div>
+              </div>
+              <div class="form-group"><label>Delivery Address *</label><input type="text" id="faddress" placeholder="Building, Street, Area – Mumbai" required /></div>
+              <div class="form-row">
+                <div class="form-group"><label>Choose Plan</label>
+                  <select id="fplan"><option value="weekly">Weekly – ₹699</option><option value="10day" selected>10-Day – ₹899</option><option value="monthly">Monthly – ₹2,399</option></select>
+                </div>
+                <div class="form-group"><label>Preferred Juice</label>
+                  <select id="fjuice"><option>Sunrise Orange</option><option>Green Detox</option><option>Red Power</option><option>Tropical Glow</option><option>Antioxidant Grape</option><option>Coconut Cool</option><option>Rotate Daily</option></select>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary full-width">Confirm Subscription 🚀</button>
+              <p class="form-note">We'll send a confirmation on WhatsApp within 30 minutes.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <div class="logo footer-logo">Juice<span>Morning</span></div>
+            <p>Mumbai's freshest cold-pressed juice subscription. Delivered every morning, made with love.</p>
+            <div class="social-links">
+              <a href="#" aria-label="Instagram">📸</a>
+              <a href="#" aria-label="Facebook">👍</a>
+              <a href="https://wa.me/916375292488" aria-label="WhatsApp">💬</a>
+            </div>
+          </div>
+          <div class="footer-col"><h4>Quick Links</h4><ul>
+            <li><a href="#how">How It Works</a></li>
+            <li><a href="#menu">Our Menu</a></li>
+            <li><a href="#plans">Pricing</a></li>
+            <li><a href="#why">About Us</a></li>
+            <li><a href="#faq">FAQ</a></li>
+          </ul></div>
+          <div class="footer-col"><h4>Plans</h4><ul>
+            <li><a href="#plans">Weekly – ₹699</a></li>
+            <li><a href="#plans">10-Day – ₹899</a></li>
+            <li><a href="#plans">Monthly – ₹2,399</a></li>
+          </ul></div>
+          <div class="footer-col"><h4>Contact</h4><ul>
+            <li><a href="https://wa.me/916375292488">WhatsApp: +916375292488</a></li>
+            <li><a href="mailto:hello@morningjuice.in">hello@morningjuice.in</a></li>
+            <li><span>Delivery: 7:30 AM – 9:00 AM</span></li>
+          </ul></div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <p>© 2026 MorningJuice. Made with 🧃 in Mumbai.</p>
+        <div class="footer-legal">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Refund Policy</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div><!-- end #homeSection -->
+
+
+<!-- ══════════════════════════════════════════
+     DASHBOARD SECTION — REDESIGNED
+══════════════════════════════════════════ -->
+<div id="dashboardSection">
+
+  <!-- Top Bar -->
+  <div class="db-topbar">
+    <a href="#" class="logo" onclick="goHome()">Juice<span>Morning</span></a>
+    <div class="db-topbar-actions">
+      <div class="db-user-pill">
+        <div class="db-avatar" id="dbAvatarLetter">K</div>
+        <span id="dbWelcomeName">User</span>
+      </div>
+      <button class="btn-ghost-sm" onclick="goHome()">← Back to Home</button>
+    </div>
+  </div>
+
+  <!-- Layout -->
+  <div class="db-layout">
+
+    <!-- Sidebar -->
+    <div class="db-sidebar" id="dbSidebar">
+      <div class="db-sidebar-section">
+        <div class="db-sidebar-label">Main</div>
+        <button class="db-nav-item active" id="dbTab-overview" onclick="dbSwitch('overview')">
+          <span class="nav-icon">📊</span> Overview
+        </button>
+        <button class="db-nav-item" id="dbTab-plans" onclick="dbSwitch('plans')">
+          <span class="nav-icon">➕</span> Subscribe
+        </button>
+        <button class="db-nav-item" id="dbTab-schedule" onclick="dbSwitch('schedule')">
+          <span class="nav-icon">📅</span> Weekly Schedule
+        </button>
+        <button class="db-nav-item" id="dbTab-orders" onclick="dbSwitch('orders')">
+          <span class="nav-icon">📦</span> My Orders
+        </button>
+      </div>
+      <div class="db-sidebar-section">
+        <div class="db-sidebar-label">Account</div>
+        <button class="db-nav-item danger" onclick="handleLogout()">
+          <span class="nav-icon">🚪</span> Logout
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="db-main">
+
+      <!-- OVERVIEW TAB -->
+      <div class="db-tab show" id="tab-overview">
+        <div class="db-page-header">
+          <h1>Overview</h1>
+          <p id="dbWelcome">Good morning! Here's your subscription status.</p>
+        </div>
+        <div id="overviewContent"></div>
+      </div>
+
+      <!-- SUBSCRIBE TAB -->
+      <div class="db-tab" id="tab-plans">
+        <div class="db-page-header">
+          <h1>Choose a Plan</h1>
+          <p>Select the subscription that works best for you</p>
+        </div>
+        <div class="plan-cards" id="dbPlanCards"></div>
+        <div id="paymentStep" style="display:none">
+          <div class="payment-box">
+            <h3>Order Summary</h3>
+            <div id="paymentSummary"></div>
+            <button class="btn-full mt24" id="payBtn" onclick="processPayment()">Pay with Razorpay 💳</button>
+            <p class="text-sm mt16" style="text-align:center">Secured by Razorpay · 100% safe</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SCHEDULE TAB -->
+      <div class="db-tab" id="tab-schedule">
+        <div class="db-page-header">
+          <h1>Weekly Schedule</h1>
+          <p>Choose juice per day. Toggle OFF to skip that day permanently.</p>
+        </div>
+        <div id="scheduleContent">Loading...</div>
+        <button class="btn-full mt24" style="max-width:220px" onclick="saveSchedule()">💾 Save Schedule</button>
+      </div>
+
+      <!-- ORDERS TAB -->
+      <div class="db-tab" id="tab-orders">
+        <div class="db-page-header">
+          <h1>My Orders</h1>
+          <p>Complete order history</p>
+        </div>
+        <div id="ordersContent"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+<button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+<!-- Razorpay SDK -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+/* ══════════════════════════════════════════════
+   APP CONFIG & STATE
+══════════════════════════════════════════════ */
+const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:')
+  ? 'http://localhost:5000/api'
+  : window.location.origin + '/api';
+
+const PLAN_CFG = {
+  weekly:  { label: 'Weekly',  days: 7,  base: 699  },
+  '10day': { label: '10-Day',  days: 10, base: 899  },
+  monthly: { label: 'Monthly', days: 30, base: 2399 },
+};
+
+const JUICES_LIST = ['Sunrise Orange', 'Green Detox', 'Red Power', 'Tropical Glow', 'Antioxidant Grape', 'Coconut Cool', 'Golden Heal', 'Lemon Zing'];
+const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+const DAY_LABELS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+let token = localStorage.getItem('jm_token');
+let user  = JSON.parse(localStorage.getItem('jm_user') || 'null');
+let activeSub   = null;
+let pendingSub  = null;
+let userLocation = null;
+const qty = { weekly: 1, '10day': 1, monthly: 1 };
+
+/* ─── AUTH HELPERS ─── */
+function authHeader() {
+  return { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+}
+
+function openAuth()  { document.getElementById('authOverlay').classList.add('open'); }
+function closeAuth() { document.getElementById('authOverlay').classList.remove('open'); }
+
+function switchTab(t) {
+  document.getElementById('loginForm').style.display    = t === 'login'    ? '' : 'none';
+  document.getElementById('registerForm').style.display = t === 'register' ? '' : 'none';
+  document.getElementById('tabLogin').classList.toggle('active', t === 'login');
+  document.getElementById('tabReg').classList.toggle('active', t === 'register');
+  if (t === 'register') {
+    document.getElementById('regStep1').style.display = '';
+    document.getElementById('regStep2').style.display = 'none';
+  }
+}
+
+/* ─── LOGIN ─── */
+async function handleLogin() {
+  const phone = document.getElementById('lPhone').value.trim();
+  const pass  = document.getElementById('lPass').value;
+  if (!phone || !pass) return toast('Please fill all fields', 'error');
+
+  try {
+    const res  = await fetch(`${API}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, password: pass })
+    });
+    const data = await res.json();
+    if (!res.ok) return toast(data.error || 'Login failed', 'error');
+    setSession(data);
+    closeAuth();
+    toast('Welcome back, ' + data.user.name + '! 🎉');
+    showDashboard();
+  } catch (err) {
+    toast('Network error: ' + err.message, 'error');
+  }
+}
+
+/* ─── REGISTER STEP 1 VALIDATION ─── */
+// Store step 1 values here when moving to step 2
+// (because step1 div becomes display:none and some browsers clear hidden field values)
+let _regName = '', _regPhone = '', _regPass = '';
+
+function goStep2() {
+  const name  = document.getElementById('rName').value.trim();
+  const phone = document.getElementById('rPhone').value.trim();
+  const pass  = document.getElementById('rPass').value;
+  if (!name)           return toast('Please enter your name', 'error');
+  if (!phone)          return toast('Please enter your phone number', 'error');
+  if (!/^\d{10}$/.test(phone)) return toast('Enter a valid 10-digit phone number', 'error');
+  if (!pass)           return toast('Please create a password', 'error');
+  if (pass.length < 6) return toast('Password must be at least 6 characters', 'error');
+  // Save to JS variables before hiding step 1
+  _regName  = name;
+  _regPhone = phone;
+  _regPass  = pass;
+  document.getElementById('regStep1').style.display = 'none';
+  document.getElementById('regStep2').style.display = '';
+}
+
+function backStep1() {
+  document.getElementById('regStep2').style.display = 'none';
+  document.getElementById('regStep1').style.display = '';
+  // Clear stored values so user must re-validate step 1 if they change fields
+  _regName = ''; _regPhone = ''; _regPass = '';
+}
+
+/* ─── REGISTER SUBMIT ─── */
+async function handleRegister() {
+  // Use JS-stored values from step 1 (avoids hidden DOM input issues)
+  const name  = _regName;
+  const phone = _regPhone;
+  const pass  = _regPass;
+
+  // Read step 2 fields (currently visible in DOM)
+  const address = (document.getElementById('rAddress')?.value || '').trim();
+  const pincode = (document.getElementById('rPincode')?.value || '').trim();
+  const area    = (document.getElementById('rArea')?.value    || '').trim();
+  const email   = (document.getElementById('rEmail')?.value   || '').trim();
+
+  // Validate step 2
+  if (!address) return toast('Please enter your delivery address', 'error');
+  if (!pincode) return toast('Please enter your pincode', 'error');
+
+  // Safety: if step1 values somehow lost, go back
+  if (!name || !phone || !pass) {
+    backStep1();
+    return toast('Please complete Step 1 fields again', 'error');
+  }
+
+  const btn = document.getElementById('regSubmitBtn');
+  btn.disabled    = true;
+  btn.textContent = 'Creating account...';
+
+  try {
+    const body = {
+      name,
+      phone,
+      password: pass,
+      address,
+      pincode,
+      area,
+      email,
+      location: userLocation || null
+    };
+
+    const res = await fetch(`${API}/auth/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    let data;
+    try {
+      data = await res.json();
+    } catch {
+      throw new Error('Server returned invalid response. Is the backend running?');
+    }
+
+    if (!res.ok) throw new Error(data.error || data.message || `Registration failed (${res.status})`);
+
+    setSession(data);
+    closeAuth();
+    toast('Account created! Welcome to MorningJuice 🎉');
+
+    // Clear stored step 1 values
+    _regName = ''; _regPhone = ''; _regPass = '';
+
+    // Reset form fields
+    ['rName','rPhone','rPass','rAddress','rPincode','rArea','rEmail'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+    document.getElementById('regStep1').style.display = '';
+    document.getElementById('regStep2').style.display = 'none';
+
+    setTimeout(() => showDashboard(), 400);
+  } catch (err) {
+    toast(err.message, 'error');
+  } finally {
+    btn.disabled    = false;
+    btn.textContent = 'Create Account →';
+  }
+}
+
+/* ─── PINCODE AUTOFILL ─── */
+async function autofillArea(pin) {
+  if (pin.length !== 6 || !/^\d{6}$/.test(pin)) return;
+  try {
+    const res  = await fetch(`https://api.postalpincode.in/pincode/${pin}`);
+    const data = await res.json();
+    if (data[0].Status === 'Success') {
+      const po = data[0].PostOffice[0];
+      document.getElementById('rArea').value = po.Name + ', ' + po.District;
+    }
+  } catch { /* silent */ }
+}
+
+/* ─── GEOLOCATION ─── */
+function getLocation() {
+  const status = document.getElementById('locationStatus');
+  if (!navigator.geolocation) { status.textContent = 'Geolocation not supported'; return; }
+  status.textContent = '📡 Detecting...';
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      status.textContent = `✅ Got location (${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)})`;
+    },
+    () => { status.textContent = '❌ Location denied'; }
+  );
+}
+
+/* ─── SESSION ─── */
+function setSession(data) {
+  token = data.token;
+  user  = data.user;
+  localStorage.setItem('jm_token', token);
+  localStorage.setItem('jm_user',  JSON.stringify(user));
+  updateNavUI();
+}
+
+function handleLogout() {
+  localStorage.removeItem('jm_token');
+  localStorage.removeItem('jm_user');
+  token = null; user = null; activeSub = null;
+  updateNavUI();
+  goHome();
+  toast('Logged out successfully.');
+}
+
+function updateNavUI() {
+  document.getElementById('navDash').style.display  = user ? '' : 'none';
+  document.getElementById('navLogin').style.display = user ? 'none' : '';
+}
+
+/* ─── SECTION NAVIGATION ─── */
+function goHome() {
+  document.getElementById('homeSection').classList.remove('hide');
+  document.getElementById('dashboardSection').classList.remove('show');
+}
+
+function showDashboard() {
+  if (!user) { openAuth(); return; }
+  document.getElementById('homeSection').classList.add('hide');
+  document.getElementById('dashboardSection').classList.add('show');
+
+  const initials = (user.name || 'U').charAt(0).toUpperCase();
+  const avatarEl = document.getElementById('dbAvatarLetter');
+  if (avatarEl) avatarEl.textContent = initials;
+  const nameEl = document.getElementById('dbWelcomeName');
+  if (nameEl) nameEl.textContent = user.name;
+
+  const welcomeEl = document.getElementById('dbWelcome');
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+  if (welcomeEl) welcomeEl.textContent = `${greeting}, ${user.name}! Here's your subscription status.`;
+
+  loadOverview();
+  loadSchedule();
+  buildDbPlanCards();
+  dbSwitch('overview');
+}
+
+/* ─── DASHBOARD TABS ─── */
+function dbSwitch(name) {
+  document.querySelectorAll('.db-tab').forEach(el => el.classList.remove('show'));
+  document.querySelectorAll('.db-nav-item').forEach(el => el.classList.remove('active'));
+  const tab = document.getElementById('tab-' + name);
+  const btn = document.getElementById('dbTab-' + name);
+  if (tab) tab.classList.add('show');
+  if (btn) btn.classList.add('active');
+  if (name === 'orders') loadOrders();
+  if (name === 'schedule') loadSchedule();
+}
+
+/* ─── OVERVIEW ─── */
+async function loadOverview() {
+  try {
+    const res  = await fetch(`${API}/subscriptions/my`, { headers: authHeader() });
+    const subs = await res.json();
+    activeSub  = Array.isArray(subs) ? (subs.find(s => s.status === 'active' && s.paymentStatus === 'paid') || null) : null;
+  } catch {
+    activeSub = null;
+  }
+
+  const box = document.getElementById('overviewContent');
+  if (!box) return;
+
+  if (!activeSub) {
+    box.innerHTML = `
+      <div class="no-sub-card">
+        <div class="ns-icon">🥤</div>
+        <h3>No Active Subscription</h3>
+        <p>Start your healthy morning routine today! Choose a plan that fits your lifestyle.</p>
+        <button class="btn btn-primary" onclick="dbSwitch('plans')">Browse Plans →</button>
+      </div>
+      <div class="db-stats-row">
+        <div class="db-stat-card">
+          <div class="stat-label">Total Orders</div>
+          <div class="stat-value">0</div>
+          <div class="stat-sub">No deliveries yet</div>
+          <div class="stat-icon">📦</div>
+        </div>
+        <div class="db-stat-card">
+          <div class="stat-label">Subscription</div>
+          <div class="stat-value">—</div>
+          <div class="stat-sub">No active plan</div>
+          <div class="stat-icon">📋</div>
+        </div>
+        <div class="db-stat-card">
+          <div class="stat-label">Next Delivery</div>
+          <div class="stat-value">—</div>
+          <div class="stat-sub">Subscribe to start</div>
+          <div class="stat-icon">🛵</div>
+        </div>
+      </div>`;
+    return;
+  }
+
+  const cfg = PLAN_CFG[activeSub.planType] || { label: activeSub.planType, days: '?' };
+  const endDate = activeSub.endDate ? new Date(activeSub.endDate) : null;
+  const today   = new Date();
+  const daysLeft = endDate ? Math.max(0, Math.ceil((endDate - today) / (1000*60*60*24))) : '?';
+
+  box.innerHTML = `
+    <div class="sub-banner">
+      <div class="sb-tag">Active Plan</div>
+      <h3>🎉 ${cfg.label} Plan</h3>
+      <div class="sb-meta">
+        <span>📅 Started: ${fmt(activeSub.startDate)}</span>
+        <span>📅 Ends: ${fmt(activeSub.endDate)}</span>
+        <span>🍾 ${activeSub.bottlesPerDay || 1} bottle/day</span>
+        <span>💰 ₹${activeSub.totalAmount}</span>
+      </div>
+      <div class="sb-actions">
+        <button class="sb-btn" onclick="togglePause()">⏸ Pause Subscription</button>
+        <button class="sb-btn" onclick="dbSwitch('schedule')">📅 Edit Schedule</button>
+      </div>
+    </div>
+    <div class="db-stats-row">
+      <div class="db-stat-card">
+        <div class="stat-label">Days Remaining</div>
+        <div class="stat-value">${daysLeft}</div>
+        <div class="stat-sub">${endDate ? 'Expires ' + fmt(activeSub.endDate) : ''}</div>
+        <div class="stat-icon">⏳</div>
+      </div>
+      <div class="db-stat-card">
+        <div class="stat-label">Bottles / Day</div>
+        <div class="stat-value">${activeSub.bottlesPerDay || 1}</div>
+        <div class="stat-sub">Cold-pressed fresh</div>
+        <div class="stat-icon">🍾</div>
+      </div>
+      <div class="db-stat-card">
+        <div class="stat-label">Status</div>
+        <div class="stat-value" style="font-size:18px;color:#16a34a">${activeSub.status}</div>
+        <div class="stat-sub">Payment: ${activeSub.paymentStatus}</div>
+        <div class="stat-icon">✅</div>
+      </div>
+    </div>
+    <div class="db-card">
+      <h2>Upcoming Deliveries</h2>
+      <div class="card-sub">Next 7 days</div>
+      <div id="upcomingBox"><div style="color:#aaa;font-size:14px">Loading deliveries...</div></div>
+    </div>`;
+
+  loadUpcoming();
+}
+
+async function loadUpcoming() {
+  try {
+    const res    = await fetch(`${API}/orders/upcoming`, { headers: authHeader() });
+    const orders = await res.json();
+    const box    = document.getElementById('upcomingBox');
+    if (!box) return;
+
+    if (!Array.isArray(orders) || !orders.length) {
+      box.innerHTML = '<p style="font-size:14px;color:#aaa">No upcoming deliveries scheduled.</p>';
+      return;
+    }
+
+    const now = new Date();
+    box.innerHTML = `<div class="delivery-list">${orders.map(o => {
+      const d       = new Date(o.deliveryDate);
+      const cutoff  = new Date(d); cutoff.setHours(6,0,0,0); cutoff.setTime(cutoff.getTime() - 12*60*60*1000);
+      const canSkip = now < cutoff && o.status === 'pending';
+      return `<div class="delivery-row">
+        <div class="delivery-date-box">
+          <div class="dday">${d.getDate()}</div>
+          <div class="dmon">${d.toLocaleString('en-IN',{month:'short'})}</div>
+        </div>
+        <div class="delivery-info">
+          <strong>${o.juiceType}</strong>
+          <span>${d.toLocaleDateString('en-IN',{weekday:'long'})}</span>
+        </div>
+        <div class="delivery-otp">OTP: ${o.otp || '—'}</div>
+        <span class="pill pill-${o.status === 'delivered' ? 'delivered' : o.status === 'cancelled' ? 'cancelled' : 'pending'}">${o.status}</span>
+        ${canSkip
+          ? `<button class="delivery-skip-btn" onclick="skipDay('${o.deliveryDate.slice(0,10)}')">⏸ Skip</button>`
+          : `<span style="font-size:12px;color:#ccc;min-width:60px">—</span>`}
+      </div>`;
+    }).join('')}</div>`;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+async function skipDay(dateStr) {
+  if (!confirm(`Skip delivery for ${dateStr}?`)) return;
+  try {
+    const res  = await fetch(`${API}/schedule/skip`, { method: 'POST', headers: authHeader(), body: JSON.stringify({ date: dateStr }) });
+    const data = await res.json();
+    if (!res.ok) return toast(data.error, 'error');
+    toast('Delivery skipped ✅');
+    loadUpcoming();
+  } catch (err) { toast(err.message, 'error'); }
+}
+
+async function togglePause() {
+  if (!activeSub) return;
+  const res  = await fetch(`${API}/subscriptions/${activeSub._id}/toggle`, { method: 'PATCH', headers: authHeader() });
+  const data = await res.json();
+  if (!res.ok) return toast(data.error, 'error');
+  toast(data.message);
+  loadOverview();
+}
+
+/* ─── SCHEDULE ─── */
+async function loadSchedule() {
+  if (!activeSub) {
+    try {
+      const res  = await fetch(`${API}/subscriptions/my`, { headers: authHeader() });
+      const subs = await res.json();
+      activeSub  = Array.isArray(subs) ? (subs.find(s => s.status === 'active' && s.paymentStatus === 'paid') || null) : null;
+    } catch { activeSub = null; }
+  }
+
+  const box = document.getElementById('scheduleContent');
+  if (!box) return;
+
+  if (!activeSub) {
+    box.innerHTML = '<div class="db-card"><p>No active subscription. <a href="#" onclick="dbSwitch(\'plans\')" style="color:var(--orange);font-weight:600">Subscribe first →</a></p></div>';
+    return;
+  }
+
+  let juiceOptions = JUICES_LIST.map(n => ({ name: n }));
+  try {
+    const jRes = await fetch(`${API}/schedule/juices`);
+    const jData = await jRes.json();
+    if (Array.isArray(jData) && jData.length) juiceOptions = jData;
+  } catch { /* use default */ }
+
+  const sched = activeSub.weeklySchedule || [];
+
+  const juiceDropdown = (selected) => `
+    <option ${!selected || selected === 'Rotate Daily' ? 'selected' : ''}>Rotate Daily</option>
+    ${juiceOptions.map(j => `<option ${selected === j.name ? 'selected' : ''}>${j.name}</option>`).join('')}`;
+
+  box.innerHTML = `<div class="sched-grid">${DAYS.map((d, i) => {
+    const s = sched.find(x => x.day === d) || { enabled: true, juiceType: 'Rotate Daily' };
+    return `<div class="sched-card ${s.enabled ? 'on' : ''}" id="card-${d}">
+      <div class="sched-day">
+        <strong>${DAY_LABELS[i]}</strong>
+        <label class="toggle-sw">
+          <input type="checkbox" id="tog-${d}" ${s.enabled ? 'checked' : ''} onchange="toggleDay('${d}')">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <select class="sched-select" id="juice-${d}" ${!s.enabled ? 'disabled' : ''}>${juiceDropdown(s.juiceType)}</select>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function toggleDay(day) {
+  const on = document.getElementById('tog-' + day).checked;
+  document.getElementById('card-' + day).classList.toggle('on', on);
+  document.getElementById('juice-' + day).disabled = !on;
+}
+
+async function saveSchedule() {
+  if (!activeSub) return toast('No active subscription', 'error');
+  const weeklySchedule = DAYS.map(d => ({
+    day:       d,
+    enabled:   document.getElementById('tog-' + d)?.checked ?? true,
+    juiceType: document.getElementById('juice-' + d)?.value || 'Rotate Daily',
+  }));
+  const res  = await fetch(`${API}/subscriptions/${activeSub._id}/schedule`, {
+    method:  'PUT',
+    headers: authHeader(),
+    body:    JSON.stringify({ weeklySchedule }),
+  });
+  const data = await res.json();
+  if (!res.ok) return toast(data.error, 'error');
+  activeSub.weeklySchedule = weeklySchedule;
+  toast('Schedule saved & orders updated! ✅');
+}
+
+/* ─── ORDERS ─── */
+async function loadOrders() {
+  const box = document.getElementById('ordersContent');
+  if (!box) return;
+  box.innerHTML = '<p style="color:#aaa;font-size:14px">Loading...</p>';
+  try {
+    const res    = await fetch(`${API}/orders/my`, { headers: authHeader() });
+    const orders = await res.json();
+    if (!Array.isArray(orders) || !orders.length) {
+      box.innerHTML = '<div class="empty-msg"><div class="big">📦</div><p>No orders yet. Subscribe to a plan!</p></div>';
+      return;
+    }
+    const pillMap = { pending:'pending', assigned:'pending', out_for_delivery:'out', delivered:'delivered', cancelled:'cancelled' };
+    box.innerHTML = `<div class="db-card" style="padding:0;overflow:hidden">
+      <table class="orders-table">
+        <thead><tr><th>Date</th><th>Juice</th><th>Qty</th><th>OTP</th><th>Status</th></tr></thead>
+        <tbody>${orders.map(o => `<tr>
+          <td>${fmt(o.deliveryDate)}</td>
+          <td>${o.juiceType}</td>
+          <td>${o.quantity}</td>
+          <td><strong>${o.otp || '—'}</strong></td>
+          <td><span class="pill pill-${pillMap[o.status] || 'pending'}">${o.status.replace('_', ' ')}</span></td>
+        </tr>`).join('')}</tbody>
+      </table>
+    </div>`;
+  } catch (err) {
+    box.innerHTML = '<p style="color:#dc2626">Failed to load orders.</p>';
+  }
+}
+
+/* ─── PLAN CARDS IN DASHBOARD ─── */
+function buildDbPlanCards() {
+  const box = document.getElementById('dbPlanCards');
+  if (!box) return;
+  box.innerHTML = Object.entries(PLAN_CFG).map(([key, cfg]) => `
+    <div class="plan-card ${key === '10day' ? 'popular' : ''}">
+      ${key === '10day' ? '<div class="popular-badge">⭐ Most Popular</div>' : ''}
+      <h3>${cfg.label}</h3>
+      <div class="plan-price">₹${cfg.base.toLocaleString()} <span>/ ${cfg.days} days</span></div>
+      <div class="qty-wrap">
+        <button class="qty-btn" onclick="changeQty('${key}',-1)">−</button>
+        <span class="qty-val" id="dqty-${key}">1</span>
+        <button class="qty-btn" onclick="changeQty('${key}',1)">+</button>
+        <span style="font-size:13px;color:var(--mid)">bottle/day</span>
+      </div>
+      <p class="text-sm" id="dprice-${key}">Total: ₹${cfg.base.toLocaleString()}</p>
+      <button class="btn-full mt16" onclick="startSubscription('${key}')">Choose ${cfg.label}</button>
+    </div>`).join('');
+}
+
+/* ─── QTY CONTROLS ─── */
+function changeQty(plan, delta) {
+  qty[plan] = Math.max(1, Math.min(4, (qty[plan] || 1) + delta));
+  const total = PLAN_CFG[plan].base * qty[plan];
+  ['', 'd'].forEach(prefix => {
+    const qEl = document.getElementById(prefix + 'qty-' + plan);
+    const pEl = document.getElementById(prefix + 'price-' + plan);
+    if (qEl) qEl.textContent = qty[plan];
+    if (pEl) pEl.textContent = `Total: ₹${total.toLocaleString()}`;
+  });
+}
+
+/* ─── START SUBSCRIPTION ─── */
+async function startSubscription(planKey) {
+  if (!user) { openAuth(); return; }
+  const cfg   = PLAN_CFG[planKey];
+  const start = new Date(); start.setDate(start.getDate() + 1);
+  try {
+    const res  = await fetch(`${API}/subscriptions`, {
+      method:  'POST',
+      headers: authHeader(),
+      body:    JSON.stringify({ planType: planKey, bottlesPerDay: qty[planKey] || 1, startDate: start.toISOString() }),
+    });
+    const data = await res.json();
+    if (!res.ok) return toast(data.error, 'error');
+    pendingSub = data.subscription;
+    document.getElementById('paymentStep').style.display = '';
+    const total = cfg.base * (qty[planKey] || 1);
+    document.getElementById('paymentSummary').innerHTML = `
+      <div class="payment-row"><span>Plan</span><span>${cfg.label} (${cfg.days} days)</span></div>
+      <div class="payment-row"><span>Bottles / Day</span><span>${qty[planKey] || 1}</span></div>
+      <div class="payment-row"><span>Total</span><span>₹${total.toLocaleString()}</span></div>`;
+    dbSwitch('plans');
+    document.getElementById('paymentStep').scrollIntoView({ behavior: 'smooth' });
+  } catch (err) { toast(err.message, 'error'); }
+}
+
+/* ─── PAYMENT ─── */
+async function processPayment() {
+  if (!pendingSub) return toast('No pending subscription found.', 'error');
+  if (typeof Razorpay === 'undefined') return toast('Payment SDK not loaded. Check internet connection.', 'error');
+  const btn = document.getElementById('payBtn');
+  btn.disabled = true; btn.textContent = 'Processing...';
+  try {
+    const res  = await fetch(`${API}/payment/create-order`, {
+      method: 'POST', headers: authHeader(),
+      body: JSON.stringify({ subscriptionId: pendingSub._id })
+    });
+    const data = await res.json();
+    if (!res.ok) { btn.disabled = false; btn.textContent = 'Pay with Razorpay 💳'; return toast(data.error || 'Failed to create payment order', 'error'); }
+    if (!data.key || data.key === 'undefined') { btn.disabled = false; btn.textContent = 'Pay with Razorpay 💳'; return toast('Razorpay key missing. Check backend .env', 'error'); }
+
+    const options = {
+      key: data.key, amount: data.amount * 100, currency: 'INR',
+      name: 'MorningJuice', description: `Subscription — ${pendingSub.planType}`,
+      order_id: data.orderId, prefill: { name: data.name, contact: data.phone },
+      theme: { color: '#e76f51' },
+      modal: { ondismiss: () => { btn.disabled = false; btn.textContent = 'Pay with Razorpay 💳'; toast('Payment cancelled', 'error'); } },
+      handler: async function(response) {
+        btn.textContent = 'Verifying...';
+        try {
+          const vRes  = await fetch(`${API}/payment/verify`, {
+            method: 'POST', headers: authHeader(),
+            body: JSON.stringify({ ...response, subscriptionId: pendingSub._id }),
+          });
+          const vData = await vRes.json();
+          if (!vRes.ok) { btn.disabled = false; btn.textContent = 'Pay with Razorpay 💳'; return toast(vData.error || 'Verification failed', 'error'); }
+          toast('✅ Payment successful! Subscription is now active 🎉');
+          pendingSub = null;
+          document.getElementById('paymentStep').style.display = 'none';
+          dbSwitch('overview');
+          loadOverview();
+        } catch (vErr) { btn.disabled = false; btn.textContent = 'Pay with Razorpay 💳'; toast('Verification error: ' + vErr.message, 'error'); }
+      },
+    };
+    const rzp = new Razorpay(options);
+    rzp.on('payment.failed', resp => { btn.disabled = false; btn.textContent = 'Pay with Razorpay 💳'; toast('Payment failed: ' + resp.error.description, 'error'); });
+    rzp.open();
+  } catch (err) { btn.disabled = false; btn.textContent = 'Pay with Razorpay 💳'; toast('Network error: ' + err.message, 'error'); }
+}
+
+/* ─── CONTACT FORM ─── */
+function handleContactForm(e) {
+  e.preventDefault();
+  const name  = document.getElementById('fname').value;
+  const phone = document.getElementById('fphone').value;
+  const plan  = document.getElementById('fplan').value;
+  const juice = document.getElementById('fjuice').value;
+  const msg   = encodeURIComponent(`Hi MorningJuice! 🥤\nName: ${name}\nPlan: ${plan}\nJuice: ${juice}\nPhone: ${phone}`);
+  window.open(`https://wa.me/916375292488?text=${msg}`, '_blank');
+}
+
+/* ─── LIVE PRICING ─── */
+async function loadLivePricing() {
+  try {
+    const res  = await fetch(`${API}/settings/pricing`);
+    const data = await res.json();
+    if (data.weekly)   PLAN_CFG.weekly.base   = data.weekly.price;
+    if (data['10day']) PLAN_CFG['10day'].base  = data['10day'].price;
+    if (data.monthly)  PLAN_CFG.monthly.base   = data.monthly.price;
+  } catch { /* use defaults */ }
+}
+
+/* ─── UTILITY ─── */
+function fmt(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className   = 'toast show ' + type;
+  setTimeout(() => el.className = 'toast', 3500);
+}
+
+/* ═══════════════════════════════════════════
+   HOME PAGE DYNAMIC CONTENT
+═══════════════════════════════════════════ */
+const JUICES_DATA = [
+  { emoji:'🍊', name:'Sunrise Orange', desc:'Classic cold-pressed orange juice packed with Vitamin C and natural sugars for a bright start.', tags:['immunity','energy'], category:'immunity' },
+  { emoji:'🥦', name:'Green Detox', desc:'Spinach, cucumber, celery and apple — a powerful cleanse for your digestive system.', tags:['detox','glow'], category:'detox' },
+  { emoji:'🍅', name:'Red Power', desc:'Tomato, beetroot and carrot blend rich in antioxidants and iron to fuel your day.', tags:['energy','immunity'], category:'energy' },
+  { emoji:'🍍', name:'Tropical Glow', desc:'Pineapple, mango and turmeric for radiant skin and anti-inflammatory benefits.', tags:['glow','immunity'], category:'glow' },
+  { emoji:'🍇', name:'Antioxidant Grape', desc:'Dark grape and pomegranate powerhouse that fights free radicals and supports heart health.', tags:['immunity','detox'], category:'immunity' },
+  { emoji:'🥥', name:'Coconut Cool', desc:'Fresh coconut water blended with mint and lime — the ultimate hydration drink.', tags:['energy','glow'], category:'energy' },
+  { emoji:'🫚', name:'Golden Heal', desc:'Turmeric, ginger, black pepper and orange — our anti-inflammatory signature blend.', tags:['immunity','detox'], category:'detox' },
+  { emoji:'🍋', name:'Lemon Zing', desc:'Lemon, ginger, honey and cayenne pepper for a metabolism-boosting morning kickstart.', tags:['energy','detox'], category:'energy' },
+];
+
+function buildJuiceGrid(filter = 'all') {
+  const grid = document.getElementById('juiceGrid');
+  if (!grid) return;
+  const items = filter === 'all' ? JUICES_DATA : JUICES_DATA.filter(j => j.category === filter);
+  grid.innerHTML = items.map(j => `
+    <div class="juice-card">
+      <div class="juice-emoji">${j.emoji}</div>
+      <h3>${j.name}</h3>
+      <p>${j.desc}</p>
+      <div class="juice-tags">${j.tags.map(t => `<span class="juice-tag">${t}</span>`).join('')}</div>
+    </div>`).join('');
+}
+
+const WHY_DATA = [
+  { icon: '🌱', title: 'Zero Preservatives', desc: 'Made fresh every morning with no additives, no artificial flavors — just pure fruit and veg.' },
+  { icon: '⚡', title: 'Cold Pressed Process', desc: 'Our cold press method retains up to 3x more nutrients than centrifugal juicers.' },
+  { icon: '🛵', title: 'Before 8 AM Delivery', desc: 'We deliver before you wake up. Your juice is ready when you step out of bed.' },
+  { icon: '♻️', title: 'Eco-Friendly Packaging', desc: 'All bottles are glass or BPA-free, 100% recyclable. We care about Mumbai and the planet.' },
+  { icon: '🧑‍🌾', title: 'Local Sourcing', desc: 'We partner directly with local Mumbai-area farms and vendors for the freshest produce.' },
+  { icon: '📱', title: 'Easy Management', desc: 'Pause, skip a day, or change your juice from your dashboard — no calls needed.' },
+];
+
+function buildWhyGrid() {
+  const grid = document.getElementById('whyGrid');
+  if (!grid) return;
+  grid.innerHTML = WHY_DATA.map(w => `
+    <div class="why-card">
+      <div class="why-icon">${w.icon}</div>
+      <h3>${w.title}</h3>
+      <p>${w.desc}</p>
+    </div>`).join('');
+}
+
+const TESTIS = [
+  { name: 'Priya S.', area: 'Bandra West', rating: 5, text: 'I\'ve tried so many juice subscriptions but MorningJuice is just different. The Green Detox tastes incredibly fresh — like they squeezed it right at my door. Never missing a morning now!' },
+  { name: 'Rahul M.', area: 'Andheri East', rating: 5, text: 'As someone who works out daily, the Red Power blend has become my pre-workout ritual. Delivered before 7:30 AM every single day without fail. Highly recommended!' },
+  { name: 'Sneha K.', area: 'Powai', rating: 5, text: 'The dashboard is so easy to use. I skip Sundays since I do brunch — took me 10 seconds to set up. The Golden Heal helped my skin glow too. Worth every rupee!' },
+  { name: 'Aditya R.', area: 'Juhu', rating: 5, text: 'Started with the weekly plan and immediately upgraded to monthly. The Tropical Glow is my favourite — fresh pineapple taste every day. My whole family loves it!' },
+];
+
+let testiIdx = 0;
+function buildTestimonials() {
+  const track = document.getElementById('testiTrack');
+  const dots  = document.getElementById('testiDots');
+  if (!track || !dots) return;
+  track.innerHTML = TESTIS.map(t => `
+    <div class="testi-card">
+      <div class="testi-stars">${'★'.repeat(t.rating)}</div>
+      <p>"${t.text}"</p>
+      <div class="testi-author">
+        <div class="testi-avatar">${t.name.charAt(0)}</div>
+        <div><strong>${t.name}</strong><span>${t.area}</span></div>
+      </div>
+    </div>`).join('');
+  dots.innerHTML = TESTIS.map((_, i) => `<div class="testi-dot ${i === 0 ? 'active' : ''}" onclick="goTesti(${i})"></div>`).join('');
+  document.getElementById('prevBtn')?.addEventListener('click', () => goTesti(testiIdx - 1));
+  document.getElementById('nextBtn')?.addEventListener('click', () => goTesti(testiIdx + 1));
+}
+
+function goTesti(i) {
+  testiIdx = (i + TESTIS.length) % TESTIS.length;
+  const track = document.getElementById('testiTrack');
+  if (track) track.style.transform = `translateX(-${testiIdx * (340 + 24)}px)`;
+  document.querySelectorAll('.testi-dot').forEach((d, idx) => d.classList.toggle('active', idx === testiIdx));
+}
+
+const FAQS = [
+  { q: 'What time will my juice be delivered?', a: 'We deliver between 6:00 AM and 8:00 AM daily. Our delivery executives are trained to be punctual so your juice arrives fresh before your morning routine.' },
+  { q: 'Can I pause or skip a delivery?', a: 'Yes! You can pause your subscription or skip individual days from your dashboard. Skip requests must be made at least 12 hours before your 6 AM delivery window.' },
+  { q: 'How long does the juice stay fresh?', a: 'Our cold-pressed juices are best consumed within 48–72 hours of pressing for maximum nutrition. We recommend drinking same-day for the best taste and nutrient profile.' },
+  { q: 'Are the bottles recyclable?', a: 'Absolutely. All our bottles are made from glass or BPA-free food-grade plastic. You can leave empty bottles outside for our delivery executive to collect and recycle.' },
+  { q: 'Do you deliver on Sundays and holidays?', a: 'We deliver 7 days a week including Sundays. For public holidays we\'ll notify you in advance via WhatsApp if there are any changes to the schedule.' },
+  { q: 'Can I change my juice preference?', a: 'Yes, you can update your weekly juice schedule from the dashboard at any time. Changes take effect for the following day\'s delivery.' },
+];
+
+function buildFAQ() {
+  const list = document.getElementById('faqList');
+  if (!list) return;
+  list.innerHTML = FAQS.map((f, i) => `
+    <div class="faq-item" id="faq-${i}">
+      <div class="faq-q" onclick="toggleFAQ(${i})">${f.q}</div>
+      <div class="faq-a">${f.a}</div>
+    </div>`).join('');
+}
+
+function toggleFAQ(i) {
+  document.querySelectorAll('.faq-item').forEach((el, idx) => {
+    if (idx === i) el.classList.toggle('open');
+    else el.classList.remove('open');
+  });
+}
+
+/* ─── FILTER BUTTONS ─── */
+function initFilterBtns() {
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      buildJuiceGrid(this.dataset.filter);
+    });
+  });
+}
+
+/* ─── BACK TO TOP ─── */
+function initBackToTop() {
+  const btn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    btn?.classList.toggle('show', window.scrollY > 400);
+  });
+  btn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+}
+
+/* ─── INIT ─── */
+window.addEventListener('DOMContentLoaded', () => {
+  updateNavUI();
+  loadLivePricing();
+  buildJuiceGrid();
+  buildWhyGrid();
+  buildTestimonials();
+  buildFAQ();
+  initFilterBtns();
+  initBackToTop();
+
+  document.getElementById('annClose')?.addEventListener('click', () => {
+    document.querySelector('.announcement-bar').style.display = 'none';
+  });
+
+  // Hamburger menu
+  document.getElementById('hamburger')?.addEventListener('click', () => {
+    const links = document.getElementById('navLinks');
+    links?.classList.toggle('open');
+  });
+
+  // Close auth on overlay click
+  document.getElementById('authOverlay')?.addEventListener('click', e => {
+    if (e.target.id === 'authOverlay') closeAuth();
+  });
+
+  // Enter key on login fields
+  ['lPhone','lPass'].forEach(id => {
+    document.getElementById(id)?.addEventListener('keypress', e => {
+      if (e.key === 'Enter') handleLogin();
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delivery Portal – MorningJuice</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f4f8; min-height: 100vh; color: #1a1a2e; }
+
+    /* ── LOGIN ─────────────────────────────────── */
+    #loginScreen { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); }
+    .login-card { background: #fff; border-radius: 24px; padding: 44px; max-width: 400px; width: 92%; box-shadow: 0 30px 80px rgba(0,0,0,.25); }
+    .login-logo { font-size: 40px; margin-bottom: 8px; }
+    .login-card h1 { font-size: 24px; color: #4f46e5; margin-bottom: 4px; }
+    .login-card p { color: #888; margin-bottom: 28px; font-size: 14px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 6px; color: #444; }
+    .form-group input { width: 100%; padding: 13px 15px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 15px; transition: .2s; }
+    .form-group input:focus { outline: none; border-color: #4f46e5; }
+    .btn-login { width: 100%; padding: 14px; background: linear-gradient(135deg, #4f46e5, #7c3aed); color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: .2s; }
+    .btn-login:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(79,70,229,.35); }
+
+    /* ── DASHBOARD ──────────────────────────────── */
+    #dashboard { display: none; }
+    #dashboard.show { display: block; }
+    .top-bar { background: #fff; padding: 16px 28px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 12px rgba(0,0,0,.07); position: sticky; top: 0; z-index: 100; }
+    .top-brand { font-size: 20px; font-weight: 800; color: #4f46e5; }
+    .top-right { display: flex; align-items: center; gap: 16px; }
+    .top-agent { font-weight: 600; font-size: 14px; }
+    .btn-logout { padding: 9px 18px; background: #fee2e2; color: #dc2626; border: none; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; }
+    .btn-logout:hover { background: #dc2626; color: #fff; }
+
+    .page { max-width: 900px; margin: 0 auto; padding: 28px 20px; }
+
+    /* Stats */
+    .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+    .stat-box { background: #fff; border-radius: 16px; padding: 22px 20px; box-shadow: 0 2px 12px rgba(0,0,0,.06); border-left: 5px solid transparent; }
+    .stat-box.s-total { border-color: #4f46e5; }
+    .stat-box.s-done  { border-color: #10b981; }
+    .stat-box.s-pend  { border-color: #f59e0b; }
+    .stat-label { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #999; margin-bottom: 8px; letter-spacing: .6px; }
+    .stat-val { font-size: 38px; font-weight: 800; }
+    .stat-box.s-total .stat-val { color: #4f46e5; }
+    .stat-box.s-done  .stat-val { color: #10b981; }
+    .stat-box.s-pend  .stat-val { color: #f59e0b; }
+
+    /* Section header */
+    .section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
+    .section-head h2 { font-size: 20px; }
+    .date-tag { background: #ede9fe; color: #4f46e5; padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+    .btn-refresh { padding: 9px 18px; background: #f1f5f9; border: none; border-radius: 8px; font-weight: 600; font-size: 13px; cursor: pointer; }
+    .btn-refresh:hover { background: #e2e8f0; }
+
+    /* Order Cards */
+    .order-card { background: #fff; border-radius: 16px; padding: 22px; margin-bottom: 14px; box-shadow: 0 2px 12px rgba(0,0,0,.06); border-left: 4px solid #e5e7eb; transition: .2s; }
+    .order-card.status-assigned      { border-color: #4f46e5; }
+    .order-card.status-out_for_delivery { border-color: #f59e0b; }
+    .order-card.status-delivered     { border-color: #10b981; background: #f0fdf4; }
+    .order-card.status-cancelled     { border-color: #ef4444; opacity: .7; }
+
+    .order-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+    .order-id { font-size: 12px; color: #999; }
+    .order-name { font-size: 18px; font-weight: 700; margin-top: 2px; }
+
+    .pill { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+    .pill-assigned      { background: #ede9fe; color: #4f46e5; }
+    .pill-out           { background: #fef3c7; color: #92400e; }
+    .pill-delivered     { background: #dcfce7; color: #15803d; }
+    .pill-cancelled     { background: #fee2e2; color: #991b1b; }
+
+    .order-details { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .det-item { display: flex; flex-direction: column; gap: 3px; }
+    .det-label { font-size: 11px; color: #aaa; font-weight: 600; text-transform: uppercase; }
+    .det-value { font-size: 14px; font-weight: 600; color: #333; }
+    .address-block { background: #f8fafc; border-radius: 10px; padding: 12px; margin-bottom: 16px; font-size: 14px; line-height: 1.5; color: #444; }
+
+    .order-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-action { padding: 10px 20px; border: none; border-radius: 10px; font-weight: 700; font-size: 14px; cursor: pointer; transition: .2s; }
+    .btn-start { background: #ede9fe; color: #4f46e5; }
+    .btn-start:hover { background: #4f46e5; color: #fff; }
+    .btn-otp { background: #dcfce7; color: #15803d; }
+    .btn-otp:hover { background: #10b981; color: #fff; }
+    .delivered-stamp { color: #10b981; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 6px; }
+
+    /* OTP Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.65); z-index: 500; align-items: center; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal-box { background: #fff; border-radius: 24px; padding: 40px; max-width: 380px; width: 92%; box-shadow: 0 30px 80px rgba(0,0,0,.25); }
+    .modal-box h2 { margin-bottom: 8px; font-size: 22px; }
+    .modal-box p { color: #888; margin-bottom: 24px; font-size: 14px; }
+    .otp-field { display: flex; gap: 12px; justify-content: center; margin-bottom: 24px; }
+    .otp-digit { width: 60px; height: 60px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 28px; font-weight: 700; text-align: center; transition: .2s; }
+    .otp-digit:focus { outline: none; border-color: #4f46e5; }
+    .modal-btns { display: flex; gap: 12px; }
+    .btn-cancel { flex: 1; padding: 13px; background: #f1f5f9; border: none; border-radius: 10px; font-weight: 700; font-size: 15px; cursor: pointer; }
+    .btn-verify { flex: 1; padding: 13px; background: #10b981; color: #fff; border: none; border-radius: 10px; font-weight: 700; font-size: 15px; cursor: pointer; transition: .2s; }
+    .btn-verify:hover { background: #059669; }
+
+    /* Empty state */
+    .empty-state { text-align: center; padding: 80px 20px; color: #aaa; }
+    .empty-icon { font-size: 64px; margin-bottom: 16px; }
+    .empty-state h3 { font-size: 18px; color: #666; margin-bottom: 8px; }
+
+    /* Toast */
+    .toast { position: fixed; bottom: 28px; right: 28px; padding: 14px 24px; border-radius: 12px; color: #fff; font-weight: 600; font-size: 15px; z-index: 1000; display: none; max-width: 320px; box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+    .toast.show { display: block; }
+    .toast.success { background: #10b981; }
+    .toast.error { background: #ef4444; }
+
+    @media (max-width: 600px) {
+      .stats-row { grid-template-columns: 1fr; }
+      .otp-field { gap: 8px; }
+      .otp-digit { width: 52px; height: 52px; font-size: 22px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">🛵</div>
+    <h1>Delivery Portal</h1>
+    <p>MorningJuice — Delivery Partner Login</p>
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group"><label>Phone Number</label>
+        <input type="tel" id="phone" placeholder="9XXXXXXXXX" required autocomplete="tel" /></div>
+      <div class="form-group"><label>Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required /></div>
+      <button type="submit" class="btn-login">Login →</button>
+    </form>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <div class="top-bar">
+    <div class="top-brand">🛵 MorningJuice Delivery</div>
+    <div class="top-right">
+      <span class="top-agent" id="agentName"></span>
+      <button class="btn-logout" onclick="handleLogout()">Logout</button>
+    </div>
+  </div>
+
+  <div class="page">
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-box s-total"><div class="stat-label">Today's Total</div><div class="stat-val" id="statTotal">—</div></div>
+      <div class="stat-box s-done"><div class="stat-label">Delivered</div><div class="stat-val" id="statDone">—</div></div>
+      <div class="stat-box s-pend"><div class="stat-label">Remaining</div><div class="stat-val" id="statPend">—</div></div>
+    </div>
+
+    <!-- Orders -->
+    <div class="section-head">
+      <h2>Today's Deliveries</h2>
+      <div style="display:flex;gap:10px;align-items:center">
+        <span class="date-tag" id="todayLabel"></span>
+        <button class="btn-refresh" onclick="loadAll()">↻ Refresh</button>
+      </div>
+    </div>
+    <div id="ordersList"></div>
+  </div>
+</div>
+
+<!-- OTP MODAL -->
+<div class="modal-overlay" id="otpModal">
+  <div class="modal-box">
+    <h2>Enter Customer OTP</h2>
+    <p>Ask the customer for their 4-digit OTP shown in the app.</p>
+    <div class="otp-field">
+      <input type="tel" class="otp-digit" id="d0" maxlength="1" inputmode="numeric" />
+      <input type="tel" class="otp-digit" id="d1" maxlength="1" inputmode="numeric" />
+      <input type="tel" class="otp-digit" id="d2" maxlength="1" inputmode="numeric" />
+      <input type="tel" class="otp-digit" id="d3" maxlength="1" inputmode="numeric" />
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeOtp()">Cancel</button>
+      <button class="btn-verify" onclick="submitOtp()">Verify ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const API = 'http://localhost:5000/api';
+let token    = localStorage.getItem('jm_delivery_token');
+let agent    = JSON.parse(localStorage.getItem('jm_delivery_user') || 'null');
+let activeOrderId = null;
+let refreshTimer  = null;
+
+/* ── Init ─────────────────────────────────── */
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('todayLabel').textContent = new Date().toLocaleDateString('en-IN', { weekday:'long', day:'numeric', month:'long' });
+
+  if (token && agent) {
+    if (agent.role !== 'delivery') { handleLogout(); return; }
+    bootDashboard();
+  }
+
+  // OTP digit auto-advance
+  document.querySelectorAll('.otp-digit').forEach((el, i, arr) => {
+    el.addEventListener('input', () => {
+      el.value = el.value.replace(/\D/, '').slice(-1);
+      if (el.value && i < arr.length - 1) arr[i+1].focus();
+    });
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Backspace' && !el.value && i > 0) arr[i-1].focus();
+      if (e.key === 'Enter') submitOtp();
+    });
+  });
+});
+
+/* ── Auth ─────────────────────────────────── */
+async function handleLogin(e) {
+  e.preventDefault();
+  try {
+    const res  = await fetch(`${API}/auth/login`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ phone: document.getElementById('phone').value, password: document.getElementById('password').value }) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    if (data.user.role !== 'delivery') throw new Error('This portal is for delivery partners only.');
+    token = data.token; agent = data.user;
+    localStorage.setItem('jm_delivery_token', token);
+    localStorage.setItem('jm_delivery_user',  JSON.stringify(agent));
+    bootDashboard();
+    toast('Welcome, ' + agent.name + '! 🛵', 'success');
+  } catch (err) {
+    toast(err.message, 'error');
+  }
+}
+
+function handleLogout() {
+  localStorage.removeItem('jm_delivery_token');
+  localStorage.removeItem('jm_delivery_user');
+  clearInterval(refreshTimer);
+  token = null; agent = null;
+  document.getElementById('dashboard').classList.remove('show');
+  document.getElementById('loginScreen').style.display = 'flex';
+}
+
+function bootDashboard() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('dashboard').classList.add('show');
+  document.getElementById('agentName').textContent = agent.name;
+  loadAll();
+  refreshTimer = setInterval(loadAll, 30000);
+}
+
+/* ── Data ─────────────────────────────────── */
+async function loadAll() {
+  await Promise.all([loadStats(), loadOrders()]);
+}
+
+async function loadStats() {
+  try {
+    const res  = await fetch(`${API}/delivery/stats`, { headers: { Authorization: `Bearer ${token}` } });
+    const data = await res.json();
+    document.getElementById('statTotal').textContent = data.total;
+    document.getElementById('statDone').textContent  = data.delivered;
+    document.getElementById('statPend').textContent  = data.pending;
+  } catch { /* silent */ }
+}
+
+async function loadOrders() {
+  try {
+    const res    = await fetch(`${API}/delivery/today`, { headers: { Authorization: `Bearer ${token}` } });
+    const orders = await res.json();
+    renderOrders(orders);
+  } catch (err) {
+    toast('Failed to load orders', 'error');
+  }
+}
+
+function renderOrders(orders) {
+  const box = document.getElementById('ordersList');
+
+  if (!orders.length) {
+    box.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><h3>No deliveries assigned yet</h3><p>Check back soon or contact your manager.</p></div>`;
+    return;
+  }
+
+  const statusPill = {
+    assigned:         '<span class="pill pill-assigned">Assigned</span>',
+    out_for_delivery: '<span class="pill pill-out">Out for Delivery</span>',
+    delivered:        '<span class="pill pill-delivered">Delivered ✓</span>',
+    cancelled:        '<span class="pill pill-cancelled">Cancelled</span>',
+    pending:          '<span class="pill pill-assigned">Pending</span>',
+  };
+
+  box.innerHTML = orders.map(o => {
+    const customer = o.userId || {};
+    const actions  = buildActions(o);
+    return `
+      <div class="order-card status-${o.status}">
+        <div class="order-head">
+          <div>
+            <div class="order-id"># ${o._id.slice(-8).toUpperCase()}</div>
+            <div class="order-name">${customer.name || '—'}</div>
+          </div>
+          ${statusPill[o.status] || ''}
+        </div>
+
+        <div class="order-details">
+          <div class="det-item"><span class="det-label">Phone</span><span class="det-value"><a href="tel:${customer.phone}" style="color:#4f46e5">${customer.phone || '—'}</a></span></div>
+          <div class="det-item"><span class="det-label">Juice</span><span class="det-value">${o.juiceType}</span></div>
+          <div class="det-item"><span class="det-label">Qty</span><span class="det-value">${o.quantity} bottle${o.quantity>1?'s':''}</span></div>
+          ${o.status === 'delivered' ? `<div class="det-item"><span class="det-label">Delivered At</span><span class="det-value">${fmtTime(o.deliveredAt)}</span></div>` : ''}
+        </div>
+
+        <div class="address-block">📍 ${customer.address || o.deliveryAddress || 'Address not available'}</div>
+
+        <div class="order-actions">${actions}</div>
+      </div>`;
+  }).join('');
+}
+
+function buildActions(o) {
+  if (o.status === 'assigned') {
+    return `<button class="btn-action btn-start" onclick="startDelivery('${o._id}')">🚀 Start Delivery</button>`;
+  }
+  if (o.status === 'out_for_delivery') {
+    return `<button class="btn-action btn-otp" onclick="openOtp('${o._id}')">🔐 Enter OTP & Complete</button>`;
+  }
+  if (o.status === 'delivered') {
+    return `<div class="delivered-stamp">✅ Delivered at ${fmtTime(o.deliveredAt)}</div>`;
+  }
+  return '';
+}
+
+/* ── Actions ──────────────────────────────── */
+async function startDelivery(orderId) {
+  try {
+    const res = await fetch(`${API}/delivery/order/${orderId}/status`, {
+      method:  'PATCH',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type':'application/json' },
+      body:    JSON.stringify({ status: 'out_for_delivery' }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    toast('Delivery started! 🚀', 'success');
+    loadAll();
+  } catch (err) {
+    toast(err.message, 'error');
+  }
+}
+
+function openOtp(orderId) {
+  activeOrderId = orderId;
+  document.querySelectorAll('.otp-digit').forEach(el => el.value = '');
+  document.getElementById('otpModal').classList.add('open');
+  document.getElementById('d0').focus();
+}
+
+function closeOtp() {
+  document.getElementById('otpModal').classList.remove('open');
+  activeOrderId = null;
+}
+
+async function submitOtp() {
+  const otp = ['d0','d1','d2','d3'].map(id => document.getElementById(id).value).join('');
+  if (otp.length !== 4 || !/^\d{4}$/.test(otp)) {
+    return toast('Please enter all 4 digits', 'error');
+  }
+  try {
+    const res = await fetch(`${API}/delivery/verify-otp`, {
+      method:  'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type':'application/json' },
+      body:    JSON.stringify({ orderId: activeOrderId, otp }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    toast('✅ Order delivered successfully!', 'success');
+    closeOtp();
+    loadAll();
+  } catch (err) {
+    toast(err.message, 'error');
+    document.getElementById('d0').focus();
+  }
+}
+
+/* ── Utils ────────────────────────────────── */
+function fmtTime(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit' });
+}
+
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className   = 'toast show ' + type;
+  setTimeout(() => el.className = 'toast', 3500);
+}
+</script>
+</body>
+</html>
