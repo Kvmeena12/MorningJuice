@@ -54,6 +54,9 @@ app.get('/', (_req, res) => {
 
 // ── Health check ──────────────────────────────────────
 app.get('/health', (_req, res) => res.json({ status: 'OK', ts: new Date() }));
+app.get('/', (req, res) => {
+  res.send("MorningJuice API is running 🚀");
+});
 
 // ── 404 ───────────────────────────────────────
 app.use((_req, res) => res.status(404).json({ error: 'Route not found' }));
