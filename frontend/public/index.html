@@ -595,7 +595,7 @@ Start your healthy morning routine today.
       <div class="plan-cards" style="margin-top:40px">
         <div class="plan-card">
           <h3>Weekly</h3>
-          <div class="plan-price">₹699 <span>/ 7 days</span></div>
+          <div class="plan-price">₹6 <span>/ 7 days</span></div>
           <ul class="plan-features">
             <li>7 fresh bottles</li>
             <li>Morning delivery (6–8 AM)</li>
@@ -608,7 +608,7 @@ Start your healthy morning routine today.
             <button class="qty-btn" onclick="changeQty('weekly',1)">+</button>
             <span style="font-size:13px;color:var(--mid)">bottle/day</span>
           </div>
-          <p class="text-sm" id="price-weekly">Total: ₹699</p>
+          <p class="text-sm" id="price-weekly">Total: ₹6</p>
           <button class="btn-full mt16" onclick="startSubscription('weekly')">Subscribe Weekly</button>
         </div>
         <div class="plan-card popular">
@@ -725,7 +725,7 @@ Start your healthy morning routine today.
               <div class="form-group"><label>Delivery Address *</label><input type="text" id="faddress" placeholder="Building, Street, Area – Mumbai" required /></div>
               <div class="form-row">
                 <div class="form-group"><label>Choose Plan</label>
-                  <select id="fplan"><option value="weekly">Weekly – ₹699</option><option value="10day" selected>10-Day – ₹899</option><option value="monthly">Monthly – ₹2,399</option></select>
+                  <select id="fplan"><option value="weekly">Weekly – ₹6</option><option value="10day" selected>10-Day – ₹899</option><option value="monthly">Monthly – ₹2,399</option></select>
                 </div>
                 <div class="form-group"><label>Preferred Juice</label>
                   <select id="fjuice"><option>Sunrise Orange</option><option>Green Detox</option><option>Red Power</option><option>Tropical Glow</option><option>Antioxidant Grape</option><option>Coconut Cool</option><option>Rotate Daily</option></select>
@@ -762,7 +762,7 @@ Start your healthy morning routine today.
             <li><a href="#faq">FAQ</a></li>
           </ul></div>
           <div class="footer-col"><h4>Plans</h4><ul>
-            <li><a href="#plans">Weekly – ₹699</a></li>
+            <li><a href="#plans">Weekly – ₹6</a></li>
             <li><a href="#plans">10-Day – ₹899</a></li>
             <li><a href="#plans">Monthly – ₹2,399</a></li>
           </ul></div>
@@ -902,7 +902,7 @@ const API = (window.location.hostname === 'localhost' || window.location.hostnam
   : window.location.origin + '/api';
 
 const PLAN_CFG = {
-  weekly:  { label: 'Weekly',  days: 7,  base: 699  },
+  weekly:  { label: 'Weekly',  days: 7,  base: 6  },
   '10day': { label: '10-Day',  days: 10, base: 899  },
   monthly: { label: 'Monthly', days: 30, base: 2399 },
 };
