@@ -20,6 +20,9 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, '../frontend/public')));
 
+// 🎯 ADD THIS - Admin Panel Static Files
+app.use('/admin', express.static(path.join(__dirname, '../frontend/admin')));
+
 // ── Middleware ────────────────────────────────
 app.use(cors({
   origin: function (origin, callback) {
@@ -52,14 +55,15 @@ app.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
 });
 
-// ── Health check ──────────────────────────────────────
-app.get('/health', (_req, res) => res.json({ status: 'OK', ts: new Date() }));
-app.get('/', (req, res) => {
-  res.send("MorningJuice API is running 🚀");
+// 🎯 ADD THIS - Admin Panel Route
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/admin/index.html'));
 });
 
-// ── 404 ───────────────────────────────────────
-app.use((_req, res) => res.status(404).json({ error: 'Route not found' }));
+// ⚫ LAST
+app.use((_req, res) => {
+  res.status(404).json({ error: 'Route not found' });
+});
 
 // ── DB + Start ────────────────────────────────
 const PORT = process.env.PORT || 5000;
