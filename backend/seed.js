@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 import User from './models/User.js';
 import Juice from './models/Juice.js';
 
-await mongoose.connect(process.env.DATABASE_URI);
+await mongoose.connect(process.env.DB_URI);
 console.log('✅ Connected to MongoDB');
 
 // ── Juices ────────────────────────────────────

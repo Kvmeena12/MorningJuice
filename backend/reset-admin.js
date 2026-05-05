@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 import User from './models/User.js';
 
 console.log('🔧 Connecting to MongoDB...');
-await mongoose.connect(process.env.DATABASE_URI);
+await mongoose.connect(process.env.DB_URI);
 console.log('✅ Connected\n');
 
 // Delete old admin (in case password was corrupted)

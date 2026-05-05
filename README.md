@@ -68,7 +68,7 @@ cp .env.example .env
 ```
 
 ```env
-DATABASE_URI=mongodb://localhost:27017/juicemorning
+DB_URI=mongodb://localhost:27017/juicemorning
 JWT_SECRET=your_super_secret_key
 RAZORPAY_KEY_ID=rzp_test_XXXX
 RAZORPAY_KEY_SECRET=XXXX
@@ -119,7 +119,7 @@ Delivery portal: `frontend/delivery-portal/index.html`
 2. Go to [vercel.com](https://vercel.com) → New Project → Import repo
 3. Set Root Directory to `backend`
 4. Add Environment Variables in Vercel dashboard:
-   - `DATABASE_URI` → your MongoDB Atlas URI
+   - `DB_URI` → your MongoDB Atlas URI
    - `JWT_SECRET` → a long random string
    - `RAZORPAY_KEY_ID` → from Razorpay dashboard
    - `RAZORPAY_KEY_SECRET` → from Razorpay dashboard
