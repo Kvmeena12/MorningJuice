@@ -485,7 +485,7 @@ async function loadPricing() {
     currentPricing = data;
 
     // Fill inputs
-    document.getElementById('price-weekly').value  = data.weekly?.price  ?? 9;
+    document.getElementById('price-weekly').value  = data.weekly?.price  ?? 699;
     document.getElementById('price-10day').value   = data['10day']?.price ?? 899;
     document.getElementById('price-monthly').value = data.monthly?.price  ?? 2399;
 
