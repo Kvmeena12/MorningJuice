@@ -6,7 +6,7 @@
 import 'dotenv/config';
 import mongoose from 'mongoose';
 
-await mongoose.connect(process.env.MONGODB_URI);
+await mongoose.connect(process.env.DATABASE_URI);
 console.log('✅ Connected to MongoDB\n');
 
 const Order = mongoose.model('Order', new mongoose.Schema({
