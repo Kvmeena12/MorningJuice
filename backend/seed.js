@@ -70,8 +70,7 @@ if (!existingAdmin) {
   await User.create({
     name: 'Admin',
     phone: '9000000000',
-    address: 'JuiceMorning HQ, Mumbai',
-    password: 'admin123',
+    address: 'JuiceMorning HQ, Mumbai',    pincode: '400001',    password: 'admin123',
     role: 'admin',
   });
   console.log('✅ Admin created  | phone: 9000000000 | password: admin123');
@@ -86,6 +85,7 @@ if (!existingBoy) {
     name: 'Raju Delivery',
     phone: '9111111111',
     address: 'Andheri West, Mumbai',
+    pincode: '400053',
     password: 'delivery123',
     role: 'delivery',
   });

@@ -24,7 +24,9 @@ router.get('/pricing', async (req, res) => {
 // PUT /api/settings/pricing  — ADMIN only
 router.put('/pricing', protect, adminOnly, async (req, res) => {
   try {
-    const { weekly, '10day': tenday, monthly } = req.body;
+    const weekly = req.body.weekly;
+    const tenday = req.body['10day'];
+    const monthly = req.body.monthly;
 
     // Validate
     const plans = { weekly, '10day': tenday, monthly };
@@ -74,3 +76,4 @@ router.get('/reset-pricing', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+

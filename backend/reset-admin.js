@@ -22,6 +22,7 @@ const admin = await User.create({
   name:     'Admin',
   phone:    '9000000000',
   address:  'JuiceMorning HQ, Mumbai',
+  pincode:  '400001',
   password: 'admin123',
   role:     'admin',
 });
