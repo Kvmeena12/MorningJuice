@@ -2,6 +2,8 @@ import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import scheduleRoutes from './routes/schedule.js';
 import authRoutes         from './routes/auth.js';
 import juiceRoutes        from './routes/juices.js';
@@ -12,7 +14,11 @@ import deliveryRoutes     from './routes/delivery.js';
 import adminRoutes        from './routes/admin.js';
 import settingsRoutes     from './routes/settings.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
+
+app.use(express.static(path.join(__dirname, '../frontend/public')));
 
 // ── Middleware ────────────────────────────────
 app.use(cors({
@@ -39,14 +45,18 @@ app.use('/api/orders',        orderRoutes);
 app.use('/api/delivery',      deliveryRoutes);
 app.use('/api/admin',         adminRoutes);
 app.use('/api/settings',      settingsRoutes);
+app.use('/api/schedule',      scheduleRoutes);
 
-// ── Health check ──────────────────────────────
+// ── Frontend ────────────────────────────────────────
+app.get('/', (_req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
+});
+
+// ── Health check ──────────────────────────────────────
 app.get('/health', (_req, res) => res.json({ status: 'OK', ts: new Date() }));
 
 // ── 404 ───────────────────────────────────────
 app.use((_req, res) => res.status(404).json({ error: 'Route not found' }));
-
-app.use('/api/schedule', scheduleRoutes);
 
 // ── DB + Start ────────────────────────────────
 const PORT = process.env.PORT || 5000;
