@@ -85,9 +85,9 @@ const PLANS_DATA = [
     emoji: '🌱',
     name: 'Weekly',
     duration: '7-day subscription',
-    price1: 699,
+    price1: 9,
     price2: 1199,
-    perDay1: 99,
+    perDay1: 1,
     perDay2: 171,
     featured: false,
     perks: [
