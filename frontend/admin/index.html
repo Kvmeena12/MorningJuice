@@ -766,70 +766,51 @@ function collectPlanFromDOM(key) {
 /* ══ SAVE ALL PLANS ══════════════════════════ */
 async function saveAllPlans() {
   const btn = document.getElementById('savePlansBtn');
-  btn.disabled = true;
-  btn.textContent = 'Saving...';
+  btn.disabled = true; btn.textContent = 'Saving...';
+
+  // Collect all plans from DOM
+  const updated = {};
+  Object.keys(currentPlans).forEach(key => {
+    updated[key] = collectPlanFromDOM(key);
+  });
+
+  // Validate
+  for (const [key, p] of Object.entries(updated)) {
+    if (!p.price || p.price < 1) {
+      toast(`Price for "${p.label}" must be greater than 0`, 'error');
+      btn.disabled = false; btn.textContent = '💾 Save All Plans';
+      return;
+    }
+  }
 
   try {
-    // ✅ STEP 1: Collect plans as ARRAY (dynamic)
-    const plans = Object.keys(currentPlans).map(key => {
-      const p = collectPlanFromDOM(key);
-
-      return {
-        name: p.label,
-        days: Number(p.days),
-        price: Number(p.price)
-      };
+    // Build API payload in the format backend expects
+    const payload = {};
+    Object.entries(updated).forEach(([key, p]) => {
+      payload[key] = { label: p.label, days: p.days, price: p.price };
     });
 
-    // ✅ STEP 2: Validate
-    for (const p of plans) {
-      if (!p.price || p.price < 1) {
-        throw new Error(`Invalid price for ${p.name}`);
-      }
-      if (!p.days || p.days < 1) {
-        throw new Error(`Invalid days for ${p.name}`);
-      }
-    }
-
-    // ✅ STEP 3: Send to backend (NEW API)
-    const res = await fetch(`${API}/plans`, {
-      method: 'POST',
-      headers: authH(),
-      body: JSON.stringify({ plans })
+    const res  = await fetch(`${API}/settings/pricing`, {
+      method: 'PUT', headers: authH(), body: JSON.stringify(payload),
     });
-
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
 
-    // ✅ STEP 4: Update UI
-    currentPlans = {};
-    plans.forEach(p => {
-      const key = p.days + "day"; // dynamic key
-      currentPlans[key] = {
-        key,
-        label: p.name,
-        days: p.days,
-        price: p.price
-      };
-    });
-
+    // Persist locally
+    currentPlans = updated;
     renderPlansSummary();
     renderPricingPage();
 
     document.getElementById('plansStatus').className = 'save-status ok';
-    document.getElementById('plansStatus').textContent = '✅ Plans updated everywhere!';
-    document.getElementById('plansLastUpdated').textContent =
-      'Last updated: ' + new Date().toLocaleString('en-IN');
-
-    toast('🚀 Plans synced successfully!');
-
+    document.getElementById('plansStatus').textContent = '✅ All plans saved! Website updated.';
+    document.getElementById('plansLastUpdated').textContent = 'Last updated: ' + new Date().toLocaleString('en-IN');
+    toast('✅ Plans saved successfully!');
   } catch (err) {
     document.getElementById('plansStatus').className = 'save-status err';
     document.getElementById('plansStatus').textContent = '❌ ' + err.message;
     toast(err.message, 'error');
   } finally {
-    btn.disabled = false;
-    btn.textContent = '💾 Save All Plans';
+    btn.disabled = false; btn.textContent = '💾 Save All Plans';
   }
 }
 

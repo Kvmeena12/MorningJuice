@@ -600,19 +600,81 @@
     </div>
   </section>
 
-  <section class="plans-section">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-tag">Pricing</div>
-      <h2>Flexible Subscription Plans</h2>
-      <p>Pre-pay and save more. All plans include morning doorstep delivery, fresh cold-pressed juice, and easy pause/cancel.</p>
+  <section class="plans-section" id="plans">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Pricing</div>
+        <h2>Flexible Subscription Plans</h2>
+        <p>Pre-pay and save more. All plans include morning doorstep delivery, fresh cold-pressed juice, and easy pause/cancel.</p>
+      </div>
+      <div class="plan-cards" style="margin-top:40px">
+        <div class="plan-card">
+          <h3>Weekly</h3>
+          <div class="plan-price" id="pub-price-weekly">₹699 <span>/ 7 days</span></div>
+          <ul class="plan-features">
+            <li>7 fresh bottles</li>
+            <li>Morning delivery (6–8 AM)</li>
+            <li>Customise daily juice</li>
+            <li>Pause anytime</li>
+          </ul>
+          <div class="qty-wrap">
+            <button class="qty-btn" onclick="changeQty('weekly',-1)">−</button>
+            <span class="qty-val" id="qty-weekly">1</span>
+            <button class="qty-btn" onclick="changeQty('weekly',1)">+</button>
+            <span style="font-size:13px;color:var(--mid)">bottle/day</span>
+          </div>
+          <p class="text-sm" id="price-weekly">Total: ₹699</p>
+          <button class="btn-full mt16" onclick="startSubscription('weekly')">Subscribe Weekly</button>
+          <button class="btn-ghost-sm" style="width:100%;margin-top:10px" onclick="toggleSchedulePreview('weekly',this)">📅 View 7-Day Schedule ▾</button>
+          <div id="sched-preview-weekly" class="sched-preview" style="display:none"></div>
+        </div>
+        <div class="plan-card popular">
+          <div class="popular-badge">⭐ Most Popular</div>
+          <h3>10-Day</h3>
+          <div class="plan-price" id="pub-price-10day">₹899 <span>/ 10 days</span></div>
+          <ul class="plan-features">
+            <li>10 fresh bottles</li>
+            <li>Morning delivery (6–8 AM)</li>
+            <li>Customise daily juice</li>
+            <li>Pause anytime</li>
+            <li>Save ₹90 vs weekly</li>
+          </ul>
+          <div class="qty-wrap">
+            <button class="qty-btn" onclick="changeQty('10day',-1)">−</button>
+            <span class="qty-val" id="qty-10day">1</span>
+            <button class="qty-btn" onclick="changeQty('10day',1)">+</button>
+            <span style="font-size:13px;color:var(--mid)">bottle/day</span>
+          </div>
+          <p class="text-sm" id="price-10day">Total: ₹899</p>
+          <button class="btn-full mt16" onclick="startSubscription('10day')">Subscribe 10-Day</button>
+          <button class="btn-ghost-sm" style="width:100%;margin-top:10px" onclick="toggleSchedulePreview('10day',this)">📅 View 10-Day Schedule ▾</button>
+          <div id="sched-preview-10day" class="sched-preview" style="display:none"></div>
+        </div>
+        <div class="plan-card">
+          <h3>Monthly</h3>
+          <div class="plan-price" id="pub-price-monthly">₹2,399 <span>/ 30 days</span></div>
+          <ul class="plan-features">
+            <li>30 fresh bottles</li>
+            <li>Morning delivery (6–8 AM)</li>
+            <li>Customise daily juice</li>
+            <li>Pause anytime</li>
+            <li>Save ₹596</li>
+            <li>Priority support</li>
+          </ul>
+          <div class="qty-wrap">
+            <button class="qty-btn" onclick="changeQty('monthly',-1)">−</button>
+            <span class="qty-val" id="qty-monthly">1</span>
+            <button class="qty-btn" onclick="changeQty('monthly',1)">+</button>
+            <span style="font-size:13px;color:var(--mid)">bottle/day</span>
+          </div>
+          <p class="text-sm" id="price-monthly">Total: ₹2,399</p>
+          <button class="btn-full mt16" onclick="startSubscription('monthly')">Subscribe Monthly</button>
+          <button class="btn-ghost-sm" style="width:100%;margin-top:10px" onclick="toggleSchedulePreview('monthly',this)">📅 View 30-Day Schedule ▾</button>
+          <div id="sched-preview-monthly" class="sched-preview" style="display:none"></div>
+        </div>
+      </div>
     </div>
-
-    <!-- ✅ Dynamic Plans will come here -->
-    <div id="plans"></div>
-
-  </div>
-</section>
+  </section>
 
   <section class="why-section" id="why">
     <div class="container">
