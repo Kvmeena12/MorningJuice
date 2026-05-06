@@ -80,64 +80,28 @@ const JUICES = [
   }
 ];
 
-const PLANS_DATA = [
-  {
-    emoji: '🌱',
-    name: 'Weekly',
-    duration: '7-day subscription',
-    price1: 9,
-    price2: 1199,
-    perDay1: 1,
-    perDay2: 171,
-    featured: false,
-    perks: [
-      '1 fresh juice bottle daily',
-      'Choose from 8 blends',
-      'Morning delivery by 8 AM',
-      'Pause anytime via WhatsApp',
-      'Eco-friendly glass bottle'
-    ]
-  },
-  {
-    emoji: '🌿',
-    name: '10-Day',
-    duration: '10-day subscription',
-    price1: 899,
-    price2: 1499,
-    perDay1: 89,
-    perDay2: 149,
-    featured: true,
-    perks: [
-      '1 fresh juice bottle daily',
-      'Choose from 8 blends',
-      'Morning delivery by 7:30 AM',
-      'Free daily variety rotation',
-      'Priority delivery slot',
-      'Eco-friendly glass bottle',
-      'Save ₹100 vs weekly'
-    ]
-  },
-  {
-    emoji: '🌳',
-    name: 'Monthly',
-    duration: '30-day subscription',
-    price1: 2399,
-    price2: 3999,
-    perDay1: 79,
-    perDay2: 133,
-    featured: false,
-    perks: [
-      '1 fresh juice bottle daily',
-      'All 8 blends + seasonal specials',
-      'Morning delivery by 7 AM',
-      'Free juice customization',
-      'Dedicated delivery executive',
-      'Monthly wellness report',
-      'Referral bonus credits',
-      'Best value — save ₹570'
-    ]
+async function loadPlans() {
+  try {
+    const res = await fetch('/api/plans');
+    const plans = await res.json();
+
+    const container = document.getElementById('plans');
+
+    container.innerHTML = plans.map(p => `
+  <div class="plan-card">
+    <div>${p.emoji || '🥤'}</div>
+    <h2>${p.name}</h2>
+    <p>${p.days}-day subscription</p>
+    <p>₹${p.price}</p>
+  </div>
+`).join('');
+
+  } catch (err) {
+    console.error("Error loading plans", err);
   }
-];
+}
+
+loadPlans();
 
 const TESTIMONIALS = [
   {

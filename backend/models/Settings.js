@@ -10,3 +10,17 @@ const settingsSchema = new mongoose.Schema(
 );
 
 export default mongoose.model('Settings', settingsSchema);
+
+import mongoose from 'mongoose';
+
+const planSchema = new mongoose.Schema({
+  name: String,
+  days: Number,
+  price: Number
+});
+
+const settingsSchema = new mongoose.Schema({
+  plans: [planSchema]
+});
+
+export default mongoose.model('Settings', settingsSchema);

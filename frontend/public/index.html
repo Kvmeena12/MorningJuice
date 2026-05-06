@@ -238,6 +238,17 @@
     .toast.error { background: #dc2626; }
     .toast.success { background: #16a34a; }
 
+    /* ─── SCHEDULE PREVIEW IN PLANS ─── */
+    .sched-preview { margin-top: 16px; border-top: 1px solid var(--border); padding-top: 14px; }
+    .sched-preview-header { font-size: 12px; font-weight: 700; color: var(--mid); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 10px; }
+    .sched-days-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .sched-day-chip { background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 8px 6px; text-align: center; }
+    .sched-day-chip .day-label { font-size: 9px; font-weight: 700; color: #aaa; text-transform: uppercase; display: block; margin-bottom: 3px; }
+    .sched-day-chip .day-juice { font-size: 11px; font-weight: 600; color: var(--dark); line-height: 1.3; }
+    .sched-day-chip .juice-emoji { font-size: 16px; display: block; margin-bottom: 3px; }
+    .sched-summary { display: flex; justify-content: space-between; font-size: 12px; color: var(--mid); margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border); }
+    .sched-summary strong { color: var(--orange); }
+
     /* ─── BACK TO TOP ─── */
     .back-to-top { position: fixed; bottom: 80px; right: 24px; width: 44px; height: 44px; background: var(--orange); color: #fff; border: none; border-radius: 12px; font-size: 18px; cursor: pointer; opacity: 0; transition: .3s; z-index: 100; }
     .back-to-top.show { opacity: 1; }
@@ -262,7 +273,6 @@
     #dashboardSection.show { display: block; }
     #homeSection.hide { display: none; }
 
-    /* Dashboard top bar */
     .db-topbar { position: fixed; top: 0; left: 0; right: 0; height: 64px; background: #fff; border-bottom: 1px solid var(--border); z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; }
     .db-topbar .logo { font-size: 20px; }
     .db-user-pill { display: flex; align-items: center; gap: 10px; }
@@ -270,10 +280,8 @@
     .db-user-pill span { font-weight: 600; font-size: 14px; color: var(--dark); }
     .db-topbar-actions { display: flex; align-items: center; gap: 16px; }
 
-    /* Dashboard layout */
     .db-layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; padding-top: 64px; }
 
-    /* Sidebar */
     .db-sidebar { background: #fff; border-right: 1px solid var(--border); padding: 28px 16px; position: sticky; top: 64px; height: calc(100vh - 64px); overflow-y: auto; }
     .db-sidebar-section { margin-bottom: 28px; }
     .db-sidebar-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #aaa; margin-bottom: 8px; padding: 0 12px; }
@@ -285,13 +293,11 @@
     .db-nav-item.danger { color: #dc2626; }
     .db-nav-item.danger:hover { background: #fee2e2; }
 
-    /* Dashboard main */
     .db-main { padding: 32px; overflow-y: auto; }
     .db-page-header { margin-bottom: 28px; }
     .db-page-header h1 { font-size: 28px; font-weight: 900; color: var(--dark); }
     .db-page-header p { color: var(--mid); font-size: 14px; margin-top: 4px; }
 
-    /* Stat cards row */
     .db-stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
     .db-stat-card { background: #fff; border-radius: 16px; padding: 20px 22px; border: 1px solid var(--border); }
     .db-stat-card .stat-label { font-size: 12px; font-weight: 600; color: #aaa; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
@@ -299,7 +305,6 @@
     .db-stat-card .stat-sub { font-size: 12px; color: var(--mid); margin-top: 4px; }
     .db-stat-card .stat-icon { font-size: 24px; float: right; margin-top: -36px; }
 
-    /* Content cards */
     .db-card { background: #fff; border-radius: 20px; padding: 28px; border: 1px solid var(--border); margin-bottom: 24px; }
     .db-card h2 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
     .db-card .card-sub { font-size: 13px; color: var(--mid); margin-bottom: 20px; }
@@ -333,7 +338,6 @@
     .delivery-skip-btn { padding: 5px 12px; background: #fee2e2; color: #dc2626; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: .2s; }
     .delivery-skip-btn:hover { background: #fca5a5; }
 
-    /* Status pills */
     .pill { padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: capitalize; }
     .pill-delivered { background: #dcfce7; color: #15803d; }
     .pill-pending { background: #fef9c3; color: #92400e; }
@@ -361,6 +365,24 @@
     .toggle-sw input:checked + .slider { background: var(--orange); }
     .toggle-sw input:checked + .slider:before { transform: translateX(20px); }
 
+    /* ── DASHBOARD PLAN CARDS (matches public site style) ── */
+    .db-plan-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 8px; }
+    .db-plan-card { border: 2px solid var(--border); border-radius: 24px; padding: 32px; background: #fff; transition: .3s; position: relative; }
+    .db-plan-card:hover { border-color: var(--orange); box-shadow: 0 12px 40px rgba(231,111,81,.12); }
+    .db-plan-card.popular { border-color: var(--orange); background: linear-gradient(135deg, #fff8f5 0%, #fff 100%); }
+    .db-popular-badge { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--orange); color: #fff; padding: 5px 20px; border-radius: 20px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .db-plan-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 4px; color: var(--dark); }
+    .db-plan-price { font-size: 40px; font-weight: 900; color: var(--orange); margin: 12px 0 4px; font-family: 'Fraunces', serif; }
+    .db-plan-price span { font-size: 16px; color: var(--mid); font-weight: 400; font-family: 'DM Sans', sans-serif; }
+    .db-plan-features { list-style: none; margin: 16px 0; }
+    .db-plan-features li { padding: 8px 0; font-size: 14px; color: var(--mid); border-bottom: 1px solid var(--border); }
+    .db-plan-features li:last-child { border-bottom: none; }
+    .db-plan-features li::before { content: "✓ "; color: var(--orange); font-weight: 700; }
+    .db-qty-wrap { display: flex; align-items: center; gap: 12px; margin: 16px 0; }
+    .db-qty-btn { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--orange); background: none; color: var(--orange); font-size: 20px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: .2s; }
+    .db-qty-btn:hover { background: var(--orange); color: #fff; }
+    .db-qty-val { font-size: 22px; font-weight: 700; color: var(--dark); min-width: 28px; text-align: center; }
+
     /* Payment */
     .payment-box { background: #f8fafc; border-radius: 16px; padding: 28px; border: 1px solid var(--border); margin-top: 24px; }
     .payment-box h3 { margin-bottom: 16px; font-size: 20px; }
@@ -369,11 +391,9 @@
     .btn-ghost-sm { background: none; border: 2px solid var(--orange); color: var(--orange); padding: 10px 22px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: .2s; font-family: 'DM Sans', sans-serif; font-size: 14px; }
     .btn-ghost-sm:hover { background: var(--orange); color: #fff; }
 
-    /* Dashboard tab visibility */
     .db-tab { display: none; }
     .db-tab.show { display: block; }
 
-    /* Empty state */
     .empty-msg { text-align: center; padding: 60px 20px; color: #999; }
     .empty-msg .big { font-size: 48px; margin-bottom: 12px; }
 
@@ -384,7 +404,11 @@
       .db-main { padding: 20px; }
     }
     @media (max-width: 768px) {
-      .nav-links { display: none; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: #fff; border-bottom: 1px solid var(--border); padding: 16px 24px; gap: 4px; z-index: 999; box-shadow: 0 8px 24px rgba(0,0,0,.1); }
+      .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; }
+      .nav-links a { display: block; padding: 10px 0; font-size: 15px; border-bottom: 1px solid #f0f0f0; }
+      .nav-links li:last-child a { border-bottom: none; }
       .hamburger { display: flex; }
       .hero-container { grid-template-columns: 1fr; }
       .hero-visual { display: none; }
@@ -392,6 +416,7 @@
       .footer-grid { grid-template-columns: 1fr 1fr; }
       .subscribe-form .form-row { grid-template-columns: 1fr; }
       .db-stats-row { grid-template-columns: 1fr 1fr; }
+      .db-plan-cards { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -420,7 +445,6 @@
 
     <!-- REGISTER FORM -->
     <div id="registerForm" style="display:none">
-      <!-- Step 1 -->
       <div id="regStep1">
         <div class="form-group"><label>Full Name *</label>
           <input type="text" id="rName" placeholder="Your full name" /></div>
@@ -431,8 +455,6 @@
         <button class="btn btn-primary" style="width:100%" onclick="goStep2()">Next →</button>
         <p class="auth-note">Already have an account? <a href="#" onclick="switchTab('login')">Login here</a></p>
       </div>
-
-      <!-- Step 2 -->
       <div id="regStep2" style="display:none">
         <p style="font-size:13px;color:#888;margin-bottom:16px">📍 Delivery Details</p>
         <div class="form-group"><label>Delivery Address *</label>
@@ -501,15 +523,12 @@
 ══════════════════════════════════════════ -->
 <div id="homeSection">
 
-  <!-- HERO -->
   <section class="hero" id="home">
     <div class="hero-container">
       <div class="hero-content">
         <div class="hero-badge"><span class="badge-dot"></span>Now delivering in Powai ⚡</div>
         <h1>Wake Up to<br><em>Fresh Juice</em><br>Every Morning</h1>
-        <p class="hero-desc">Fresh, cold-pressed juices made daily and delivered across Powai.
-Start your healthy morning routine today.
-</p>
+        <p class="hero-desc">Fresh, cold-pressed juices made daily and delivered across Powai. Start your healthy morning routine today.</p>
         <div class="hero-actions">
           <a href="#plans" class="btn btn-primary">Start Subscription <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"/></svg></a>
           <a href="#menu" class="btn btn-ghost">Explore Menu</a>
@@ -535,7 +554,6 @@ Start your healthy morning routine today.
     </div>
   </section>
 
-  <!-- TRUST STRIP -->
   <div class="trust-strip">
     <div class="trust-container">
       <span class="trust-label">Trusted by health-conscious Mumbaikars from</span>
@@ -545,7 +563,6 @@ Start your healthy morning routine today.
     </div>
   </div>
 
-  <!-- HOW IT WORKS -->
   <section class="how-section" id="how">
     <div class="container">
       <div class="section-header">
@@ -565,7 +582,6 @@ Start your healthy morning routine today.
     </div>
   </section>
 
-  <!-- JUICE MENU -->
   <section class="menu-section" id="menu">
     <div class="container">
       <div class="section-header light">
@@ -584,82 +600,20 @@ Start your healthy morning routine today.
     </div>
   </section>
 
-  <!-- SUBSCRIPTION PLANS -->
-  <section class="plans-section" id="plans">
-    <div class="container">
-      <div class="section-header">
-        <div class="section-tag">Pricing</div>
-        <h2>Flexible Subscription Plans</h2>
-        <p>Pre-pay and save more. All plans include morning doorstep delivery, fresh cold-pressed juice, and easy pause/cancel.</p>
-      </div>
-      <div class="plan-cards" style="margin-top:40px">
-        <div class="plan-card">
-          <h3>Weekly</h3>
-          <div class="plan-price">₹699
-            
-            
-            
-<span>/ 7 days</span></div>
-          <ul class="plan-features">
-            <li>7 fresh bottles</li>
-            <li>Morning delivery (6–8 AM)</li>
-            <li>Customise daily juice</li>
-            <li>Pause anytime</li>
-          </ul>
-          <div class="qty-wrap">
-            <button class="qty-btn" onclick="changeQty('weekly',-1)">−</button>
-            <span class="qty-val" id="qty-weekly">1</span>
-            <button class="qty-btn" onclick="changeQty('weekly',1)">+</button>
-            <span style="font-size:13px;color:var(--mid)">bottle/day</span>
-          </div>
-          <p class="text-sm" id="price-weekly">Total: ₹699</p>
-          <button class="btn-full mt16" onclick="startSubscription('weekly')">Subscribe Weekly</button>
-        </div>
-        <div class="plan-card popular">
-          <div class="popular-badge">⭐ Most Popular</div>
-          <h3>10-Day</h3>
-          <div class="plan-price">₹899 <span>/ 10 days</span></div>
-          <ul class="plan-features">
-            <li>10 fresh bottles</li>
-            <li>Morning delivery (6–8 AM)</li>
-            <li>Customise daily juice</li>
-            <li>Pause anytime</li>
-            <li>Save ₹90 vs weekly</li>
-          </ul>
-          <div class="qty-wrap">
-            <button class="qty-btn" onclick="changeQty('10day',-1)">−</button>
-            <span class="qty-val" id="qty-10day">1</span>
-            <button class="qty-btn" onclick="changeQty('10day',1)">+</button>
-            <span style="font-size:13px;color:var(--mid)">bottle/day</span>
-          </div>
-          <p class="text-sm" id="price-10day">Total: ₹899</p>
-          <button class="btn-full mt16" onclick="startSubscription('10day')">Subscribe 10-Day</button>
-        </div>
-        <div class="plan-card">
-          <h3>Monthly</h3>
-          <div class="plan-price">₹2,399 <span>/ 30 days</span></div>
-          <ul class="plan-features">
-            <li>30 fresh bottles</li>
-            <li>Morning delivery (6–8 AM)</li>
-            <li>Customise daily juice</li>
-            <li>Pause anytime</li>
-            <li>Save ₹596</li>
-            <li>Priority support</li>
-          </ul>
-          <div class="qty-wrap">
-            <button class="qty-btn" onclick="changeQty('monthly',-1)">−</button>
-            <span class="qty-val" id="qty-monthly">1</span>
-            <button class="qty-btn" onclick="changeQty('monthly',1)">+</button>
-            <span style="font-size:13px;color:var(--mid)">bottle/day</span>
-          </div>
-          <p class="text-sm" id="price-monthly">Total: ₹2,399</p>
-          <button class="btn-full mt16" onclick="startSubscription('monthly')">Subscribe Monthly</button>
-        </div>
-      </div>
+  <section class="plans-section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">Pricing</div>
+      <h2>Flexible Subscription Plans</h2>
+      <p>Pre-pay and save more. All plans include morning doorstep delivery, fresh cold-pressed juice, and easy pause/cancel.</p>
     </div>
-  </section>
 
-  <!-- WHY US -->
+    <!-- ✅ Dynamic Plans will come here -->
+    <div id="plans"></div>
+
+  </div>
+</section>
+
   <section class="why-section" id="why">
     <div class="container">
       <div class="section-header">
@@ -670,7 +624,6 @@ Start your healthy morning routine today.
     </div>
   </section>
 
-  <!-- TESTIMONIALS -->
   <section class="testi-section" id="testimonials">
     <div class="container">
       <div class="section-header">
@@ -686,7 +639,6 @@ Start your healthy morning routine today.
     </div>
   </section>
 
-  <!-- FAQ -->
   <section class="faq-section" id="faq">
     <div class="container">
       <div class="section-header">
@@ -697,7 +649,6 @@ Start your healthy morning routine today.
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section class="contact-section" id="contact">
     <div class="container">
       <div class="contact-inner">
@@ -718,40 +669,47 @@ Start your healthy morning routine today.
           </div>
         </div>
         <div class="contact-right">
-          <div class="contact-form-card">
-            <h3>Subscribe Now</h3>
-            <p>Fill in your details and we'll call to confirm!</p>
-            <form id="subscribeForm" class="subscribe-form" onsubmit="handleContactForm(event)">
-              <div class="form-row">
-                <div class="form-group"><label>Full Name *</label><input type="text" id="fname" placeholder="Your full name" required /></div>
-                <div class="form-group"><label>Phone (WhatsApp) *</label><input type="tel" id="fphone" placeholder="+91 XXXXX XXXXX" required /></div>
+          <div class="contact-form-card" id="queryFormCard">
+            <h3>Send Us a Query 💬</h3>
+            <p>Have a question? We'll get back to you within a few hours!</p>
+            <div id="queryFormInner">
+              <div class="form-group"><label>Your Name *</label><input type="text" id="qname" placeholder="Your full name" /></div>
+              <div class="form-group"><label>Email Address *</label><input type="email" id="qemail" placeholder="you@email.com" /></div>
+              <div class="form-group"><label>Topic</label>
+                <select id="qtopic">
+                  <option>General Enquiry</option>
+                  <option>Subscription Plans</option>
+                  <option>Delivery Area</option>
+                  <option>Custom Order</option>
+                  <option>Feedback</option>
+                  <option>Other</option>
+                </select>
               </div>
-              <div class="form-group"><label>Delivery Address *</label><input type="text" id="faddress" placeholder="Building, Street, Area – Mumbai" required /></div>
-              <div class="form-row">
-                <div class="form-group"><label>Choose Plan</label>
-                  <select id="fplan"><option value="weekly">Weekly –₹699</option><option value="10day" selected>10-Day – ₹899</option><option value="monthly">Monthly – ₹2,399</option></select>
-                </div>
-                <div class="form-group"><label>Preferred Juice</label>
-                  <select id="fjuice"><option>Sunrise Orange</option><option>Green Detox</option><option>Red Power</option><option>Tropical Glow</option><option>Antioxidant Grape</option><option>Coconut Cool</option><option>Rotate Daily</option></select>
-                </div>
+              <div class="form-group"><label>Your Message *</label>
+                <textarea id="qmessage" rows="4" placeholder="Tell us what you'd like to know…" style="width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:10px;font-size:15px;font-family:'DM Sans',sans-serif;resize:vertical;transition:.2s;" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'"></textarea>
               </div>
-              <button type="submit" class="btn btn-primary full-width">Confirm Subscription 🚀</button>
-              <p class="form-note">We'll send a confirmation on WhatsApp within 30 minutes.</p>
-            </form>
+              <button class="btn btn-primary full-width" onclick="submitQuery()">Send Message ✉️</button>
+              <p class="form-note" style="margin-top:10px">We reply within a few hours · No spam ever</p>
+            </div>
+            <div id="querySuccess" style="display:none;text-align:center;padding:32px 0">
+              <div style="font-size:52px;margin-bottom:14px">✅</div>
+              <h3 style="font-size:20px;margin-bottom:8px">Message Sent!</h3>
+              <p style="color:var(--mid);font-size:15px">Thanks for reaching out. We'll get back to you soon.</p>
+              <button onclick="resetQueryForm()" style="margin-top:18px;padding:10px 22px;background:var(--orange);color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Send Another →</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-top">
       <div class="container">
         <div class="footer-grid">
           <div class="footer-brand">
             <div class="logo footer-logo">Juice<span>Morning</span></div>
-            <p>Mumbai's freshest cold-pressed juice subscription. Delivered every morning, made with love.</p>
+            <p>Mumbai's freshest juice subscription. Delivered every morning, made with love.</p>
             <div class="social-links">
               <a href="#" aria-label="Instagram">📸</a>
               <a href="#" aria-label="Facebook">👍</a>
@@ -766,12 +724,11 @@ Start your healthy morning routine today.
             <li><a href="#faq">FAQ</a></li>
           </ul></div>
           <div class="footer-col"><h4>Plans</h4><ul>
-            <li><a href="#plans">Weekly – ₹699</a></li>
-            <li><a href="#plans">10-Day – ₹899</a></li>
-            <li><a href="#plans">Monthly – ₹2,399</a></li>
+            <li><a href="#plans">Weekly</a></li>
+            <li><a href="#plans">10-Days</a></li>
+            <li><a href="#plans">Monthly</a></li>
           </ul></div>
           <div class="footer-col"><h4>Contact</h4><ul>
-            <li><a href="https://wa.me/916375292488">WhatsApp: +916375292488</a></li>
             <li><a href="mailto:hello@morningjuice.in">hello@morningjuice.in</a></li>
             <li><span>Delivery: 7:30 AM – 9:00 AM</span></li>
           </ul></div>
@@ -794,11 +751,10 @@ Start your healthy morning routine today.
 
 
 <!-- ══════════════════════════════════════════
-     DASHBOARD SECTION — REDESIGNED
+     DASHBOARD SECTION
 ══════════════════════════════════════════ -->
 <div id="dashboardSection">
 
-  <!-- Top Bar -->
   <div class="db-topbar">
     <a href="#" class="logo" onclick="goHome()">Juice<span>Morning</span></a>
     <div class="db-topbar-actions">
@@ -810,10 +766,7 @@ Start your healthy morning routine today.
     </div>
   </div>
 
-  <!-- Layout -->
   <div class="db-layout">
-
-    <!-- Sidebar -->
     <div class="db-sidebar" id="dbSidebar">
       <div class="db-sidebar-section">
         <div class="db-sidebar-label">Main</div>
@@ -838,7 +791,6 @@ Start your healthy morning routine today.
       </div>
     </div>
 
-    <!-- Main Content -->
     <div class="db-main">
 
       <!-- OVERVIEW TAB -->
@@ -850,13 +802,17 @@ Start your healthy morning routine today.
         <div id="overviewContent"></div>
       </div>
 
-      <!-- SUBSCRIBE TAB -->
+      <!-- SUBSCRIBE TAB — matches public site plan cards exactly -->
       <div class="db-tab" id="tab-plans">
         <div class="db-page-header">
           <h1>Choose a Plan</h1>
           <p>Select the subscription that works best for you</p>
         </div>
-        <div class="plan-cards" id="dbPlanCards"></div>
+
+        <!-- Plan cards — rendered by buildDbPlanCards() to stay in sync with public site -->
+        <div class="db-plan-cards" id="dbPlanCards"></div>
+
+        <!-- Payment step -->
         <div id="paymentStep" style="display:none">
           <div class="payment-box">
             <h3>Order Summary</h3>
@@ -890,11 +846,9 @@ Start your healthy morning routine today.
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
 
-<!-- Razorpay SDK -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
@@ -905,10 +859,52 @@ const API = (window.location.hostname === 'localhost' || window.location.hostnam
   ? 'http://localhost:5000/api'
   : window.location.origin + '/api';
 
+// ─────────────────────────────────────────────────────────────────────────────
+// PLAN_CFG — Single source of truth. Matches public site plan cards exactly.
+// Keys: weekly | 10day | monthly
+// Prices here are SAFE DEFAULTS. loadLivePricing() only updates .base if the
+// API returns a valid number (> 0), preventing ₹6 / ₹80 / ₹23 issues.
+// ─────────────────────────────────────────────────────────────────────────────
 const PLAN_CFG = {
-  weekly:  { label: 'Weekly',  days: 7,  base: 699  },
-  '10day': { label: '10-Day',  days: 10, base: 899  },
-  monthly: { label: 'Monthly', days: 30, base: 2399 },
+  weekly: {
+    label:    'Weekly',
+    days:     7,
+    base:     699,
+    popular:  false,
+    features: [
+      '7 fresh bottles',
+      'Morning delivery (6–8 AM)',
+      'Customise daily juice',
+      'Pause anytime',
+    ],
+  },
+  '10day': {
+    label:    '10-Day',
+    days:     10,
+    base:     899,
+    popular:  true,
+    features: [
+      '10 fresh bottles',
+      'Morning delivery (6–8 AM)',
+      'Customise daily juice',
+      'Pause anytime',
+      'Save ₹90 vs weekly',
+    ],
+  },
+  monthly: {
+    label:    'Monthly',
+    days:     30,
+    base:     2399,
+    popular:  false,
+    features: [
+      '30 fresh bottles',
+      'Morning delivery (6–8 AM)',
+      'Customise daily juice',
+      'Pause anytime',
+      'Save ₹596',
+      'Priority support',
+    ],
+  },
 };
 
 const JUICES_LIST = ['Sunrise Orange', 'Green Detox', 'Red Power', 'Tropical Glow', 'Antioxidant Grape', 'Coconut Cool', 'Golden Heal', 'Lemon Zing'];
@@ -917,12 +913,11 @@ const DAY_LABELS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Sat
 
 let token = localStorage.getItem('jm_token');
 let user  = JSON.parse(localStorage.getItem('jm_user') || 'null');
-let activeSub   = null;
-let pendingSub  = null;
+let activeSub  = null;
+let pendingSub = null;
 let userLocation = null;
 const qty = { weekly: 1, '10day': 1, monthly: 1 };
 
-/* ─── AUTH HELPERS ─── */
 function authHeader() {
   return { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
 }
@@ -941,16 +936,13 @@ function switchTab(t) {
   }
 }
 
-/* ─── LOGIN ─── */
 async function handleLogin() {
   const phone = document.getElementById('lPhone').value.trim();
   const pass  = document.getElementById('lPass').value;
   if (!phone || !pass) return toast('Please fill all fields', 'error');
-
   try {
     const res  = await fetch(`${API}/auth/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ phone, password: pass })
     });
     const data = await res.json();
@@ -959,29 +951,21 @@ async function handleLogin() {
     closeAuth();
     toast('Welcome back, ' + data.user.name + '! 🎉');
     showDashboard();
-  } catch (err) {
-    toast('Network error: ' + err.message, 'error');
-  }
+  } catch (err) { toast('Network error: ' + err.message, 'error'); }
 }
 
-/* ─── REGISTER STEP 1 VALIDATION ─── */
-// Store step 1 values here when moving to step 2
-// (because step1 div becomes display:none and some browsers clear hidden field values)
 let _regName = '', _regPhone = '', _regPass = '';
 
 function goStep2() {
   const name  = document.getElementById('rName').value.trim();
   const phone = document.getElementById('rPhone').value.trim();
   const pass  = document.getElementById('rPass').value;
-  if (!name)           return toast('Please enter your name', 'error');
-  if (!phone)          return toast('Please enter your phone number', 'error');
+  if (!name)  return toast('Please enter your name', 'error');
+  if (!phone) return toast('Please enter your phone number', 'error');
   if (!/^\d{10}$/.test(phone)) return toast('Enter a valid 10-digit phone number', 'error');
-  if (!pass)           return toast('Please create a password', 'error');
+  if (!pass)  return toast('Please create a password', 'error');
   if (pass.length < 6) return toast('Password must be at least 6 characters', 'error');
-  // Save to JS variables before hiding step 1
-  _regName  = name;
-  _regPhone = phone;
-  _regPass  = pass;
+  _regName = name; _regPhone = phone; _regPass = pass;
   document.getElementById('regStep1').style.display = 'none';
   document.getElementById('regStep2').style.display = '';
 }
@@ -989,89 +973,46 @@ function goStep2() {
 function backStep1() {
   document.getElementById('regStep2').style.display = 'none';
   document.getElementById('regStep1').style.display = '';
-  // Clear stored values so user must re-validate step 1 if they change fields
   _regName = ''; _regPhone = ''; _regPass = '';
 }
 
-/* ─── REGISTER SUBMIT ─── */
 async function handleRegister() {
-  // Use JS-stored values from step 1 (avoids hidden DOM input issues)
-  const name  = _regName;
-  const phone = _regPhone;
-  const pass  = _regPass;
-
-  // Read step 2 fields (currently visible in DOM)
+  const name    = _regName;
+  const phone   = _regPhone;
+  const pass    = _regPass;
   const address = (document.getElementById('rAddress')?.value || '').trim();
   const pincode = (document.getElementById('rPincode')?.value || '').trim();
   const area    = (document.getElementById('rArea')?.value    || '').trim();
   const email   = (document.getElementById('rEmail')?.value   || '').trim();
 
-  // Validate step 2
   if (!address) return toast('Please enter your delivery address', 'error');
   if (!pincode) return toast('Please enter your pincode', 'error');
-
-  // Safety: if step1 values somehow lost, go back
-  if (!name || !phone || !pass) {
-    backStep1();
-    return toast('Please complete Step 1 fields again', 'error');
-  }
+  if (!name || !phone || !pass) { backStep1(); return toast('Please complete Step 1 fields again', 'error'); }
 
   const btn = document.getElementById('regSubmitBtn');
-  btn.disabled    = true;
-  btn.textContent = 'Creating account...';
-
+  btn.disabled = true; btn.textContent = 'Creating account...';
   try {
-    const body = {
-      name,
-      phone,
-      password: pass,
-      address,
-      pincode,
-      area,
-      email,
-      location: userLocation || null
-    };
-
     const res = await fetch(`${API}/auth/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone, password: pass, address, pincode, area, email, location: userLocation || null })
     });
-
     let data;
-    try {
-      data = await res.json();
-    } catch {
-      throw new Error('Server returned invalid response. Is the backend running?');
-    }
-
+    try { data = await res.json(); } catch { throw new Error('Server returned invalid response.'); }
     if (!res.ok) throw new Error(data.error || data.message || `Registration failed (${res.status})`);
-
     setSession(data);
     closeAuth();
     toast('Account created! Welcome to MorningJuice 🎉');
-
-    // Clear stored step 1 values
     _regName = ''; _regPhone = ''; _regPass = '';
-
-    // Reset form fields
     ['rName','rPhone','rPass','rAddress','rPincode','rArea','rEmail'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.value = '';
+      const el = document.getElementById(id); if (el) el.value = '';
     });
     document.getElementById('regStep1').style.display = '';
     document.getElementById('regStep2').style.display = 'none';
-
     setTimeout(() => showDashboard(), 400);
-  } catch (err) {
-    toast(err.message, 'error');
-  } finally {
-    btn.disabled    = false;
-    btn.textContent = 'Create Account →';
-  }
+  } catch (err) { toast(err.message, 'error'); }
+  finally { btn.disabled = false; btn.textContent = 'Create Account →'; }
 }
 
-/* ─── PINCODE AUTOFILL ─── */
 async function autofillArea(pin) {
   if (pin.length !== 6 || !/^\d{6}$/.test(pin)) return;
   try {
@@ -1081,29 +1022,23 @@ async function autofillArea(pin) {
       const po = data[0].PostOffice[0];
       document.getElementById('rArea').value = po.Name + ', ' + po.District;
     }
-  } catch { /* silent */ }
+  } catch { }
 }
 
-/* ─── GEOLOCATION ─── */
 function getLocation() {
   const status = document.getElementById('locationStatus');
   if (!navigator.geolocation) { status.textContent = 'Geolocation not supported'; return; }
   status.textContent = '📡 Detecting...';
   navigator.geolocation.getCurrentPosition(
-    pos => {
-      userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-      status.textContent = `✅ Got location (${userLocation.lat.toFixed(4)}, ${userLocation.lng.toFixed(4)})`;
-    },
+    pos => { userLocation = { lat: pos.coords.latitude, lng: pos.coords.longitude }; status.textContent = `✅ Got location`; },
     () => { status.textContent = '❌ Location denied'; }
   );
 }
 
-/* ─── SESSION ─── */
 function setSession(data) {
-  token = data.token;
-  user  = data.user;
+  token = data.token; user = data.user;
   localStorage.setItem('jm_token', token);
-  localStorage.setItem('jm_user',  JSON.stringify(user));
+  localStorage.setItem('jm_user', JSON.stringify(user));
   updateNavUI();
 }
 
@@ -1121,7 +1056,6 @@ function updateNavUI() {
   document.getElementById('navLogin').style.display = user ? 'none' : '';
 }
 
-/* ─── SECTION NAVIGATION ─── */
 function goHome() {
   document.getElementById('homeSection').classList.remove('hide');
   document.getElementById('dashboardSection').classList.remove('show');
@@ -1131,25 +1065,21 @@ function showDashboard() {
   if (!user) { openAuth(); return; }
   document.getElementById('homeSection').classList.add('hide');
   document.getElementById('dashboardSection').classList.add('show');
-
   const initials = (user.name || 'U').charAt(0).toUpperCase();
   const avatarEl = document.getElementById('dbAvatarLetter');
   if (avatarEl) avatarEl.textContent = initials;
   const nameEl = document.getElementById('dbWelcomeName');
   if (nameEl) nameEl.textContent = user.name;
-
   const welcomeEl = document.getElementById('dbWelcome');
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
   if (welcomeEl) welcomeEl.textContent = `${greeting}, ${user.name}! Here's your subscription status.`;
-
   loadOverview();
   loadSchedule();
   buildDbPlanCards();
   dbSwitch('overview');
 }
 
-/* ─── DASHBOARD TABS ─── */
 function dbSwitch(name) {
   document.querySelectorAll('.db-tab').forEach(el => el.classList.remove('show'));
   document.querySelectorAll('.db-nav-item').forEach(el => el.classList.remove('active'));
@@ -1157,19 +1087,17 @@ function dbSwitch(name) {
   const btn = document.getElementById('dbTab-' + name);
   if (tab) tab.classList.add('show');
   if (btn) btn.classList.add('active');
-  if (name === 'orders') loadOrders();
+  if (name === 'orders')   loadOrders();
   if (name === 'schedule') loadSchedule();
 }
 
-/* ─── OVERVIEW ─── */
+/* ── OVERVIEW ─────────────────────────────── */
 async function loadOverview() {
   try {
     const res  = await fetch(`${API}/subscriptions/my`, { headers: authHeader() });
     const subs = await res.json();
     activeSub  = Array.isArray(subs) ? (subs.find(s => s.status === 'active' && s.paymentStatus === 'paid') || null) : null;
-  } catch {
-    activeSub = null;
-  }
+  } catch { activeSub = null; }
 
   const box = document.getElementById('overviewContent');
   if (!box) return;
@@ -1183,31 +1111,16 @@ async function loadOverview() {
         <button class="btn btn-primary" onclick="dbSwitch('plans')">Browse Plans →</button>
       </div>
       <div class="db-stats-row">
-        <div class="db-stat-card">
-          <div class="stat-label">Total Orders</div>
-          <div class="stat-value">0</div>
-          <div class="stat-sub">No deliveries yet</div>
-          <div class="stat-icon">📦</div>
-        </div>
-        <div class="db-stat-card">
-          <div class="stat-label">Subscription</div>
-          <div class="stat-value">—</div>
-          <div class="stat-sub">No active plan</div>
-          <div class="stat-icon">📋</div>
-        </div>
-        <div class="db-stat-card">
-          <div class="stat-label">Next Delivery</div>
-          <div class="stat-value">—</div>
-          <div class="stat-sub">Subscribe to start</div>
-          <div class="stat-icon">🛵</div>
-        </div>
+        <div class="db-stat-card"><div class="stat-label">Total Orders</div><div class="stat-value">0</div><div class="stat-sub">No deliveries yet</div><div class="stat-icon">📦</div></div>
+        <div class="db-stat-card"><div class="stat-label">Subscription</div><div class="stat-value">—</div><div class="stat-sub">No active plan</div><div class="stat-icon">📋</div></div>
+        <div class="db-stat-card"><div class="stat-label">Next Delivery</div><div class="stat-value">—</div><div class="stat-sub">Subscribe to start</div><div class="stat-icon">🛵</div></div>
       </div>`;
     return;
   }
 
-  const cfg = PLAN_CFG[activeSub.planType] || { label: activeSub.planType, days: '?' };
-  const endDate = activeSub.endDate ? new Date(activeSub.endDate) : null;
-  const today   = new Date();
+  const cfg      = PLAN_CFG[activeSub.planType] || { label: activeSub.planType, days: '?' };
+  const endDate  = activeSub.endDate ? new Date(activeSub.endDate) : null;
+  const today    = new Date();
   const daysLeft = endDate ? Math.max(0, Math.ceil((endDate - today) / (1000*60*60*24))) : '?';
 
   box.innerHTML = `
@@ -1226,24 +1139,9 @@ async function loadOverview() {
       </div>
     </div>
     <div class="db-stats-row">
-      <div class="db-stat-card">
-        <div class="stat-label">Days Remaining</div>
-        <div class="stat-value">${daysLeft}</div>
-        <div class="stat-sub">${endDate ? 'Expires ' + fmt(activeSub.endDate) : ''}</div>
-        <div class="stat-icon">⏳</div>
-      </div>
-      <div class="db-stat-card">
-        <div class="stat-label">Bottles / Day</div>
-        <div class="stat-value">${activeSub.bottlesPerDay || 1}</div>
-        <div class="stat-sub">Cold-pressed fresh</div>
-        <div class="stat-icon">🍾</div>
-      </div>
-      <div class="db-stat-card">
-        <div class="stat-label">Status</div>
-        <div class="stat-value" style="font-size:18px;color:#16a34a">${activeSub.status}</div>
-        <div class="stat-sub">Payment: ${activeSub.paymentStatus}</div>
-        <div class="stat-icon">✅</div>
-      </div>
+      <div class="db-stat-card"><div class="stat-label">Days Remaining</div><div class="stat-value">${daysLeft}</div><div class="stat-sub">${endDate ? 'Expires ' + fmt(activeSub.endDate) : ''}</div><div class="stat-icon">⏳</div></div>
+      <div class="db-stat-card"><div class="stat-label">Bottles / Day</div><div class="stat-value">${activeSub.bottlesPerDay || 1}</div><div class="stat-sub">Cold-pressed fresh</div><div class="stat-icon">🍾</div></div>
+      <div class="db-stat-card"><div class="stat-label">Status</div><div class="stat-value" style="font-size:18px;color:#16a34a">${activeSub.status}</div><div class="stat-sub">Payment: ${activeSub.paymentStatus}</div><div class="stat-icon">✅</div></div>
     </div>
     <div class="db-card">
       <h2>Upcoming Deliveries</h2>
@@ -1260,42 +1158,29 @@ async function loadUpcoming() {
     const orders = await res.json();
     const box    = document.getElementById('upcomingBox');
     if (!box) return;
-
     if (!Array.isArray(orders) || !orders.length) {
-      box.innerHTML = '<p style="font-size:14px;color:#aaa">No upcoming deliveries scheduled.</p>';
-      return;
+      box.innerHTML = '<p style="font-size:14px;color:#aaa">No upcoming deliveries scheduled.</p>'; return;
     }
-
     const now = new Date();
     box.innerHTML = `<div class="delivery-list">${orders.map(o => {
-      const d       = new Date(o.deliveryDate);
-      const cutoff  = new Date(d); cutoff.setHours(6,0,0,0); cutoff.setTime(cutoff.getTime() - 12*60*60*1000);
+      const d      = new Date(o.deliveryDate);
+      const cutoff = new Date(d); cutoff.setHours(6,0,0,0); cutoff.setTime(cutoff.getTime() - 12*60*60*1000);
       const canSkip = now < cutoff && o.status === 'pending';
       return `<div class="delivery-row">
-        <div class="delivery-date-box">
-          <div class="dday">${d.getDate()}</div>
-          <div class="dmon">${d.toLocaleString('en-IN',{month:'short'})}</div>
-        </div>
-        <div class="delivery-info">
-          <strong>${o.juiceType}</strong>
-          <span>${d.toLocaleDateString('en-IN',{weekday:'long'})}</span>
-        </div>
+        <div class="delivery-date-box"><div class="dday">${d.getDate()}</div><div class="dmon">${d.toLocaleString('en-IN',{month:'short'})}</div></div>
+        <div class="delivery-info"><strong>${o.juiceType}</strong><span>${d.toLocaleDateString('en-IN',{weekday:'long'})}</span></div>
         <div class="delivery-otp">OTP: ${o.otp || '—'}</div>
         <span class="pill pill-${o.status === 'delivered' ? 'delivered' : o.status === 'cancelled' ? 'cancelled' : 'pending'}">${o.status}</span>
-        ${canSkip
-          ? `<button class="delivery-skip-btn" onclick="skipDay('${o.deliveryDate.slice(0,10)}')">⏸ Skip</button>`
-          : `<span style="font-size:12px;color:#ccc;min-width:60px">—</span>`}
+        ${canSkip ? `<button class="delivery-skip-btn" onclick="skipDay('${o.deliveryDate.slice(0,10)}')">⏸ Skip</button>` : `<span style="font-size:12px;color:#ccc;min-width:60px">—</span>`}
       </div>`;
     }).join('')}</div>`;
-  } catch (err) {
-    console.error(err);
-  }
+  } catch (err) { console.error(err); }
 }
 
 async function skipDay(dateStr) {
   if (!confirm(`Skip delivery for ${dateStr}?`)) return;
   try {
-    const res  = await fetch(`${API}/schedule/skip`, { method: 'POST', headers: authHeader(), body: JSON.stringify({ date: dateStr }) });
+    const res  = await fetch(`${API}/schedule/skip`, { method:'POST', headers:authHeader(), body:JSON.stringify({date:dateStr}) });
     const data = await res.json();
     if (!res.ok) return toast(data.error, 'error');
     toast('Delivery skipped ✅');
@@ -1305,14 +1190,14 @@ async function skipDay(dateStr) {
 
 async function togglePause() {
   if (!activeSub) return;
-  const res  = await fetch(`${API}/subscriptions/${activeSub._id}/toggle`, { method: 'PATCH', headers: authHeader() });
+  const res  = await fetch(`${API}/subscriptions/${activeSub._id}/toggle`, { method:'PATCH', headers:authHeader() });
   const data = await res.json();
   if (!res.ok) return toast(data.error, 'error');
   toast(data.message);
   loadOverview();
 }
 
-/* ─── SCHEDULE ─── */
+/* ── SCHEDULE ─────────────────────────────── */
 async function loadSchedule() {
   if (!activeSub) {
     try {
@@ -1321,37 +1206,27 @@ async function loadSchedule() {
       activeSub  = Array.isArray(subs) ? (subs.find(s => s.status === 'active' && s.paymentStatus === 'paid') || null) : null;
     } catch { activeSub = null; }
   }
-
   const box = document.getElementById('scheduleContent');
   if (!box) return;
-
   if (!activeSub) {
     box.innerHTML = '<div class="db-card"><p>No active subscription. <a href="#" onclick="dbSwitch(\'plans\')" style="color:var(--orange);font-weight:600">Subscribe first →</a></p></div>';
     return;
   }
-
   let juiceOptions = JUICES_LIST.map(n => ({ name: n }));
   try {
-    const jRes = await fetch(`${API}/schedule/juices`);
+    const jRes  = await fetch(`${API}/schedule/juices`);
     const jData = await jRes.json();
     if (Array.isArray(jData) && jData.length) juiceOptions = jData;
-  } catch { /* use default */ }
-
+  } catch { }
   const sched = activeSub.weeklySchedule || [];
-
   const juiceDropdown = (selected) => `
     <option ${!selected || selected === 'Rotate Daily' ? 'selected' : ''}>Rotate Daily</option>
     ${juiceOptions.map(j => `<option ${selected === j.name ? 'selected' : ''}>${j.name}</option>`).join('')}`;
-
   box.innerHTML = `<div class="sched-grid">${DAYS.map((d, i) => {
     const s = sched.find(x => x.day === d) || { enabled: true, juiceType: 'Rotate Daily' };
     return `<div class="sched-card ${s.enabled ? 'on' : ''}" id="card-${d}">
-      <div class="sched-day">
-        <strong>${DAY_LABELS[i]}</strong>
-        <label class="toggle-sw">
-          <input type="checkbox" id="tog-${d}" ${s.enabled ? 'checked' : ''} onchange="toggleDay('${d}')">
-          <span class="slider"></span>
-        </label>
+      <div class="sched-day"><strong>${DAY_LABELS[i]}</strong>
+        <label class="toggle-sw"><input type="checkbox" id="tog-${d}" ${s.enabled ? 'checked' : ''} onchange="toggleDay('${d}')"><span class="slider"></span></label>
       </div>
       <select class="sched-select" id="juice-${d}" ${!s.enabled ? 'disabled' : ''}>${juiceDropdown(s.juiceType)}</select>
     </div>`;
@@ -1367,14 +1242,12 @@ function toggleDay(day) {
 async function saveSchedule() {
   if (!activeSub) return toast('No active subscription', 'error');
   const weeklySchedule = DAYS.map(d => ({
-    day:       d,
-    enabled:   document.getElementById('tog-' + d)?.checked ?? true,
+    day: d,
+    enabled: document.getElementById('tog-' + d)?.checked ?? true,
     juiceType: document.getElementById('juice-' + d)?.value || 'Rotate Daily',
   }));
   const res  = await fetch(`${API}/subscriptions/${activeSub._id}/schedule`, {
-    method:  'PUT',
-    headers: authHeader(),
-    body:    JSON.stringify({ weeklySchedule }),
+    method: 'PUT', headers: authHeader(), body: JSON.stringify({ weeklySchedule }),
   });
   const data = await res.json();
   if (!res.ok) return toast(data.error, 'error');
@@ -1382,7 +1255,7 @@ async function saveSchedule() {
   toast('Schedule saved & orders updated! ✅');
 }
 
-/* ─── ORDERS ─── */
+/* ── ORDERS ───────────────────────────────── */
 async function loadOrders() {
   const box = document.getElementById('ordersContent');
   if (!box) return;
@@ -1391,51 +1264,53 @@ async function loadOrders() {
     const res    = await fetch(`${API}/orders/my`, { headers: authHeader() });
     const orders = await res.json();
     if (!Array.isArray(orders) || !orders.length) {
-      box.innerHTML = '<div class="empty-msg"><div class="big">📦</div><p>No orders yet. Subscribe to a plan!</p></div>';
-      return;
+      box.innerHTML = '<div class="empty-msg"><div class="big">📦</div><p>No orders yet. Subscribe to a plan!</p></div>'; return;
     }
     const pillMap = { pending:'pending', assigned:'pending', out_for_delivery:'out', delivered:'delivered', cancelled:'cancelled' };
     box.innerHTML = `<div class="db-card" style="padding:0;overflow:hidden">
       <table class="orders-table">
         <thead><tr><th>Date</th><th>Juice</th><th>Qty</th><th>OTP</th><th>Status</th></tr></thead>
         <tbody>${orders.map(o => `<tr>
-          <td>${fmt(o.deliveryDate)}</td>
-          <td>${o.juiceType}</td>
-          <td>${o.quantity}</td>
+          <td>${fmt(o.deliveryDate)}</td><td>${o.juiceType}</td><td>${o.quantity}</td>
           <td><strong>${o.otp || '—'}</strong></td>
-          <td><span class="pill pill-${pillMap[o.status] || 'pending'}">${o.status.replace('_', ' ')}</span></td>
+          <td><span class="pill pill-${pillMap[o.status] || 'pending'}">${o.status.replace('_',' ')}</span></td>
         </tr>`).join('')}</tbody>
-      </table>
-    </div>`;
-  } catch (err) {
-    box.innerHTML = '<p style="color:#dc2626">Failed to load orders.</p>';
-  }
+      </table></div>`;
+  } catch { box.innerHTML = '<p style="color:#dc2626">Failed to load orders.</p>'; }
 }
 
-/* ─── PLAN CARDS IN DASHBOARD ─── */
+/* ── DASHBOARD PLAN CARDS — matches public site exactly ── */
 function buildDbPlanCards() {
   const box = document.getElementById('dbPlanCards');
   if (!box) return;
-  box.innerHTML = Object.entries(PLAN_CFG).map(([key, cfg]) => `
-    <div class="plan-card ${key === '10day' ? 'popular' : ''}">
-      ${key === '10day' ? '<div class="popular-badge">⭐ Most Popular</div>' : ''}
+
+  box.innerHTML = Object.entries(PLAN_CFG).map(([key, cfg]) => {
+    const total = cfg.base * (qty[key] || 1);
+    const featuresHTML = cfg.features.map(f => `<li>${f}</li>`).join('');
+
+    return `
+    <div class="db-plan-card ${cfg.popular ? 'popular' : ''}">
+      ${cfg.popular ? '<div class="db-popular-badge">⭐ Most Popular</div>' : ''}
       <h3>${cfg.label}</h3>
-      <div class="plan-price">₹${cfg.base.toLocaleString()} <span>/ ${cfg.days} days</span></div>
-      <div class="qty-wrap">
-        <button class="qty-btn" onclick="changeQty('${key}',-1)">−</button>
-        <span class="qty-val" id="dqty-${key}">1</span>
-        <button class="qty-btn" onclick="changeQty('${key}',1)">+</button>
+      <div class="db-plan-price">₹${cfg.base.toLocaleString()} <span>/ ${cfg.days} days</span></div>
+      <ul class="db-plan-features">${featuresHTML}</ul>
+      <div class="db-qty-wrap">
+        <button class="db-qty-btn" onclick="changeQty('${key}',-1)">−</button>
+        <span class="db-qty-val" id="dqty-${key}">${qty[key] || 1}</span>
+        <button class="db-qty-btn" onclick="changeQty('${key}',1)">+</button>
         <span style="font-size:13px;color:var(--mid)">bottle/day</span>
       </div>
-      <p class="text-sm" id="dprice-${key}">Total: ₹${cfg.base.toLocaleString()}</p>
+      <p class="text-sm" id="dprice-${key}">Total: ₹${total.toLocaleString()}</p>
       <button class="btn-full mt16" onclick="startSubscription('${key}')">Choose ${cfg.label}</button>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
-/* ─── QTY CONTROLS ─── */
+/* ── QTY CONTROLS ─────────────────────────── */
 function changeQty(plan, delta) {
   qty[plan] = Math.max(1, Math.min(4, (qty[plan] || 1) + delta));
   const total = PLAN_CFG[plan].base * qty[plan];
+  // Update both public page and dashboard qty/price
   ['', 'd'].forEach(prefix => {
     const qEl = document.getElementById(prefix + 'qty-' + plan);
     const pEl = document.getElementById(prefix + 'price-' + plan);
@@ -1444,16 +1319,15 @@ function changeQty(plan, delta) {
   });
 }
 
-/* ─── START SUBSCRIPTION ─── */
+/* ── START SUBSCRIPTION ───────────────────── */
 async function startSubscription(planKey) {
   if (!user) { openAuth(); return; }
   const cfg   = PLAN_CFG[planKey];
   const start = new Date(); start.setDate(start.getDate() + 1);
   try {
     const res  = await fetch(`${API}/subscriptions`, {
-      method:  'POST',
-      headers: authHeader(),
-      body:    JSON.stringify({ planType: planKey, bottlesPerDay: qty[planKey] || 1, startDate: start.toISOString() }),
+      method: 'POST', headers: authHeader(),
+      body: JSON.stringify({ planType: planKey, bottlesPerDay: qty[planKey] || 1, startDate: start.toISOString() }),
     });
     const data = await res.json();
     if (!res.ok) return toast(data.error, 'error');
@@ -1469,137 +1343,185 @@ async function startSubscription(planKey) {
   } catch (err) { toast(err.message, 'error'); }
 }
 
-/* ─── PAYMENT ─── */
+/* ── PAYMENT ──────────────────────────────── */
 async function processPayment() {
   if (!pendingSub) return toast('No pending subscription found.', 'error');
-  if (typeof Razorpay === 'undefined') return toast('Payment SDK not loaded. Check internet connection.', 'error');
+  if (typeof Razorpay === 'undefined') return toast('Payment SDK not loaded.', 'error');
   const btn = document.getElementById('payBtn');
   btn.disabled = true; btn.textContent = 'Processing...';
   try {
     const res  = await fetch(`${API}/payment/create-order`, {
-      method: 'POST', headers: authHeader(),
-      body: JSON.stringify({ subscriptionId: pendingSub._id })
+      method:'POST', headers:authHeader(), body:JSON.stringify({ subscriptionId: pendingSub._id })
     });
     const data = await res.json();
-    if (!res.ok) { btn.disabled = false; btn.textContent = 'Pay with Razorpay 💳'; return toast(data.error || 'Failed to create payment order', 'error'); }
-    if (!data.key || data.key === 'undefined') { btn.disabled = false; btn.textContent = 'Pay with Razorpay 💳'; return toast('Razorpay key missing. Check backend .env', 'error'); }
-
+    if (!res.ok) { btn.disabled=false; btn.textContent='Pay with Razorpay 💳'; return toast(data.error||'Failed to create payment order','error'); }
+    if (!data.key || data.key === 'undefined') { btn.disabled=false; btn.textContent='Pay with Razorpay 💳'; return toast('Razorpay key missing','error'); }
     const options = {
       key: data.key, amount: data.amount * 100, currency: 'INR',
       name: 'MorningJuice', description: `Subscription — ${pendingSub.planType}`,
       order_id: data.orderId, prefill: { name: data.name, contact: data.phone },
       theme: { color: '#e76f51' },
-      modal: { ondismiss: () => { btn.disabled = false; btn.textContent = 'Pay with Razorpay 💳'; toast('Payment cancelled', 'error'); } },
+      modal: { ondismiss: () => { btn.disabled=false; btn.textContent='Pay with Razorpay 💳'; toast('Payment cancelled','error'); } },
       handler: async function(response) {
         btn.textContent = 'Verifying...';
         try {
           const vRes  = await fetch(`${API}/payment/verify`, {
-            method: 'POST', headers: authHeader(),
-            body: JSON.stringify({ ...response, subscriptionId: pendingSub._id }),
+            method:'POST', headers:authHeader(), body:JSON.stringify({...response, subscriptionId:pendingSub._id}),
           });
           const vData = await vRes.json();
-          if (!vRes.ok) { btn.disabled = false; btn.textContent = 'Pay with Razorpay 💳'; return toast(vData.error || 'Verification failed', 'error'); }
+          if (!vRes.ok) { btn.disabled=false; btn.textContent='Pay with Razorpay 💳'; return toast(vData.error||'Verification failed','error'); }
           toast('✅ Payment successful! Subscription is now active 🎉');
           pendingSub = null;
           document.getElementById('paymentStep').style.display = 'none';
           dbSwitch('overview');
           loadOverview();
-        } catch (vErr) { btn.disabled = false; btn.textContent = 'Pay with Razorpay 💳'; toast('Verification error: ' + vErr.message, 'error'); }
+        } catch (vErr) { btn.disabled=false; btn.textContent='Pay with Razorpay 💳'; toast('Verification error: '+vErr.message,'error'); }
       },
     };
     const rzp = new Razorpay(options);
-    rzp.on('payment.failed', resp => { btn.disabled = false; btn.textContent = 'Pay with Razorpay 💳'; toast('Payment failed: ' + resp.error.description, 'error'); });
+    rzp.on('payment.failed', resp => { btn.disabled=false; btn.textContent='Pay with Razorpay 💳'; toast('Payment failed: '+resp.error.description,'error'); });
     rzp.open();
-  } catch (err) { btn.disabled = false; btn.textContent = 'Pay with Razorpay 💳'; toast('Network error: ' + err.message, 'error'); }
+  } catch (err) { btn.disabled=false; btn.textContent='Pay with Razorpay 💳'; toast('Network error: '+err.message,'error'); }
 }
 
-/* ─── CONTACT FORM ─── */
-function handleContactForm(e) {
-  e.preventDefault();
-  const name  = document.getElementById('fname').value;
-  const phone = document.getElementById('fphone').value;
-  const plan  = document.getElementById('fplan').value;
-  const juice = document.getElementById('fjuice').value;
-  const msg   = encodeURIComponent(`Hi MorningJuice! 🥤\nName: ${name}\nPlan: ${plan}\nJuice: ${juice}\nPhone: ${phone}`);
-  window.open(`https://wa.me/916375292488?text=${msg}`, '_blank');
-}
-
-/* ─── LIVE PRICING ─── */
+/* ── LIVE PRICING — safe update only ─────── */
 async function loadLivePricing() {
   try {
     const res  = await fetch(`${API}/settings/pricing`);
     const data = await res.json();
-    if (data.weekly)   PLAN_CFG.weekly.base   = data.weekly.price;
-    if (data['10day']) PLAN_CFG['10day'].base  = data['10day'].price;
-    if (data.monthly)  PLAN_CFG.monthly.base   = data.monthly.price;
-  } catch { /* use defaults */ }
+    // Only update price if API returns a VALID number greater than 10
+    // This prevents ₹6 / ₹80 / ₹23 situations from bad API data
+    const safeUpdate = (key, apiVal) => {
+      if (PLAN_CFG[key] && apiVal && Number(apiVal) > 10) {
+        PLAN_CFG[key].base = Number(apiVal);
+      }
+    };
+    safeUpdate('weekly',  data.weekly?.price);
+    safeUpdate('10day',   data['10day']?.price);
+    safeUpdate('monthly', data.monthly?.price);
+
+    // Update public plan section prices
+    updatePublicPlanPrices();
+    // Rebuild dashboard plan cards with updated prices
+    buildDbPlanCards();
+  } catch { /* keep defaults — never crash */ }
 }
 
-/* ─── UTILITY ─── */
-function fmt(d) {
-  if (!d) return '—';
-  return new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+function updatePublicPlanPrices() {
+  const weekly  = PLAN_CFG.weekly;
+  const tenday  = PLAN_CFG['10day'];
+  const monthly = PLAN_CFG.monthly;
+  const wEl = document.getElementById('pub-price-weekly');
+  const tEl = document.getElementById('pub-price-10day');
+  const mEl = document.getElementById('pub-price-monthly');
+  if (wEl) wEl.innerHTML = `₹${weekly.base.toLocaleString()} <span>/ ${weekly.days} days</span>`;
+  if (tEl) tEl.innerHTML = `₹${tenday.base.toLocaleString()} <span>/ ${tenday.days} days</span>`;
+  if (mEl) mEl.innerHTML = `₹${monthly.base.toLocaleString()} <span>/ ${monthly.days} days</span>`;
+  // Also update total text
+  ['weekly','10day','monthly'].forEach(key => {
+    const el = document.getElementById('price-' + key);
+    if (el) el.textContent = `Total: ₹${PLAN_CFG[key].base.toLocaleString()}`;
+  });
 }
 
-function toast(msg, type = 'success') {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className   = 'toast show ' + type;
-  setTimeout(() => el.className = 'toast', 3500);
+/* ── CONTACT / QUERY FORM ─────────────────── */
+function submitQuery() {
+  const name    = document.getElementById('qname')?.value.trim();
+  const email   = document.getElementById('qemail')?.value.trim();
+  const message = document.getElementById('qmessage')?.value.trim();
+  if (!name)    return toast('Please enter your name', 'error');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast('Please enter a valid email', 'error');
+  if (!message) return toast('Please write your message', 'error');
+  document.getElementById('queryFormInner').style.display = 'none';
+  document.getElementById('querySuccess').style.display   = '';
+  toast('Message sent! We\'ll reply soon. ✅');
 }
 
-/* ═══════════════════════════════════════════
-   HOME PAGE DYNAMIC CONTENT
-═══════════════════════════════════════════ */
+function resetQueryForm() {
+  document.getElementById('queryFormInner').style.display = '';
+  document.getElementById('querySuccess').style.display   = 'none';
+  ['qname','qemail','qmessage'].forEach(id => { const el=document.getElementById(id); if(el) el.value=''; });
+}
+
+/* ── SCHEDULE PREVIEWS (public plan section) ── */
+const PLAN_SCHEDULE = {
+  weekly: [
+    {day:'MON',juice:'Sunrise Orange',emoji:'🍊'},{day:'TUE',juice:'Green Detox',emoji:'🥦'},
+    {day:'WED',juice:'Red Power',emoji:'🍅'},{day:'THU',juice:'Carrot Glow',emoji:'🥕'},
+    {day:'FRI',juice:'Tropical Glow',emoji:'🍍'},{day:'SAT',juice:'Coconut Cool',emoji:'🥥'},
+    {day:'SUN',juice:'Golden Heal',emoji:'✨'},
+  ],
+  '10day': [
+    {day:'DAY 1',juice:'Sunrise Orange',emoji:'🍊'},{day:'DAY 2',juice:'Green Detox',emoji:'🥦'},
+    {day:'DAY 3',juice:'Red Power',emoji:'🍅'},{day:'DAY 4',juice:'Carrot Glow',emoji:'🥕'},
+    {day:'DAY 5',juice:'Tropical Glow',emoji:'🍍'},{day:'DAY 6',juice:'Coconut Cool',emoji:'🥥'},
+    {day:'DAY 7',juice:'Golden Heal',emoji:'✨'},{day:'DAY 8',juice:'Lemon Zing',emoji:'🍋'},
+    {day:'DAY 9',juice:'Antioxidant Grape',emoji:'🍇'},{day:'DAY 10',juice:'Green Detox',emoji:'🥦'},
+  ],
+  monthly: null,
+};
+const MONTHLY_ROTATION = [
+  {juice:'Sunrise Orange',emoji:'🍊'},{juice:'Green Detox',emoji:'🥦'},{juice:'Red Power',emoji:'🍅'},
+  {juice:'Carrot Glow',emoji:'🥕'},{juice:'Tropical Glow',emoji:'🍍'},{juice:'Coconut Cool',emoji:'🥥'},
+  {juice:'Golden Heal',emoji:'✨'},{juice:'Lemon Zing',emoji:'🍋'},
+];
+function getMonthlySchedule() {
+  const days = [];
+  for (let i=0;i<30;i++) { const r=MONTHLY_ROTATION[i%MONTHLY_ROTATION.length]; days.push({day:'D'+(i+1),juice:r.juice,emoji:r.emoji}); }
+  return days;
+}
+function toggleSchedulePreview(plan, btn) {
+  const box = document.getElementById('sched-preview-' + plan);
+  if (!box) return;
+  const isOpen = box.style.display !== 'none';
+  if (isOpen) { box.style.display='none'; if(btn) btn.textContent=btn.textContent.replace('▴','▾'); return; }
+  const schedule = plan==='monthly' ? getMonthlySchedule() : PLAN_SCHEDULE[plan];
+  const priceMap = { weekly:`₹699 · 1 bottle/day · Delivered by 8 AM`, '10day':`₹899 · 1 bottle/day · Delivered by 8 AM`, monthly:`₹2,399 · 1 bottle/day · Delivered by 8 AM` };
+  box.innerHTML = `
+    <div class="sched-preview-header">📅 Daily Schedule — ${plan==='10day'?'10 Days':plan==='weekly'?'7 Days':'30 Days'}</div>
+    <div class="sched-days-grid">${schedule.map(d=>`<div class="sched-day-chip"><span class="day-label">${d.day}</span><span class="juice-emoji">${d.emoji}</span><span class="day-juice">${d.juice}</span></div>`).join('')}</div>
+    <div class="sched-summary"><span>Customisable after subscribing</span><strong>${priceMap[plan]}</strong></div>`;
+  box.style.display = '';
+  if (btn) btn.textContent = btn.textContent.replace('▾','▴');
+}
+
+/* ── HOME PAGE CONTENT ────────────────────── */
 const JUICES_DATA = [
-  { emoji:'🍊', name:'Sunrise Orange', desc:'Classic cold-pressed orange juice packed with Vitamin C and natural sugars for a bright start.', tags:['immunity','energy'], category:'immunity' },
-  { emoji:'🥦', name:'Green Detox', desc:'Spinach, cucumber, celery and apple — a powerful cleanse for your digestive system.', tags:['detox','glow'], category:'detox' },
-  { emoji:'🍅', name:'Red Power', desc:'Tomato, beetroot and carrot blend rich in antioxidants and iron to fuel your day.', tags:['energy','immunity'], category:'energy' },
-  { emoji:'🍍', name:'Tropical Glow', desc:'Pineapple, mango and turmeric for radiant skin and anti-inflammatory benefits.', tags:['glow','immunity'], category:'glow' },
-  { emoji:'🍇', name:'Antioxidant Grape', desc:'Dark grape and pomegranate powerhouse that fights free radicals and supports heart health.', tags:['immunity','detox'], category:'immunity' },
-  { emoji:'🥥', name:'Coconut Cool', desc:'Fresh coconut water blended with mint and lime — the ultimate hydration drink.', tags:['energy','glow'], category:'energy' },
-  { emoji:'🫚', name:'Golden Heal', desc:'Turmeric, ginger, black pepper and orange — our anti-inflammatory signature blend.', tags:['immunity','detox'], category:'detox' },
-  { emoji:'🍋', name:'Lemon Zing', desc:'Lemon, ginger, honey and cayenne pepper for a metabolism-boosting morning kickstart.', tags:['energy','detox'], category:'energy' },
+  {emoji:'🍊',name:'Sunrise Orange',desc:'Classic cold-pressed orange juice packed with Vitamin C and natural sugars for a bright start.',tags:['immunity','energy'],category:'immunity'},
+  {emoji:'🥦',name:'Green Detox',desc:'Spinach, cucumber, celery and apple — a powerful cleanse for your digestive system.',tags:['detox','glow'],category:'detox'},
+  {emoji:'🍅',name:'Red Power',desc:'Tomato, beetroot and carrot blend rich in antioxidants and iron to fuel your day.',tags:['energy','immunity'],category:'energy'},
+  {emoji:'🍍',name:'Tropical Glow',desc:'Pineapple, mango and turmeric for radiant skin and anti-inflammatory benefits.',tags:['glow','immunity'],category:'glow'},
+  {emoji:'🍇',name:'Antioxidant Grape',desc:'Dark grape and pomegranate powerhouse that fights free radicals and supports heart health.',tags:['immunity','detox'],category:'immunity'},
+  {emoji:'🥥',name:'Coconut Cool',desc:'Fresh coconut water blended with mint and lime — the ultimate hydration drink.',tags:['energy','glow'],category:'energy'},
+  {emoji:'🫚',name:'Golden Heal',desc:'Turmeric, ginger, black pepper and orange — our anti-inflammatory signature blend.',tags:['immunity','detox'],category:'detox'},
+  {emoji:'🍋',name:'Lemon Zing',desc:'Lemon, ginger, honey and cayenne pepper for a metabolism-boosting morning kickstart.',tags:['energy','detox'],category:'energy'},
 ];
 
 function buildJuiceGrid(filter = 'all') {
   const grid = document.getElementById('juiceGrid');
   if (!grid) return;
-  const items = filter === 'all' ? JUICES_DATA : JUICES_DATA.filter(j => j.category === filter);
-  grid.innerHTML = items.map(j => `
-    <div class="juice-card">
-      <div class="juice-emoji">${j.emoji}</div>
-      <h3>${j.name}</h3>
-      <p>${j.desc}</p>
-      <div class="juice-tags">${j.tags.map(t => `<span class="juice-tag">${t}</span>`).join('')}</div>
-    </div>`).join('');
+  const items = filter==='all' ? JUICES_DATA : JUICES_DATA.filter(j=>j.category===filter);
+  grid.innerHTML = items.map(j=>`<div class="juice-card"><div class="juice-emoji">${j.emoji}</div><h3>${j.name}</h3><p>${j.desc}</p><div class="juice-tags">${j.tags.map(t=>`<span class="juice-tag">${t}</span>`).join('')}</div></div>`).join('');
 }
 
 const WHY_DATA = [
-  { icon: '🌱', title: 'Zero Preservatives', desc: 'Made fresh every morning with no additives, no artificial flavors — just pure fruit and veg.' },
-  { icon: '⚡', title: 'Cold Pressed Process', desc: 'Our cold press method retains up to 3x more nutrients than centrifugal juicers.' },
-  { icon: '🛵', title: 'Before 8 AM Delivery', desc: 'We deliver before you wake up. Your juice is ready when you step out of bed.' },
-  { icon: '♻️', title: 'Eco-Friendly Packaging', desc: 'All bottles are glass or BPA-free, 100% recyclable. We care about Mumbai and the planet.' },
-  { icon: '🧑‍🌾', title: 'Local Sourcing', desc: 'We partner directly with local Mumbai-area farms and vendors for the freshest produce.' },
-  { icon: '📱', title: 'Easy Management', desc: 'Pause, skip a day, or change your juice from your dashboard — no calls needed.' },
+  {icon:'🌱',title:'Zero Preservatives',desc:'Made fresh every morning with no additives, no artificial flavors — just pure fruit and veg.'},
+  {icon:'🛵',title:'Before 8 AM Delivery',desc:'We deliver before you wake up. Your juice is ready when you step out of bed.'},
+  {icon:'🧑‍🌾',title:'Local Sourcing',desc:'We partner directly with local Mumbai-area farms and vendors for the freshest produce.'},
+  {icon:'📱',title:'Easy Management',desc:'Pause, skip a day, or change your juice from your dashboard — no calls needed.'},
 ];
 
 function buildWhyGrid() {
   const grid = document.getElementById('whyGrid');
   if (!grid) return;
-  grid.innerHTML = WHY_DATA.map(w => `
-    <div class="why-card">
-      <div class="why-icon">${w.icon}</div>
-      <h3>${w.title}</h3>
-      <p>${w.desc}</p>
-    </div>`).join('');
+  grid.innerHTML = WHY_DATA.map(w=>`<div class="why-card"><div class="why-icon">${w.icon}</div><h3>${w.title}</h3><p>${w.desc}</p></div>`).join('');
 }
 
 const TESTIS = [
-  { name: 'Priya S.', area: 'Bandra West', rating: 5, text: 'I\'ve tried so many juice subscriptions but MorningJuice is just different. The Green Detox tastes incredibly fresh — like they squeezed it right at my door. Never missing a morning now!' },
-  { name: 'Rahul M.', area: 'Andheri East', rating: 5, text: 'As someone who works out daily, the Red Power blend has become my pre-workout ritual. Delivered before 7:30 AM every single day without fail. Highly recommended!' },
-  { name: 'Sneha K.', area: 'Powai', rating: 5, text: 'The dashboard is so easy to use. I skip Sundays since I do brunch — took me 10 seconds to set up. The Golden Heal helped my skin glow too. Worth every rupee!' },
-  { name: 'Aditya R.', area: 'Juhu', rating: 5, text: 'Started with the weekly plan and immediately upgraded to monthly. The Tropical Glow is my favourite — fresh pineapple taste every day. My whole family loves it!' },
+  {name:'Priya S.',area:'Bandra West',rating:5,text:'I\'ve tried so many juice subscriptions but MorningJuice is just different. The Green Detox tastes incredibly fresh — like they squeezed it right at my door. Never missing a morning now!'},
+  {name:'Rahul M.',area:'Andheri East',rating:5,text:'As someone who works out daily, the Red Power blend has become my pre-workout ritual. Delivered before 7:30 AM every single day without fail. Highly recommended!'},
+  {name:'Sneha K.',area:'Powai',rating:5,text:'The dashboard is so easy to use. I skip Sundays since I do brunch — took me 10 seconds to set up. The Golden Heal helped my skin glow too. Worth every rupee!'},
+  {name:'Aditya R.',area:'Juhu',rating:5,text:'Started with the weekly plan and immediately upgraded to monthly. The Tropical Glow is my favourite — fresh pineapple taste every day. My whole family loves it!'},
 ];
 
 let testiIdx = 0;
@@ -1607,77 +1529,69 @@ function buildTestimonials() {
   const track = document.getElementById('testiTrack');
   const dots  = document.getElementById('testiDots');
   if (!track || !dots) return;
-  track.innerHTML = TESTIS.map(t => `
-    <div class="testi-card">
-      <div class="testi-stars">${'★'.repeat(t.rating)}</div>
-      <p>"${t.text}"</p>
-      <div class="testi-author">
-        <div class="testi-avatar">${t.name.charAt(0)}</div>
-        <div><strong>${t.name}</strong><span>${t.area}</span></div>
-      </div>
-    </div>`).join('');
-  dots.innerHTML = TESTIS.map((_, i) => `<div class="testi-dot ${i === 0 ? 'active' : ''}" onclick="goTesti(${i})"></div>`).join('');
-  document.getElementById('prevBtn')?.addEventListener('click', () => goTesti(testiIdx - 1));
-  document.getElementById('nextBtn')?.addEventListener('click', () => goTesti(testiIdx + 1));
+  track.innerHTML = TESTIS.map(t=>`<div class="testi-card"><div class="testi-stars">${'★'.repeat(t.rating)}</div><p>"${t.text}"</p><div class="testi-author"><div class="testi-avatar">${t.name.charAt(0)}</div><div><strong>${t.name}</strong><span>${t.area}</span></div></div></div>`).join('');
+  dots.innerHTML  = TESTIS.map((_,i)=>`<div class="testi-dot ${i===0?'active':''}" onclick="goTesti(${i})"></div>`).join('');
+  document.getElementById('prevBtn')?.addEventListener('click', ()=>goTesti(testiIdx-1));
+  document.getElementById('nextBtn')?.addEventListener('click', ()=>goTesti(testiIdx+1));
 }
 
 function goTesti(i) {
   testiIdx = (i + TESTIS.length) % TESTIS.length;
   const track = document.getElementById('testiTrack');
-  if (track) track.style.transform = `translateX(-${testiIdx * (340 + 24)}px)`;
-  document.querySelectorAll('.testi-dot').forEach((d, idx) => d.classList.toggle('active', idx === testiIdx));
+  if (track) track.style.transform = `translateX(-${testiIdx*(340+24)}px)`;
+  document.querySelectorAll('.testi-dot').forEach((d,idx)=>d.classList.toggle('active',idx===testiIdx));
 }
 
 const FAQS = [
-  { q: 'What time will my juice be delivered?', a: 'We deliver between 6:00 AM and 8:00 AM daily. Our delivery executives are trained to be punctual so your juice arrives fresh before your morning routine.' },
-  { q: 'Can I pause or skip a delivery?', a: 'Yes! You can pause your subscription or skip individual days from your dashboard. Skip requests must be made at least 12 hours before your 6 AM delivery window.' },
-  { q: 'How long does the juice stay fresh?', a: 'Our cold-pressed juices are best consumed within 48–72 hours of pressing for maximum nutrition. We recommend drinking same-day for the best taste and nutrient profile.' },
-  { q: 'Are the bottles recyclable?', a: 'Absolutely. All our bottles are made from glass or BPA-free food-grade plastic. You can leave empty bottles outside for our delivery executive to collect and recycle.' },
-  { q: 'Do you deliver on Sundays and holidays?', a: 'We deliver 7 days a week including Sundays. For public holidays we\'ll notify you in advance via WhatsApp if there are any changes to the schedule.' },
-  { q: 'Can I change my juice preference?', a: 'Yes, you can update your weekly juice schedule from the dashboard at any time. Changes take effect for the following day\'s delivery.' },
+  {q:'What time will my juice be delivered?',a:'We deliver between 6:00 AM and 8:00 AM daily. Our delivery executives are trained to be punctual so your juice arrives fresh before your morning routine.'},
+  {q:'Can I pause or skip a delivery?',a:'Yes! You can pause your subscription or skip individual days from your dashboard. Skip requests must be made at least 12 hours before your 6 AM delivery window.'},
+  {q:'How long does the juice stay fresh?',a:'Our cold-pressed juices are best consumed within 48–72 hours of pressing for maximum nutrition. We recommend drinking same-day for the best taste and nutrient profile.'},
+  {q:'Are the bottles recyclable?',a:'Absolutely. All our bottles are made from glass or BPA-free food-grade plastic. You can leave empty bottles outside for our delivery executive to collect and recycle.'},
+  {q:'Do you deliver on Sundays and holidays?',a:'We deliver 7 days a week including Sundays. For public holidays we\'ll notify you in advance via WhatsApp if there are any changes to the schedule.'},
+  {q:'Can I change my juice preference?',a:'Yes, you can update your weekly juice schedule from the dashboard at any time. Changes take effect for the following day\'s delivery.'},
 ];
 
 function buildFAQ() {
   const list = document.getElementById('faqList');
   if (!list) return;
-  list.innerHTML = FAQS.map((f, i) => `
-    <div class="faq-item" id="faq-${i}">
-      <div class="faq-q" onclick="toggleFAQ(${i})">${f.q}</div>
-      <div class="faq-a">${f.a}</div>
-    </div>`).join('');
+  list.innerHTML = FAQS.map((f,i)=>`<div class="faq-item" id="faq-${i}"><div class="faq-q" onclick="toggleFAQ(${i})">${f.q}</div><div class="faq-a">${f.a}</div></div>`).join('');
 }
 
 function toggleFAQ(i) {
-  document.querySelectorAll('.faq-item').forEach((el, idx) => {
-    if (idx === i) el.classList.toggle('open');
-    else el.classList.remove('open');
-  });
+  document.querySelectorAll('.faq-item').forEach((el,idx)=>{ if(idx===i) el.classList.toggle('open'); else el.classList.remove('open'); });
 }
 
-/* ─── FILTER BUTTONS ─── */
 function initFilterBtns() {
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
       this.classList.add('active');
       buildJuiceGrid(this.dataset.filter);
     });
   });
 }
 
-/* ─── BACK TO TOP ─── */
 function initBackToTop() {
   const btn = document.getElementById('backToTop');
-  window.addEventListener('scroll', () => {
-    btn?.classList.toggle('show', window.scrollY > 400);
-  });
-  btn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  window.addEventListener('scroll', () => btn?.classList.toggle('show', window.scrollY > 400));
+  btn?.addEventListener('click', () => window.scrollTo({ top:0, behavior:'smooth' }));
 }
 
-/* ─── INIT ─── */
+function fmt(d) {
+  if (!d) return '—';
+  return new Date(d).toLocaleDateString('en-IN', {day:'2-digit',month:'short',year:'numeric'});
+}
+
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.className = 'toast show ' + type;
+  setTimeout(() => el.className = 'toast', 3500);
+}
+
+/* ── INIT ─────────────────────────────────── */
 window.addEventListener('DOMContentLoaded', () => {
   updateNavUI();
-  loadLivePricing();
+  loadLivePricing();   // safe — won't overwrite with junk values
   buildJuiceGrid();
   buildWhyGrid();
   buildTestimonials();
@@ -1688,23 +1602,17 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('annClose')?.addEventListener('click', () => {
     document.querySelector('.announcement-bar').style.display = 'none';
   });
-
-  // Hamburger menu
   document.getElementById('hamburger')?.addEventListener('click', () => {
-    const links = document.getElementById('navLinks');
-    links?.classList.toggle('open');
+    document.getElementById('navLinks')?.classList.toggle('open');
   });
-
-  // Close auth on overlay click
+  document.querySelectorAll('#navLinks a').forEach(link => {
+    link.addEventListener('click', () => document.getElementById('navLinks')?.classList.remove('open'));
+  });
   document.getElementById('authOverlay')?.addEventListener('click', e => {
     if (e.target.id === 'authOverlay') closeAuth();
   });
-
-  // Enter key on login fields
   ['lPhone','lPass'].forEach(id => {
-    document.getElementById(id)?.addEventListener('keypress', e => {
-      if (e.key === 'Enter') handleLogin();
-    });
+    document.getElementById(id)?.addEventListener('keypress', e => { if(e.key==='Enter') handleLogin(); });
   });
 });
 </script>

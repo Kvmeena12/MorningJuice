@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel – MorningJuice</title>
+  <title>Admin Panel – JuiceMorning</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f4f8; min-height: 100vh; color: #1a1a2e; }
@@ -17,8 +17,8 @@
     .login-card p { color: #94a3b8; margin-bottom: 32px; font-size: 14px; margin-top: 6px; }
     .form-group { margin-bottom: 20px; }
     .form-group label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 7px; color: #475569; }
-    .form-group input { width: 100%; padding: 13px 15px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 15px; transition: .2s; }
-    .form-group input:focus { outline: none; border-color: #f97316; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 13px 15px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 15px; transition: .2s; font-family: inherit; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #f97316; }
     .btn-login { width: 100%; padding: 14px; background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: .2s; }
     .btn-login:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(249,115,22,.35); }
 
@@ -67,45 +67,87 @@
     .stat-label { font-size: 13px; color: #94a3b8; margin-top: 16px; }
     .stat-value { font-size: 32px; font-weight: 800; color: #1e293b; margin-top: 4px; }
 
-    /* ═══ PRICING EDITOR ═══ */
+    /* ═══ SECTION TITLES ═══ */
     .section-title { font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 6px; }
     .section-sub   { font-size: 14px; color: #94a3b8; margin-bottom: 28px; }
 
-    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    /* ═══ PLANS MANAGER ═══ */
+    .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
 
-    .pricing-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,.07); border: 2px solid transparent; transition: .2s; }
-    .pricing-card:hover { border-color: #f97316; }
-    .pricing-card-header { padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; }
-    .pricing-card-header.weekly  { background: linear-gradient(135deg, #fff7ed, #ffedd5); }
-    .pricing-card-header.tenday  { background: linear-gradient(135deg, #eff6ff, #dbeafe); }
-    .pricing-card-header.monthly { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
-    .plan-name { font-size: 18px; font-weight: 700; }
-    .plan-days { font-size: 13px; color: #64748b; margin-top: 3px; }
-    .plan-emoji { font-size: 32px; }
+    .plan-admin-card { background: #fff; border-radius: 20px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,.07); border: 2px solid transparent; transition: .2s; position: relative; }
+    .plan-admin-card:hover { border-color: #f97316; }
 
-    .pricing-card-body { padding: 24px; }
-    .price-input-wrap { position: relative; margin-bottom: 20px; }
-    .price-input-wrap label { display: block; font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 10px; }
-    .price-symbol { position: absolute; left: 14px; top: 50%; font-size: 22px; font-weight: 700; color: #f97316; pointer-events: none; margin-top: 4px; }
-    .price-input { width: 100%; padding: 14px 14px 14px 38px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 28px; font-weight: 800; color: #1e293b; transition: .2s; }
+    .plan-admin-card.weekly-card  .plan-card-header { background: linear-gradient(135deg, #fff7ed, #ffedd5); }
+    .plan-admin-card.tenday-card  .plan-card-header { background: linear-gradient(135deg, #eff6ff, #dbeafe); }
+    .plan-admin-card.monthly-card .plan-card-header { background: linear-gradient(135deg, #f0fdf4, #dcfce7); }
+
+    .plan-card-header { padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .plan-header-info .plan-name { font-size: 17px; font-weight: 700; color: #1e293b; }
+    .plan-header-info .plan-days-badge { font-size: 12px; color: #64748b; margin-top: 3px; background: rgba(0,0,0,.07); display: inline-block; padding: 2px 10px; border-radius: 10px; font-weight: 600; }
+    .plan-emoji { font-size: 34px; }
+
+    .plan-card-body { padding: 24px; }
+
+    /* Price input */
+    .price-row { position: relative; margin-bottom: 16px; }
+    .price-row label { display: block; font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 8px; }
+    .price-symbol { position: absolute; left: 14px; top: calc(50% + 10px); font-size: 20px; font-weight: 700; color: #f97316; pointer-events: none; transform: translateY(-50%); }
+    .price-input { width: 100%; padding: 12px 12px 12px 36px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 26px; font-weight: 800; color: #1e293b; transition: .2s; }
     .price-input:focus { outline: none; border-color: #f97316; background: #fff7ed; }
 
-    .per-day-calc { background: #f8fafc; border-radius: 10px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; }
+    .per-day-calc { background: #f8fafc; border-radius: 10px; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
     .per-day-label { font-size: 13px; color: #64748b; }
     .per-day-value { font-size: 14px; font-weight: 700; color: #1e293b; }
 
-    .save-row { display: flex; gap: 14px; align-items: center; margin-top: 32px; flex-wrap: wrap; }
-    .btn-save { padding: 14px 36px; background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: .2s; }
+    /* Editable plan fields */
+    .plan-edit-fields { border-top: 1px solid #f1f5f9; padding-top: 16px; margin-top: 4px; }
+    .plan-edit-fields h4 { font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 12px; }
+    .features-list { list-style: none; margin-bottom: 12px; }
+    .feature-item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .feature-item input { flex: 1; padding: 8px 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 13px; }
+    .feature-item input:focus { outline: none; border-color: #f97316; }
+    .btn-remove-feature { background: #fee2e2; color: #dc2626; border: none; border-radius: 6px; width: 26px; height: 26px; font-size: 14px; cursor: pointer; flex-shrink: 0; }
+    .btn-add-feature { padding: 7px 14px; background: #f1f5f9; color: #475569; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 12px; }
+
+    /* Popular toggle */
+    .popular-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-top: 1px solid #f1f5f9; margin-top: 4px; }
+    .popular-row label { font-size: 13px; font-weight: 600; color: #475569; }
+    .toggle-switch { position: relative; width: 44px; height: 24px; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; inset: 0; background: #e2e8f0; border-radius: 12px; transition: .3s; cursor: pointer; }
+    .toggle-slider:before { content: ''; position: absolute; width: 18px; height: 18px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: .3s; box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+    .toggle-switch input:checked + .toggle-slider { background: #f97316; }
+    .toggle-switch input:checked + .toggle-slider:before { transform: translateX(20px); }
+
+    /* Save button row */
+    .save-row { display: flex; gap: 14px; align-items: center; margin-top: 28px; flex-wrap: wrap; }
+    .btn-save { padding: 14px 36px; background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; transition: .2s; }
     .btn-save:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(249,115,22,.35); }
     .btn-save:disabled { opacity: .6; cursor: not-allowed; transform: none; }
-    .btn-reset { padding: 14px 24px; background: #f1f5f9; color: #475569; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; cursor: pointer; }
+    .btn-reset { padding: 14px 24px; background: #f1f5f9; color: #475569; border: none; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; }
     .save-status { font-size: 14px; font-weight: 600; }
     .save-status.ok  { color: #16a34a; }
     .save-status.err { color: #dc2626; }
+    .last-updated { font-size: 13px; color: #94a3b8; margin-top: 10px; }
 
-    .last-updated { font-size: 13px; color: #94a3b8; margin-top: 12px; }
+    /* Add plan */
+    .add-plan-card { background: #fff; border-radius: 20px; padding: 28px; box-shadow: 0 2px 16px rgba(0,0,0,.07); margin-top: 32px; border: 2px dashed #e2e8f0; }
+    .add-plan-card h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+    .add-plan-card p { font-size: 14px; color: #94a3b8; margin-bottom: 20px; }
+    .add-plan-form { display: none; }
+    .add-plan-form.open { display: block; }
+    .add-form-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .btn-primary-sm { padding: 11px 24px; background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; }
+    .btn-secondary-sm { padding: 11px 20px; background: #f1f5f9; color: #475569; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; margin-left: 8px; }
+    .btn-open-add { padding: 12px 24px; background: #fff7ed; color: #f97316; border: 2px solid #fed7aa; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-open-add:hover { background: #f97316; color: #fff; border-color: #f97316; }
 
-    /* History table */
+    /* Info note */
+    .info-note { background: #fff7ed; border: 2px solid #fed7aa; border-radius: 14px; padding: 18px 20px; margin-top: 24px; }
+    .info-note .note-title { font-weight: 700; color: #c2410c; margin-bottom: 6px; font-size: 14px; }
+    .info-note p { font-size: 13px; color: #9a3412; line-height: 1.6; }
+
+    /* Cards */
     .card { background: #fff; border-radius: 20px; padding: 28px; box-shadow: 0 2px 16px rgba(0,0,0,.07); margin-top: 32px; }
     .card h3 { font-size: 17px; font-weight: 700; margin-bottom: 20px; }
     table { width: 100%; border-collapse: collapse; }
@@ -113,9 +155,21 @@
     tbody td { padding: 13px 14px; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
     tbody tr:last-child td { border: none; }
     .pill { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; }
-    .pill-active { background: #dcfce7; color: #16a34a; }
-    .pill-paused { background: #fef9c3; color: #92400e; }
+    .pill-active  { background: #dcfce7; color: #16a34a; }
+    .pill-paused  { background: #fef9c3; color: #92400e; }
     .pill-pending { background: #f1f5f9; color: #475569; }
+
+    /* Plans summary on overview */
+    .plans-summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-top: 4px; }
+    .plan-summary-chip { border-radius: 14px; padding: 16px; text-align: center; }
+    .psc-weekly  { background: #fff7ed; }
+    .psc-15day   { background: #eff6ff; }
+    .psc-monthly { background: #f0fdf4; }
+    .psc-custom  { background: #faf5ff; }
+    .psc-emoji { font-size: 26px; margin-bottom: 6px; }
+    .psc-label { font-size: 12px; color: #64748b; font-weight: 600; }
+    .psc-price { font-size: 24px; font-weight: 800; color: #1e293b; margin-top: 3px; }
+    .psc-days  { font-size: 11px; color: #94a3b8; margin-top: 2px; }
 
     /* Toast */
     .toast { position: fixed; bottom: 28px; right: 28px; padding: 14px 22px; border-radius: 12px; color: #fff; font-weight: 600; font-size: 15px; z-index: 999; display: none; box-shadow: 0 8px 28px rgba(0,0,0,.2); max-width: 340px; }
@@ -127,6 +181,7 @@
       .sidebar { display: none; }
       .content { padding: 20px; }
       .stats-row { grid-template-columns: 1fr 1fr; }
+      .add-form-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -161,6 +216,9 @@
       <button class="nav-item active" onclick="goPage('overview', this)">
         <span class="nav-icon">📊</span> Overview
       </button>
+      <button class="nav-item" onclick="goPage('plans', this)">
+        <span class="nav-icon">📋</span> Plans Manager
+      </button>
       <button class="nav-item" onclick="goPage('pricing', this)">
         <span class="nav-icon">💰</span> Pricing Control
       </button>
@@ -187,7 +245,7 @@
   <div class="main">
     <div class="topbar">
       <div>
-        <div class="topbar h1" id="pageTitle" style="font-size:20px;font-weight:700;color:#1e293b">Overview</div>
+        <div id="pageTitle" style="font-size:20px;font-weight:700;color:#1e293b">Overview</div>
         <div class="topbar-sub" id="pageSubtitle">Welcome back</div>
       </div>
       <div style="font-size:13px;color:#94a3b8" id="currentTime"></div>
@@ -224,15 +282,18 @@
           </div>
         </div>
 
-        <!-- Current Pricing at a glance -->
+        <!-- Current Plans at a glance -->
         <div class="card">
-          <h3>💰 Current Subscription Prices</h3>
-          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-top:4px" id="priceSummary">
-            Loading...
+          <h3>📋 Active Subscription Plans</h3>
+          <div class="plans-summary-grid" id="plansSummary">Loading...</div>
+          <div style="display:flex;gap:10px;margin-top:18px;flex-wrap:wrap">
+            <button onclick="goPage('plans', document.querySelectorAll('.nav-item')[1])" style="padding:10px 20px;background:#fff7ed;color:#f97316;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px">
+              📋 Manage Plans →
+            </button>
+            <button onclick="goPage('pricing', document.querySelectorAll('.nav-item')[2])" style="padding:10px 20px;background:#f0fdf4;color:#16a34a;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px">
+              💰 Edit Prices →
+            </button>
           </div>
-          <button onclick="goPage('pricing', document.querySelectorAll('.nav-item')[1])" style="margin-top:20px;padding:10px 22px;background:#fff7ed;color:#f97316;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px">
-            ✏️ Edit Prices →
-          </button>
         </div>
 
         <!-- Today's Orders -->
@@ -242,77 +303,89 @@
         </div>
       </div>
 
-      <!-- ── PRICING PAGE ── -->
+      <!-- ── PLANS MANAGER PAGE ── -->
+      <div class="page" id="page-plans">
+        <div class="section-title">📋 Plans Manager</div>
+        <div class="section-sub">These plans exactly match what customers see on the website. Edit labels, features, days, prices, and popular badges here.</div>
+
+        <div class="plans-grid" id="plansManagerGrid">
+          <!-- Dynamically rendered -->
+        </div>
+
+        <!-- Save All Plans -->
+        <div class="save-row">
+          <button class="btn-save" id="savePlansBtn" onclick="saveAllPlans()">💾 Save All Plans</button>
+          <button class="btn-reset" onclick="loadPlans()">↺ Reset</button>
+          <span class="save-status" id="plansStatus"></span>
+        </div>
+        <div class="last-updated" id="plansLastUpdated"></div>
+
+        <!-- Add New Plan -->
+        <div class="add-plan-card">
+          <h3>➕ Add a New Plan</h3>
+          <p>Create a completely new subscription plan that will appear on the website instantly.</p>
+          <button class="btn-open-add" id="btnOpenAdd" onclick="toggleAddForm()">
+            <span>➕</span> Create New Plan
+          </button>
+          <div class="add-plan-form" id="addPlanForm">
+            <div class="add-form-grid" style="margin-top:20px">
+              <div class="form-group">
+                <label>Plan Name *</label>
+                <input type="text" id="np-name" placeholder="e.g. Fortnightly" />
+              </div>
+              <div class="form-group">
+                <label>Number of Days *</label>
+                <input type="number" id="np-days" placeholder="e.g. 15" min="1" max="365" />
+              </div>
+              <div class="form-group">
+                <label>Price (₹) *</label>
+                <input type="number" id="np-price" placeholder="e.g. 1199" min="1" />
+              </div>
+              <div class="form-group">
+                <label>Emoji</label>
+                <input type="text" id="np-emoji" placeholder="🍹" maxlength="4" />
+              </div>
+              <div class="form-group">
+                <label>Color Theme</label>
+                <select id="np-color">
+                  <option value="orange">🟠 Orange (Weekly)</option>
+                  <option value="blue">🔵 Blue (10/15-Day)</option>
+                  <option value="green">🟢 Green (Monthly)</option>
+                  <option value="purple">🟣 Purple</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Mark as Popular?</label>
+                <select id="np-popular">
+                  <option value="0">No</option>
+                  <option value="1">Yes ⭐</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Plan Features (one per line)</label>
+              <textarea id="np-features" rows="5" placeholder="e.g.&#10;15 fresh bottles&#10;Morning delivery (6–8 AM)&#10;Customise daily juice&#10;Pause anytime"></textarea>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <button class="btn-primary-sm" onclick="addNewPlan()">✅ Add Plan</button>
+              <button class="btn-secondary-sm" onclick="toggleAddForm()">Cancel</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-note">
+          <div class="note-title">⚠️ Important Note</div>
+          <p>Plan changes apply to <strong>new subscriptions only</strong>. Existing active subscriptions will not be affected. The website updates automatically — no need to refresh or redeploy anything.</p>
+        </div>
+      </div>
+
+      <!-- ── PRICING PAGE (quick price-only edit) ── -->
       <div class="page" id="page-pricing">
-        <div class="section-title">💰 Subscription Pricing Control</div>
-        <div class="section-sub">Change prices here — they reflect instantly for all new subscribers on the website.</div>
+        <div class="section-title">💰 Quick Pricing Control</div>
+        <div class="section-sub">Change just the prices here quickly. To edit plan features, days, or add plans use the Plans Manager.</div>
 
-        <div class="pricing-grid" id="pricingGrid">
-          <!-- Weekly -->
-          <div class="pricing-card">
-            <div class="pricing-card-header weekly">
-              <div>
-                <div class="plan-name">Weekly Plan</div>
-                <div class="plan-days">7 days of fresh juice</div>
-              </div>
-              <div class="plan-emoji">🍊</div>
-            </div>
-            <div class="pricing-card-body">
-              <div class="price-input-wrap">
-                <label>Price (₹)</label>
-                <span class="price-symbol">₹</span>
-                <input type=\"number\" class=\"price-input\" id=\"price-weekly\" min=\"1\" max=\"99999\" placeholder=\"9\" oninput=\"updatePerDay('weekly')\" />
-              </div>
-              <div class="per-day-calc">
-                <span class="per-day-label">Per day cost</span>
-                <span class="per-day-value" id="perday-weekly">—</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- 10-Day -->
-          <div class="pricing-card">
-            <div class="pricing-card-header tenday">
-              <div>
-                <div class="plan-name">10-Day Plan</div>
-                <div class="plan-days">10 days of fresh juice</div>
-              </div>
-              <div class="plan-emoji">🥬</div>
-            </div>
-            <div class="pricing-card-body">
-              <div class="price-input-wrap">
-                <label>Price (₹)</label>
-                <span class="price-symbol">₹</span>
-                <input type="number" class="price-input" id="price-10day" min="1" max="99999" placeholder="899" oninput="updatePerDay('10day')" />
-              </div>
-              <div class="per-day-calc">
-                <span class="per-day-label">Per day cost</span>
-                <span class="per-day-value" id="perday-10day">—</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Monthly -->
-          <div class="pricing-card">
-            <div class="pricing-card-header monthly">
-              <div>
-                <div class="plan-name">Monthly Plan</div>
-                <div class="plan-days">30 days of fresh juice</div>
-              </div>
-              <div class="plan-emoji">🌿</div>
-            </div>
-            <div class="pricing-card-body">
-              <div class="price-input-wrap">
-                <label>Price (₹)</label>
-                <span class="price-symbol">₹</span>
-                <input type="number" class="price-input" id="price-monthly" min="1" max="99999" placeholder="2399" oninput="updatePerDay('monthly')" />
-              </div>
-              <div class="per-day-calc">
-                <span class="per-day-label">Per day cost</span>
-                <span class="per-day-value" id="perday-monthly">—</span>
-              </div>
-            </div>
-          </div>
+        <div class="plans-grid" id="pricingGrid">
+          <!-- Dynamically rendered with only price inputs -->
         </div>
 
         <div class="save-row">
@@ -322,13 +395,9 @@
         </div>
         <div class="last-updated" id="lastUpdated"></div>
 
-        <!-- Info box -->
-        <div style="background:#fff7ed;border:2px solid #fed7aa;border-radius:14px;padding:20px;margin-top:28px">
-          <div style="font-weight:700;color:#c2410c;margin-bottom:8px">⚠️ Important Note</div>
-          <div style="font-size:14px;color:#9a3412;line-height:1.6">
-            New prices apply to <strong>new subscriptions only</strong>. Existing active subscriptions will not be affected.
-            The website updates automatically — no need to refresh or redeploy anything.
-          </div>
+        <div class="info-note">
+          <div class="note-title">⚠️ Important Note</div>
+          <p>New prices apply to <strong>new subscriptions only</strong>. Existing active subscriptions will not be affected. The website updates automatically.</p>
         </div>
       </div>
 
@@ -393,9 +462,76 @@ const API = (window.location.hostname === 'localhost' || window.location.hostnam
 
 let token = localStorage.getItem('jm_admin_token');
 let admin = JSON.parse(localStorage.getItem('jm_admin_user') || 'null');
-let currentPricing = null;
 
-const PLAN_DAYS = { weekly: 7, '10day': 10, monthly: 30 };
+// ─────────────────────────────────────────────────────────────
+// PLANS CONFIG — matches exactly what public website shows
+// Public site has: Weekly (7 days), 15-Day, Monthly (30 days)
+// ─────────────────────────────────────────────────────────────
+const DEFAULT_PLANS = {
+  weekly: {
+    key:      'weekly',
+    label:    'Weekly Plan',
+    days:     7,
+    price:    699,
+    emoji:    '🍊',
+    color:    'orange',
+    popular:  false,
+    features: [
+      '7 fresh bottles',
+      'Morning delivery (6–8 AM)',
+      'Customise daily juice',
+      'Pause anytime'
+    ]
+  },
+  '15day': {
+    key:      '15day',
+    label:    '15-Day Plan',
+    days:     15,
+    price:    1199,
+    emoji:    '🥬',
+    color:    'blue',
+    popular:  true,
+    features: [
+      '15 fresh bottles',
+      'Morning delivery (6–8 AM)',
+      'Customise daily juice',
+      'Pause anytime',
+      'Save ₹90 vs weekly'
+    ]
+  },
+  monthly: {
+    key:      'monthly',
+    label:    'Monthly Plan',
+    days:     30,
+    price:    2399,
+    emoji:    '🌿',
+    color:    'green',
+    popular:  false,
+    features: [
+      '30 fresh bottles',
+      'Morning delivery (6–8 AM)',
+      'Customise daily juice',
+      'Pause anytime',
+      'Save ₹596',
+      'Priority support'
+    ]
+  }
+};
+
+let currentPlans = JSON.parse(JSON.stringify(DEFAULT_PLANS));
+
+const COLOR_GRADIENTS = {
+  orange: 'linear-gradient(135deg, #fff7ed, #ffedd5)',
+  blue:   'linear-gradient(135deg, #eff6ff, #dbeafe)',
+  green:  'linear-gradient(135deg, #f0fdf4, #dcfce7)',
+  purple: 'linear-gradient(135deg, #faf5ff, #ede9fe)',
+};
+const PSC_COLOR_CLASSES = {
+  orange: 'psc-weekly',
+  blue:   'psc-15day',
+  green:  'psc-monthly',
+  purple: 'psc-custom',
+};
 
 /* ══ AUTH ═══════════════════════════════════ */
 async function handleLogin(e) {
@@ -433,7 +569,7 @@ function bootApp() {
   updateClock();
   setInterval(updateClock, 1000);
   loadStats();
-  loadPricing();
+  loadPlans();      // loads plans + pricing together
   loadTodayOrders();
 }
 
@@ -444,11 +580,12 @@ function updateClock() {
 
 /* ══ NAVIGATION ══════════════════════════════ */
 const PAGE_TITLES = {
-  overview:    ['Overview',        'Welcome back, admin'],
-  pricing:     ['💰 Pricing Control', 'Change subscription prices live'],
-  orders:      ['📦 All Orders',    'Filter and manage deliveries'],
-  subscribers: ['👥 Subscribers',   'All customers and their plans'],
-  delivery:    ['🛵 Delivery Team', 'Manage delivery partners'],
+  overview:    ['Overview',            'Welcome back, admin'],
+  plans:       ['📋 Plans Manager',    'Manage subscription plans shown on website'],
+  pricing:     ['💰 Quick Pricing',    'Change subscription prices live'],
+  orders:      ['📦 All Orders',       'Filter and manage deliveries'],
+  subscribers: ['👥 Subscribers',      'All customers and their plans'],
+  delivery:    ['🛵 Delivery Team',    'Manage delivery partners'],
 };
 
 function goPage(name, el) {
@@ -463,6 +600,8 @@ function goPage(name, el) {
   if (name === 'orders')      loadOrders();
   if (name === 'subscribers') loadSubscribers();
   if (name === 'delivery')    loadDeliveryBoys();
+  if (name === 'plans')       renderPlansManager();
+  if (name === 'pricing')     renderPricingPage();
 }
 
 /* ══ STATS ═══════════════════════════════════ */
@@ -477,68 +616,328 @@ async function loadStats() {
   } catch { /* silent */ }
 }
 
-/* ══ PRICING ═════════════════════════════════ */
-async function loadPricing() {
+/* ══ LOAD PLANS FROM API (or use defaults) ══ */
+async function loadPlans() {
   try {
     const res  = await fetch(`${API}/settings/pricing`);
     const data = await res.json();
-    currentPricing = data;
-
-    // Fill inputs
-    document.getElementById('price-weekly').value  = data.weekly?.price  ?? 9;
-    document.getElementById('price-10day').value   = data['10day']?.price ?? 899;
-    document.getElementById('price-monthly').value = data.monthly?.price  ?? 2399;
-
-    // Per day
-    updatePerDay('weekly');
-    updatePerDay('10day');
-    updatePerDay('monthly');
-
-    // Summary on overview
-    renderPriceSummary(data);
-
-    document.getElementById('saveStatus').textContent = '';
-  } catch (err) { toast('Failed to load pricing', 'error'); }
+    // Merge API data into currentPlans — keep structure, update price/days
+    // API might return old keys like '10day'; map them correctly
+    const keyMap = { weekly: 'weekly', '10day': '15day', monthly: 'monthly', '15day': '15day' };
+    Object.entries(data).forEach(([apiKey, val]) => {
+      const ourKey = keyMap[apiKey] || apiKey;
+      if (currentPlans[ourKey]) {
+        currentPlans[ourKey].price = val.price ?? currentPlans[ourKey].price;
+        if (val.days)  currentPlans[ourKey].days  = val.days;
+        if (val.label) currentPlans[ourKey].label = val.label;
+      }
+    });
+  } catch { /* use defaults */ }
+  renderPlansSummary();
+  renderPlansManager();
+  renderPricingPage();
 }
 
-function updatePerDay(plan) {
-  const price = Number(document.getElementById('price-' + plan).value) || 0;
-  const days  = PLAN_DAYS[plan];
-  const ppd   = days > 0 ? (price / days).toFixed(2) : '—';
-  document.getElementById('perday-' + plan).textContent = price ? `₹${ppd}/day` : '—';
+/* ══ PLANS SUMMARY ON OVERVIEW ══════════════ */
+function renderPlansSummary() {
+  const box = document.getElementById('plansSummary');
+  if (!box) return;
+  box.innerHTML = Object.values(currentPlans).map(p => `
+    <div class="plan-summary-chip ${PSC_COLOR_CLASSES[p.color] || 'psc-custom'}">
+      <div class="psc-emoji">${p.emoji}</div>
+      <div class="psc-label">${p.label}</div>
+      <div class="psc-price">₹${p.price.toLocaleString()}</div>
+      <div class="psc-days">${p.days} days${p.popular ? ' · ⭐ Popular' : ''}</div>
+    </div>`).join('');
 }
 
-async function savePricing() {
-  const weekly  = Number(document.getElementById('price-weekly').value);
-  const tenday  = Number(document.getElementById('price-10day').value);
-  const monthly = Number(document.getElementById('price-monthly').value);
+/* ══ PLANS MANAGER — FULL EDIT ══════════════ */
+function renderPlansManager() {
+  const grid = document.getElementById('plansManagerGrid');
+  if (!grid) return;
+  grid.innerHTML = Object.values(currentPlans).map(p => renderPlanCard(p)).join('');
+}
 
-  if (!weekly || !tenday || !monthly) return toast('Please fill in all prices', 'error');
-  if (weekly < 1 || tenday < 1 || monthly < 1) return toast('Prices must be greater than 0', 'error');
+function renderPlanCard(p) {
+  const headerBg = COLOR_GRADIENTS[p.color] || COLOR_GRADIENTS.orange;
+  const featureInputs = p.features.map((f, i) => `
+    <li class="feature-item">
+      <input type="text" value="${f}" id="feat-${p.key}-${i}" placeholder="Feature text" />
+      <button class="btn-remove-feature" onclick="removeFeature('${p.key}', ${i})" title="Remove">✕</button>
+    </li>`).join('');
 
-  const btn = document.getElementById('saveBtn');
-  btn.disabled = true; btn.textContent = 'Saving...';
+  return `
+  <div class="plan-admin-card ${p.color}-card" id="plancard-${p.key}">
+    <div class="plan-card-header" style="background:${headerBg}">
+      <div class="plan-header-info">
+        <div class="plan-name">
+          <input type="text" value="${p.label}" id="pl-name-${p.key}"
+            style="background:transparent;border:none;font-size:17px;font-weight:700;color:#1e293b;width:100%;outline:none;font-family:inherit"
+            placeholder="Plan Name" />
+        </div>
+        <span class="plan-days-badge">
+          <input type="number" value="${p.days}" id="pl-days-${p.key}" min="1" max="365"
+            style="background:transparent;border:none;font-size:12px;font-weight:600;color:#64748b;width:36px;outline:none;font-family:inherit"
+            oninput="recalcPerDay('${p.key}')" /> days
+        </span>
+      </div>
+      <div class="plan-emoji">
+        <input type="text" value="${p.emoji}" id="pl-emoji-${p.key}" maxlength="4"
+          style="background:transparent;border:none;font-size:30px;width:44px;text-align:center;outline:none;cursor:pointer"
+          title="Click to change emoji" />
+      </div>
+    </div>
+    <div class="plan-card-body">
+      <div class="price-row">
+        <label>Price (₹)</label>
+        <span class="price-symbol">₹</span>
+        <input type="number" class="price-input" id="pl-price-${p.key}" value="${p.price}"
+          min="1" max="99999" oninput="recalcPerDay('${p.key}')" />
+      </div>
+      <div class="per-day-calc">
+        <span class="per-day-label">Per day cost</span>
+        <span class="per-day-value" id="pl-perday-${p.key}">₹${(p.price/p.days).toFixed(2)}/day</span>
+      </div>
+      <div class="plan-edit-fields">
+        <h4>Plan Features</h4>
+        <ul class="features-list" id="feat-list-${p.key}">${featureInputs}</ul>
+        <button class="btn-add-feature" onclick="addFeature('${p.key}')">+ Add Feature</button>
+        <div class="popular-row">
+          <label for="pl-pop-${p.key}">⭐ Mark as Most Popular</label>
+          <label class="toggle-switch">
+            <input type="checkbox" id="pl-pop-${p.key}" ${p.popular ? 'checked' : ''} />
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="popular-row" style="margin-top:4px">
+          <label style="color:#dc2626;font-size:13px">🗑️ Remove this plan</label>
+          <button onclick="removePlan('${p.key}')" style="padding:5px 12px;background:#fee2e2;color:#dc2626;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function recalcPerDay(key) {
+  const price = Number(document.getElementById('pl-price-' + key)?.value) || 0;
+  const days  = Number(document.getElementById('pl-days-' + key)?.value)  || 1;
+  const el    = document.getElementById('pl-perday-' + key);
+  if (el) el.textContent = price && days ? `₹${(price/days).toFixed(2)}/day` : '—';
+}
+
+function addFeature(key) {
+  const list = document.getElementById('feat-list-' + key);
+  if (!list) return;
+  const idx = list.children.length;
+  const li  = document.createElement('li');
+  li.className = 'feature-item';
+  li.innerHTML = `<input type="text" id="feat-${key}-${idx}" placeholder="Enter feature..." />
+    <button class="btn-remove-feature" onclick="this.parentElement.remove()" title="Remove">✕</button>`;
+  list.appendChild(li);
+}
+
+function removeFeature(key, idx) {
+  const el = document.getElementById('feat-' + key + '-' + idx);
+  if (el) el.parentElement.remove();
+}
+
+function removePlan(key) {
+  if (!confirm(`Remove the "${currentPlans[key]?.label || key}" plan? This cannot be undone.`)) return;
+  delete currentPlans[key];
+  renderPlansManager();
+  renderPlansSummary();
+  renderPricingPage();
+  toast('Plan removed. Click "Save All Plans" to apply.', 'success');
+}
+
+/* ══ COLLECT PLAN DATA FROM DOM ══════════════ */
+function collectPlanFromDOM(key) {
+  const name  = document.getElementById('pl-name-' + key)?.value.trim()      || key;
+  const days  = Number(document.getElementById('pl-days-' + key)?.value)     || 7;
+  const price = Number(document.getElementById('pl-price-' + key)?.value)    || 0;
+  const emoji = document.getElementById('pl-emoji-' + key)?.value.trim()     || '🥤';
+  const pop   = document.getElementById('pl-pop-' + key)?.checked            || false;
+  const featEls = document.querySelectorAll(`#feat-list-${key} .feature-item input`);
+  const features = [...featEls].map(el => el.value.trim()).filter(Boolean);
+  return { key, label: name, days, price, emoji, popular: pop, features,
+           color: currentPlans[key]?.color || 'orange' };
+}
+
+/* ══ SAVE ALL PLANS ══════════════════════════ */
+async function saveAllPlans() {
+  const btn = document.getElementById('savePlansBtn');
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
 
   try {
-    const res = await fetch(`${API}/settings/pricing`, {
-      method: 'PUT',
-      headers: authH(),
-      body: JSON.stringify({
-        weekly:  { label: 'Weekly Plan',  days: 7,  price: weekly  },
-        '10day': { label: '10-Day Plan',  days: 10, price: tenday  },
-        monthly: { label: 'Monthly Plan', days: 30, price: monthly },
-      }),
+    // ✅ STEP 1: Collect plans as ARRAY (dynamic)
+    const plans = Object.keys(currentPlans).map(key => {
+      const p = collectPlanFromDOM(key);
+
+      return {
+        name: p.label,
+        days: Number(p.days),
+        price: Number(p.price)
+      };
     });
+
+    // ✅ STEP 2: Validate
+    for (const p of plans) {
+      if (!p.price || p.price < 1) {
+        throw new Error(`Invalid price for ${p.name}`);
+      }
+      if (!p.days || p.days < 1) {
+        throw new Error(`Invalid days for ${p.name}`);
+      }
+    }
+
+    // ✅ STEP 3: Send to backend (NEW API)
+    const res = await fetch(`${API}/plans`, {
+      method: 'POST',
+      headers: authH(),
+      body: JSON.stringify({ plans })
+    });
+
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
 
-    document.getElementById('saveStatus').className = 'save-status ok';
-    document.getElementById('saveStatus').textContent = '✅ Prices updated! Website reflects new prices immediately.';
-    document.getElementById('lastUpdated').textContent = 'Last updated: ' + new Date().toLocaleString('en-IN');
+    // ✅ STEP 4: Update UI
+    currentPlans = {};
+    plans.forEach(p => {
+      const key = p.days + "day"; // dynamic key
+      currentPlans[key] = {
+        key,
+        label: p.name,
+        days: p.days,
+        price: p.price
+      };
+    });
 
-    currentPricing = data.pricing;
-    renderPriceSummary(data.pricing);
-    toast('✅ Prices saved successfully!');
+    renderPlansSummary();
+    renderPricingPage();
+
+    document.getElementById('plansStatus').className = 'save-status ok';
+    document.getElementById('plansStatus').textContent = '✅ Plans updated everywhere!';
+    document.getElementById('plansLastUpdated').textContent =
+      'Last updated: ' + new Date().toLocaleString('en-IN');
+
+    toast('🚀 Plans synced successfully!');
+
+  } catch (err) {
+    document.getElementById('plansStatus').className = 'save-status err';
+    document.getElementById('plansStatus').textContent = '❌ ' + err.message;
+    toast(err.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '💾 Save All Plans';
+  }
+}
+
+/* ══ ADD NEW PLAN ════════════════════════════ */
+function toggleAddForm() {
+  const form = document.getElementById('addPlanForm');
+  form.classList.toggle('open');
+  document.getElementById('btnOpenAdd').textContent = form.classList.contains('open')
+    ? '▲ Close'
+    : '➕ Create New Plan';
+}
+
+function addNewPlan() {
+  const name     = document.getElementById('np-name').value.trim();
+  const days     = Number(document.getElementById('np-days').value);
+  const price    = Number(document.getElementById('np-price').value);
+  const emoji    = document.getElementById('np-emoji').value.trim() || '🥤';
+  const color    = document.getElementById('np-color').value;
+  const popular  = document.getElementById('np-popular').value === '1';
+  const featText = document.getElementById('np-features').value.trim();
+  const features = featText ? featText.split('\n').map(s=>s.trim()).filter(Boolean) : [];
+
+  if (!name)         return toast('Please enter a plan name', 'error');
+  if (!days || days < 1) return toast('Please enter valid number of days', 'error');
+  if (!price || price < 1) return toast('Please enter a valid price', 'error');
+
+  // Generate key from name
+  const key = name.toLowerCase().replace(/[^a-z0-9]/g, '') + '_' + Date.now();
+
+  currentPlans[key] = { key, label: name + ' Plan', days, price, emoji, color, popular, features };
+
+  // Clear form
+  ['np-name','np-days','np-price','np-emoji','np-features'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('np-popular').value = '0';
+
+  toggleAddForm();
+  renderPlansManager();
+  renderPlansSummary();
+  renderPricingPage();
+  toast(`"${currentPlans[key].label}" added! Click "Save All Plans" to publish.`, 'success');
+}
+
+/* ══ PRICING PAGE (price-only) ══════════════ */
+function renderPricingPage() {
+  const grid = document.getElementById('pricingGrid');
+  if (!grid) return;
+  grid.innerHTML = Object.values(currentPlans).map(p => {
+    const headerBg = COLOR_GRADIENTS[p.color] || COLOR_GRADIENTS.orange;
+    const ppd = p.price && p.days ? (p.price/p.days).toFixed(2) : '—';
+    return `
+    <div class="plan-admin-card">
+      <div class="plan-card-header" style="background:${headerBg}">
+        <div class="plan-header-info">
+          <div class="plan-name">${p.label}</div>
+          <span class="plan-days-badge">${p.days} days</span>
+        </div>
+        <div class="plan-emoji">${p.emoji}</div>
+      </div>
+      <div class="plan-card-body">
+        <div class="price-row">
+          <label>Price (₹)</label>
+          <span class="price-symbol">₹</span>
+          <input type="number" class="price-input" id="qprice-${p.key}" value="${p.price}"
+            min="1" max="99999" oninput="updatePricePerDay('${p.key}')" />
+        </div>
+        <div class="per-day-calc">
+          <span class="per-day-label">Per day cost</span>
+          <span class="per-day-value" id="qperday-${p.key}">₹${ppd}/day</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updatePricePerDay(key) {
+  const price = Number(document.getElementById('qprice-' + key)?.value) || 0;
+  const days  = currentPlans[key]?.days || 1;
+  const el    = document.getElementById('qperday-' + key);
+  if (el) el.textContent = price ? `₹${(price/days).toFixed(2)}/day` : '—';
+}
+
+async function savePricing() {
+  const payload = {};
+  let valid = true;
+  Object.values(currentPlans).forEach(p => {
+    const price = Number(document.getElementById('qprice-' + p.key)?.value);
+    if (!price || price < 1) { toast(`Price for "${p.label}" is invalid`, 'error'); valid = false; return; }
+    payload[p.key] = { label: p.label, days: p.days, price };
+    currentPlans[p.key].price = price;
+  });
+  if (!valid) return;
+
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true; btn.textContent = 'Saving...';
+  try {
+    const res  = await fetch(`${API}/settings/pricing`, {
+      method: 'PUT', headers: authH(), body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error);
+    renderPlansSummary();
+    document.getElementById('saveStatus').className = 'save-status ok';
+    document.getElementById('saveStatus').textContent = '✅ Prices updated!';
+    document.getElementById('lastUpdated').textContent = 'Last updated: ' + new Date().toLocaleString('en-IN');
+    toast('✅ Prices saved!');
   } catch (err) {
     document.getElementById('saveStatus').className = 'save-status err';
     document.getElementById('saveStatus').textContent = '❌ ' + err.message;
@@ -548,18 +947,6 @@ async function savePricing() {
   }
 }
 
-function renderPriceSummary(pricing) {
-  const colors = { weekly: '#fff7ed', '10day': '#eff6ff', monthly: '#f0fdf4' };
-  const emojis = { weekly: '🍊', '10day': '🥬', monthly: '🌿' };
-  document.getElementById('priceSummary').innerHTML = Object.entries(pricing).map(([key, p]) => `
-    <div style="background:${colors[key]};border-radius:14px;padding:18px;text-align:center">
-      <div style="font-size:28px;margin-bottom:6px">${emojis[key]}</div>
-      <div style="font-size:13px;color:#64748b;font-weight:600">${p.label || key}</div>
-      <div style="font-size:28px;font-weight:800;color:#1e293b;margin-top:4px">₹${p.price?.toLocaleString()}</div>
-      <div style="font-size:12px;color:#94a3b8;margin-top:3px">${p.days} days</div>
-    </div>`).join('');
-}
-
 /* ══ ORDERS ═══════════════════════════════════ */
 async function loadOrders() {
   const date   = document.getElementById('filterDate')?.value || '';
@@ -567,11 +954,10 @@ async function loadOrders() {
   let url = `${API}/admin/orders?`;
   if (date)   url += `date=${date}&`;
   if (status) url += `status=${status}`;
-
   try {
     const res    = await fetch(url, { headers: authH() });
     const orders = await res.json();
-    const wrap   = document.getElementById('ordersTableWrap') || document.getElementById('todayOrdersTable');
+    const wrap   = document.getElementById('ordersTableWrap');
     if (!orders.length) { wrap.innerHTML = '<p style="color:#94a3b8;padding:20px 0">No orders found.</p>'; return; }
     wrap.innerHTML = ordersTable(orders);
   } catch { }
@@ -606,17 +992,11 @@ function ordersTable(orders) {
 /* ══ SUBSCRIBERS ══════════════════════════════ */
 async function loadSubscribers() {
   try {
-    const res  = await fetch(`${API}/admin/orders`, { headers: authH() });
-    // Use subscriptions endpoint if available, else derive from orders
-    const sRes = await fetch(`${API}/admin/stats`, { headers: authH() });
-    // Fallback: show orders grouped by customer
+    const res    = await fetch(`${API}/admin/orders`, { headers: authH() });
     const orders = await res.json();
     const seen = {}; const rows = [];
     orders.forEach(o => {
-      if (!seen[o.userId?._id]) {
-        seen[o.userId?._id] = true;
-        rows.push(o);
-      }
+      if (!seen[o.userId?._id]) { seen[o.userId?._id] = true; rows.push(o); }
     });
     const box = document.getElementById('subscribersTable');
     if (!rows.length) { box.innerHTML = '<p style="color:#94a3b8">No subscribers yet.</p>'; return; }
@@ -651,7 +1031,7 @@ async function createDeliveryBoy() {
   };
   if (!body.name || !body.phone || !body.password) return toast('Fill in all fields', 'error');
   try {
-    const res  = await fetch(`${API}/admin/create-delivery-boy`, { method: 'POST', headers: authH(), body: JSON.stringify(body) });
+    const res  = await fetch(`${API}/admin/create-delivery-boy`, { method:'POST', headers:authH(), body:JSON.stringify(body) });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);
     toast('Delivery boy created ✅');
@@ -663,7 +1043,7 @@ async function createDeliveryBoy() {
 /* ══ UTILS ════════════════════════════════════ */
 function fmt(d) {
   if (!d) return '—';
-  return new Date(d).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+  return new Date(d).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
 }
 
 function toast(msg, type = 'success') {
@@ -678,7 +1058,6 @@ window.addEventListener('DOMContentLoaded', () => {
     if (admin.role !== 'admin') { handleLogout(); return; }
     bootApp();
   }
-  // Set today's date as default filter
   const dateEl = document.getElementById('filterDate');
   if (dateEl) dateEl.value = new Date().toISOString().split('T')[0];
 });

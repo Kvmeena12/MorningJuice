@@ -13,6 +13,7 @@ import orderRoutes        from './routes/orders.js';
 import deliveryRoutes     from './routes/delivery.js';
 import adminRoutes        from './routes/admin.js';
 import settingsRoutes     from './routes/settings.js';
+import plansRoutes from './routes/plans.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -49,7 +50,7 @@ app.use('/api/delivery',      deliveryRoutes);
 app.use('/api/admin',         adminRoutes);
 app.use('/api/settings',      settingsRoutes);
 app.use('/api/schedule',      scheduleRoutes);
-
+app.use('/api/plans', plansRoutes);
 // ── Frontend ────────────────────────────────────────
 app.get('/', (_req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/public/index.html'));
