@@ -619,20 +619,23 @@ async function loadStats() {
 /* ══ LOAD PLANS FROM API (or use defaults) ══ */
 async function loadPlans() {
   try {
-    const res  = await fetch(`${API}/settings/pricing`);
+    const res  = await fetch(`${API}/plans`);
     const data = await res.json();
-    // Merge API data into currentPlans — keep structure, update price/days
-    // API might return old keys like '10day'; map them correctly
-    const keyMap = { weekly: 'weekly', '10day': '15day', monthly: 'monthly', '15day': '15day' };
-    Object.entries(data).forEach(([apiKey, val]) => {
-      const ourKey = keyMap[apiKey] || apiKey;
-      if (currentPlans[ourKey]) {
-        currentPlans[ourKey].price = val.price ?? currentPlans[ourKey].price;
-        if (val.days)  currentPlans[ourKey].days  = val.days;
-        if (val.label) currentPlans[ourKey].label = val.label;
-      }
-    });
-  } catch { /* use defaults */ }
+    if (Array.isArray(data) && data.length) {
+      currentPlans = Object.fromEntries(data.map(p => [p.key || p.name.toLowerCase().replace(/[^a-z0-9]/g, '_'), {
+        key:    p.key || p.name.toLowerCase().replace(/[^a-z0-9]/g, '_'),
+        label:  p.label || p.name,
+        days:   p.days || 0,
+        price:  p.price || 0,
+        emoji:  p.emoji || '🥤',
+        color:  p.color || 'orange',
+        popular:p.popular || false,
+        features: Array.isArray(p.features) ? p.features : [],
+      }]));
+    }
+  } catch (err) {
+    console.warn('Could not load admin plans from API, using defaults.', err);
+  }
   renderPlansSummary();
   renderPlansManager();
   renderPricingPage();
@@ -785,13 +788,10 @@ async function saveAllPlans() {
 
   try {
     // Build API payload in the format backend expects
-    const payload = {};
-    Object.entries(updated).forEach(([key, p]) => {
-      payload[key] = { label: p.label, days: p.days, price: p.price };
-    });
+    const payload = { plans: Object.values(updated) };
 
-    const res  = await fetch(`${API}/settings/pricing`, {
-      method: 'PUT', headers: authH(), body: JSON.stringify(payload),
+    const res  = await fetch(`${API}/plans`, {
+      method: 'POST', headers: authH(), body: JSON.stringify(payload),
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error);

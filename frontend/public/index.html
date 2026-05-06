@@ -607,72 +607,7 @@
         <h2>Flexible Subscription Plans</h2>
         <p>Pre-pay and save more. All plans include morning doorstep delivery, fresh cold-pressed juice, and easy pause/cancel.</p>
       </div>
-      <div class="plan-cards" style="margin-top:40px">
-        <div class="plan-card">
-          <h3>Weekly</h3>
-          <div class="plan-price" id="pub-price-weekly">₹699 <span>/ 7 days</span></div>
-          <ul class="plan-features">
-            <li>7 fresh bottles</li>
-            <li>Morning delivery (6–8 AM)</li>
-            <li>Customise daily juice</li>
-            <li>Pause anytime</li>
-          </ul>
-          <div class="qty-wrap">
-            <button class="qty-btn" onclick="changeQty('weekly',-1)">−</button>
-            <span class="qty-val" id="qty-weekly">1</span>
-            <button class="qty-btn" onclick="changeQty('weekly',1)">+</button>
-            <span style="font-size:13px;color:var(--mid)">bottle/day</span>
-          </div>
-          <p class="text-sm" id="price-weekly">Total: ₹699</p>
-          <button class="btn-full mt16" onclick="startSubscription('weekly')">Subscribe Weekly</button>
-          <button class="btn-ghost-sm" style="width:100%;margin-top:10px" onclick="toggleSchedulePreview('weekly',this)">📅 View 7-Day Schedule ▾</button>
-          <div id="sched-preview-weekly" class="sched-preview" style="display:none"></div>
-        </div>
-        <div class="plan-card popular">
-          <div class="popular-badge">⭐ Most Popular</div>
-          <h3>10-Day</h3>
-          <div class="plan-price" id="pub-price-10day">₹899 <span>/ 10 days</span></div>
-          <ul class="plan-features">
-            <li>10 fresh bottles</li>
-            <li>Morning delivery (6–8 AM)</li>
-            <li>Customise daily juice</li>
-            <li>Pause anytime</li>
-            <li>Save ₹90 vs weekly</li>
-          </ul>
-          <div class="qty-wrap">
-            <button class="qty-btn" onclick="changeQty('10day',-1)">−</button>
-            <span class="qty-val" id="qty-10day">1</span>
-            <button class="qty-btn" onclick="changeQty('10day',1)">+</button>
-            <span style="font-size:13px;color:var(--mid)">bottle/day</span>
-          </div>
-          <p class="text-sm" id="price-10day">Total: ₹899</p>
-          <button class="btn-full mt16" onclick="startSubscription('10day')">Subscribe 10-Day</button>
-          <button class="btn-ghost-sm" style="width:100%;margin-top:10px" onclick="toggleSchedulePreview('10day',this)">📅 View 10-Day Schedule ▾</button>
-          <div id="sched-preview-10day" class="sched-preview" style="display:none"></div>
-        </div>
-        <div class="plan-card">
-          <h3>Monthly</h3>
-          <div class="plan-price" id="pub-price-monthly">₹2,399 <span>/ 30 days</span></div>
-          <ul class="plan-features">
-            <li>30 fresh bottles</li>
-            <li>Morning delivery (6–8 AM)</li>
-            <li>Customise daily juice</li>
-            <li>Pause anytime</li>
-            <li>Save ₹596</li>
-            <li>Priority support</li>
-          </ul>
-          <div class="qty-wrap">
-            <button class="qty-btn" onclick="changeQty('monthly',-1)">−</button>
-            <span class="qty-val" id="qty-monthly">1</span>
-            <button class="qty-btn" onclick="changeQty('monthly',1)">+</button>
-            <span style="font-size:13px;color:var(--mid)">bottle/day</span>
-          </div>
-          <p class="text-sm" id="price-monthly">Total: ₹2,399</p>
-          <button class="btn-full mt16" onclick="startSubscription('monthly')">Subscribe Monthly</button>
-          <button class="btn-ghost-sm" style="width:100%;margin-top:10px" onclick="toggleSchedulePreview('monthly',this)">📅 View 30-Day Schedule ▾</button>
-          <div id="sched-preview-monthly" class="sched-preview" style="display:none"></div>
-        </div>
-      </div>
+      <div class="plan-cards" style="margin-top:40px" id="plansContainer"></div>
     </div>
   </section>
 
@@ -927,7 +862,7 @@ const API = (window.location.hostname === 'localhost' || window.location.hostnam
 // Prices here are SAFE DEFAULTS. loadLivePricing() only updates .base if the
 // API returns a valid number (> 0), preventing ₹6 / ₹80 / ₹23 issues.
 // ─────────────────────────────────────────────────────────────────────────────
-const PLAN_CFG = {
+let PLAN_CFG = {
   weekly: {
     label:    'Weekly',
     days:     7,
@@ -970,6 +905,7 @@ const PLAN_CFG = {
 };
 
 const JUICES_LIST = ['Sunrise Orange', 'Green Detox', 'Red Power', 'Tropical Glow', 'Antioxidant Grape', 'Coconut Cool', 'Golden Heal', 'Lemon Zing'];
+let planList = [];
 const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 const DAY_LABELS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
@@ -1346,24 +1282,25 @@ function buildDbPlanCards() {
   const box = document.getElementById('dbPlanCards');
   if (!box) return;
 
-  box.innerHTML = Object.entries(PLAN_CFG).map(([key, cfg]) => {
-    const total = cfg.base * (qty[key] || 1);
-    const featuresHTML = cfg.features.map(f => `<li>${f}</li>`).join('');
+  const cards = getPlanCardsSource();
+  box.innerHTML = cards.map(plan => {
+    const total = (plan.price || PLAN_CFG[plan.key]?.base || 0) * (qty[plan.key] || 1);
+    const featuresHTML = (plan.features || []).map(f => `<li>${f}</li>`).join('');
 
     return `
-    <div class="db-plan-card ${cfg.popular ? 'popular' : ''}">
-      ${cfg.popular ? '<div class="db-popular-badge">⭐ Most Popular</div>' : ''}
-      <h3>${cfg.label}</h3>
-      <div class="db-plan-price">₹${cfg.base.toLocaleString()} <span>/ ${cfg.days} days</span></div>
+    <div class="db-plan-card ${plan.popular ? 'popular' : ''}">
+      ${plan.popular ? '<div class="db-popular-badge">⭐ Most Popular</div>' : ''}
+      <h3>${plan.label}</h3>
+      <div class="db-plan-price">₹${(plan.price || PLAN_CFG[plan.key]?.base || 0).toLocaleString()} <span>/ ${plan.days || PLAN_CFG[plan.key]?.days || 0} days</span></div>
       <ul class="db-plan-features">${featuresHTML}</ul>
       <div class="db-qty-wrap">
-        <button class="db-qty-btn" onclick="changeQty('${key}',-1)">−</button>
-        <span class="db-qty-val" id="dqty-${key}">${qty[key] || 1}</span>
-        <button class="db-qty-btn" onclick="changeQty('${key}',1)">+</button>
+        <button class="db-qty-btn" onclick="changeQty('${plan.key}',-1)">−</button>
+        <span class="db-qty-val" id="dqty-${plan.key}">${qty[plan.key] || 1}</span>
+        <button class="db-qty-btn" onclick="changeQty('${plan.key}',1)">+</button>
         <span style="font-size:13px;color:var(--mid)">bottle/day</span>
       </div>
-      <p class="text-sm" id="dprice-${key}">Total: ₹${total.toLocaleString()}</p>
-      <button class="btn-full mt16" onclick="startSubscription('${key}')">Choose ${cfg.label}</button>
+      <p class="text-sm" id="dprice-${plan.key}">Total: ₹${total.toLocaleString()}</p>
+      <button class="btn-full mt16" onclick="startSubscription('${plan.key}')">Choose ${plan.label}</button>
     </div>`;
   }).join('');
 }
@@ -1462,28 +1399,69 @@ async function loadLivePricing() {
     safeUpdate('10day',   data['10day']?.price);
     safeUpdate('monthly', data.monthly?.price);
 
-    // Update public plan section prices
-    updatePublicPlanPrices();
-    // Rebuild dashboard plan cards with updated prices
+    // Update public plan section prices and rebuild dashboard cards
+    renderPublicPlanCards();
     buildDbPlanCards();
   } catch { /* keep defaults — never crash */ }
 }
 
-function updatePublicPlanPrices() {
-  const weekly  = PLAN_CFG.weekly;
-  const tenday  = PLAN_CFG['10day'];
-  const monthly = PLAN_CFG.monthly;
-  const wEl = document.getElementById('pub-price-weekly');
-  const tEl = document.getElementById('pub-price-10day');
-  const mEl = document.getElementById('pub-price-monthly');
-  if (wEl) wEl.innerHTML = `₹${weekly.base.toLocaleString()} <span>/ ${weekly.days} days</span>`;
-  if (tEl) tEl.innerHTML = `₹${tenday.base.toLocaleString()} <span>/ ${tenday.days} days</span>`;
-  if (mEl) mEl.innerHTML = `₹${monthly.base.toLocaleString()} <span>/ ${monthly.days} days</span>`;
-  // Also update total text
-  ['weekly','10day','monthly'].forEach(key => {
-    const el = document.getElementById('price-' + key);
-    if (el) el.textContent = `Total: ₹${PLAN_CFG[key].base.toLocaleString()}`;
-  });
+function getPlanCardsSource() {
+  if (Array.isArray(planList) && planList.length) return planList;
+  return Object.entries(PLAN_CFG).map(([key, cfg]) => ({ key, label: cfg.label, days: cfg.days, price: cfg.base, emoji: cfg.emoji || '🥤', popular: cfg.popular, features: cfg.features }));
+}
+
+function renderPublicPlanCards() {
+  const cards = getPlanCardsSource();
+  const container = document.getElementById('plansContainer');
+  if (!container) return;
+
+  container.innerHTML = cards.map(plan => {
+    const price = plan.price ?? (PLAN_CFG[plan.key]?.base || 0);
+    const perDay = plan.days || (PLAN_CFG[plan.key]?.days || 0);
+    const featuresHTML = (plan.features || []).map(f => `<li class="plan-perk"><span class="perk-check">✓</span>${f}</li>`).join('');
+    return `
+      <div class="plan-card ${plan.popular ? 'featured' : ''}">
+        ${plan.popular ? '<div class="plan-featured-badge">Most Popular</div>' : ''}
+        <span class="plan-emoji">${plan.emoji || '🥤'}</span>
+        <h3 class="plan-name">${plan.label || plan.key}</h3>
+        <p class="plan-duration">${perDay} days subscription</p>
+        <div class="plan-price-block">
+          <div class="plan-price"><span class="amount">₹${price.toLocaleString()}</span><span class="per">/ ${perDay} days</span></div>
+        </div>
+        <div class="plan-perks">${featuresHTML}</div>
+        <button class="plan-btn-filled" onclick="startSubscription('${plan.key}')">Choose ${plan.label || plan.key}</button>
+      </div>`;
+  }).join('');
+}
+
+async function loadPlanCatalog() {
+  try {
+    const res = await fetch(`${API}/plans`);
+    const data = await res.json();
+    if (Array.isArray(data) && data.length) {
+      planList = data.map(plan => ({
+        key: plan.key,
+        label: plan.label || plan.key,
+        days: plan.days,
+        price: plan.price,
+        emoji: plan.emoji || '🥤',
+        popular: plan.popular || false,
+        features: plan.features || [],
+      }));
+      planList.forEach(plan => {
+        if (!PLAN_CFG[plan.key]) return;
+        PLAN_CFG[plan.key].label = plan.label;
+        PLAN_CFG[plan.key].days = plan.days;
+        PLAN_CFG[plan.key].base = plan.price;
+        PLAN_CFG[plan.key].popular = plan.popular;
+        PLAN_CFG[plan.key].features = plan.features;
+      });
+    }
+  } catch (err) {
+    console.warn('Failed to load plans from API', err);
+  }
+  renderPublicPlanCards();
+  buildDbPlanCards();
 }
 
 /* ── CONTACT / QUERY FORM ─────────────────── */
@@ -1654,6 +1632,7 @@ function toast(msg, type = 'success') {
 window.addEventListener('DOMContentLoaded', () => {
   updateNavUI();
   loadLivePricing();   // safe — won't overwrite with junk values
+  loadPlanCatalog();
   buildJuiceGrid();
   buildWhyGrid();
   buildTestimonials();

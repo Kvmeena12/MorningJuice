@@ -25,7 +25,7 @@ router.get('/pricing', async (req, res) => {
 router.put('/pricing', protect, adminOnly, async (req, res) => {
   try {
     const weekly = req.body.weekly;
-    const tenday = req.body['10day'];
+    const tenday = req.body['10day'] || req.body['15day'];
     const monthly = req.body.monthly;
 
     // Validate
