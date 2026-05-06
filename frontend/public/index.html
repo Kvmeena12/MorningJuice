@@ -151,26 +151,6 @@
     .mt16 { margin-top: 16px; }
     .mt24 { margin-top: 24px; }
 
-    /* ─── PLAN CATEGORY TABS ─── */
-    .plan-cat-tabs { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 8px; }
-    .plan-cat-btn { padding: 12px 28px; border-radius: 30px; border: 2px solid var(--border); background: #fff; color: var(--mid); font-size: 15px; font-weight: 700; cursor: pointer; transition: .2s; font-family: 'DM Sans', sans-serif; }
-    .plan-cat-btn.active { background: var(--orange); border-color: var(--orange); color: #fff; }
-    .plan-cat-btn:hover:not(.active) { border-color: var(--orange); color: var(--orange); }
-
-    /* ─── SCHEDULE PREVIEW ─── */
-    .schedule-preview { background: #fff; border: 2px solid var(--border); border-radius: 24px; padding: 28px 32px; margin-top: 36px; }
-    .schedule-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-    .schedule-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; color: var(--dark); }
-    .schedule-sub { font-size: 13px; color: var(--mid); font-weight: 500; }
-    .schedule-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
-    .sched-item { background: var(--cream); border-radius: 14px; padding: 12px 14px; border-left: 3px solid var(--orange); }
-    .sched-item.veg-item { border-left-color: var(--green); }
-    .sched-item.fruit-item { border-left-color: var(--orange); }
-    .sched-item.mix-item { border-left-color: #7c3aed; }
-    .sched-day { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--mid); margin-bottom: 4px; }
-    .sched-juice-emoji { font-size: 20px; margin-bottom: 4px; }
-    .sched-juice-name { font-size: 12px; font-weight: 600; color: var(--dark); line-height: 1.3; }
-
     /* ─── WHY US ─── */
     .why-section { background: #fff; }
     .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; margin-top: 16px; }
@@ -257,6 +237,17 @@
     .toast.show { opacity: 1; transform: translateY(0); }
     .toast.error { background: #dc2626; }
     .toast.success { background: #16a34a; }
+
+    /* ─── SCHEDULE PREVIEW IN PLANS ─── */
+    .sched-preview { margin-top: 16px; border-top: 1px solid var(--border); padding-top: 14px; }
+    .sched-preview-header { font-size: 12px; font-weight: 700; color: var(--mid); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 10px; }
+    .sched-days-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+    .sched-day-chip { background: #f8fafc; border: 1px solid var(--border); border-radius: 10px; padding: 8px 6px; text-align: center; }
+    .sched-day-chip .day-label { font-size: 9px; font-weight: 700; color: #aaa; text-transform: uppercase; display: block; margin-bottom: 3px; }
+    .sched-day-chip .day-juice { font-size: 11px; font-weight: 600; color: var(--dark); line-height: 1.3; }
+    .sched-day-chip .juice-emoji { font-size: 16px; display: block; margin-bottom: 3px; }
+    .sched-summary { display: flex; justify-content: space-between; font-size: 12px; color: var(--mid); margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--border); }
+    .sched-summary strong { color: var(--orange); }
 
     /* ─── BACK TO TOP ─── */
     .back-to-top { position: fixed; bottom: 80px; right: 24px; width: 44px; height: 44px; background: var(--orange); color: #fff; border: none; border-radius: 12px; font-size: 18px; cursor: pointer; opacity: 0; transition: .3s; z-index: 100; }
@@ -404,8 +395,11 @@
       .db-main { padding: 20px; }
     }
     @media (max-width: 768px) {
-      .nav-links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: rgba(255,255,255,.98); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 16px 24px; gap: 16px; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: #fff; border-bottom: 1px solid var(--border); padding: 16px 24px; gap: 4px; z-index: 999; box-shadow: 0 8px 24px rgba(0,0,0,.1); }
       .nav-links.open { display: flex; }
+      .nav-links li { width: 100%; }
+      .nav-links a { display: block; padding: 10px 0; font-size: 15px; border-bottom: 1px solid #f0f0f0; }
+      .nav-links li:last-child a { border-bottom: none; }
       .hamburger { display: flex; }
       .hero-container { grid-template-columns: 1fr; }
       .hero-visual { display: none; }
@@ -575,11 +569,13 @@ Start your healthy morning routine today.
         <p>From local farm to your doorstep in 4 easy steps — fresh, fast, and fuss-free.</p>
       </div>
       <div class="steps-wrapper">
-        <div class="step-card"><div class="step-icon-wrap green">📱</div><h3>Choose Your Plan</h3><p>Pick Vegetable, Fruit or Mix — then choose 7-day, 15-day, or 30-day. We schedule your daily juice automatically.</p></div>
+        <div class="step-card"><div class="step-icon-wrap green">📱</div><h3>Choose Your Plan</h3><p>Pick a 7-day, 10-day, or 30-day subscription. Select your favourite juice blends.</p></div>
         <div class="step-arrow">→</div>
-        <div class="step-card"><div class="step-icon-wrap orange">🧑‍🌾</div><h3>We Source Locally</h3><p>Every morning we collect the freshest fruits & vegetables from our local Mumbai vendor partners.</p></div>
+        <div class="step-card"><div class="step-icon-wrap orange">🧑‍🌾</div><h3>We Source Locally</h3><p>Every morning we collect the freshest fruits & vegetables from our local vendor partners.</p></div>
         <div class="step-arrow">→</div>
-        <div class="step-card"><div class="step-icon-wrap red">🛵</div><h3>Delivered by 8 AM</h3><p>Our dedicated delivery executive brings your juice straight to your door every single morning.</p></div>
+        <div class="step-card"><div class="step-icon-wrap yellow">⚡</div><h3>Cold Pressed Fresh</h3><p>Your juice is cold-pressed each morning, packed in eco-friendly bottles for maximum nutrients.</p></div>
+        <div class="step-arrow">→</div>
+        <div class="step-card"><div class="step-icon-wrap red">🛵</div><h3>Delivered by 8 AM</h3><p>Our dedicated delivery executive brings your juice straight to your door every morning.</p></div>
       </div>
     </div>
   </section>
@@ -608,29 +604,78 @@ Start your healthy morning routine today.
     <div class="container">
       <div class="section-header">
         <div class="section-tag">Pricing</div>
-        <h2>Choose Your Plan</h2>
-        <p>Pick your juice category, select a duration, and we'll deliver a fresh juice to your door every morning. All plans include morning delivery, pause anytime, and a preset daily schedule.</p>
+        <h2>Flexible Subscription Plans</h2>
+        <p>Pre-pay and save more. All plans include morning doorstep delivery, fresh cold-pressed juice, and easy pause/cancel.</p>
       </div>
-
-      <!-- Category tabs -->
-      <div class="plan-cat-tabs">
-        <button class="plan-cat-btn active" data-cat="veg" onclick="switchPlanCat('veg',this)">🥦 Vegetable</button>
-        <button class="plan-cat-btn" data-cat="fruit" onclick="switchPlanCat('fruit',this)">🍊 Fruit</button>
-        <button class="plan-cat-btn" data-cat="mix" onclick="switchPlanCat('mix',this)">🌈 Mix</button>
-      </div>
-
-      <!-- Plan duration cards -->
-      <div class="plan-cards" style="margin-top:32px" id="planCardsWrap">
-        <!-- rendered by JS -->
-      </div>
-
-      <!-- Daily schedule preview -->
-      <div class="schedule-preview" id="schedulePreview">
-        <div class="schedule-header">
-          <span class="schedule-title" id="scheduleTitle">📅 Your Daily Juice Schedule</span>
-          <span class="schedule-sub" id="scheduleSub"></span>
+      <div class="plan-cards" style="margin-top:40px">
+        <div class="plan-card">
+          <h3>Weekly</h3>
+          <div class="plan-price">₹699
+            
+            
+            
+<span>/ 7 days</span></div>
+          <ul class="plan-features">
+            <li>7 fresh bottles</li>
+            <li>Morning delivery (6–8 AM)</li>
+            <li>Customise daily juice</li>
+            <li>Pause anytime</li>
+          </ul>
+          <div class="qty-wrap">
+            <button class="qty-btn" onclick="changeQty('weekly',-1)">−</button>
+            <span class="qty-val" id="qty-weekly">1</span>
+            <button class="qty-btn" onclick="changeQty('weekly',1)">+</button>
+            <span style="font-size:13px;color:var(--mid)">bottle/day</span>
+          </div>
+          <p class="text-sm" id="price-weekly">Total: ₹699</p>
+          <button class="btn-full mt16" onclick="startSubscription('weekly')">Subscribe Weekly</button>
+          <button class="btn-ghost-sm" style="width:100%;margin-top:10px" onclick="toggleSchedulePreview('weekly',this)">📅 View 7-Day Schedule ▾</button>
+          <div id="sched-preview-weekly" class="sched-preview" style="display:none"></div>
         </div>
-        <div class="schedule-grid" id="scheduleGrid"></div>
+        <div class="plan-card popular">
+          <div class="popular-badge">⭐ Most Popular</div>
+          <h3>10-Day</h3>
+          <div class="plan-price">₹899 <span>/ 10 days</span></div>
+          <ul class="plan-features">
+            <li>10 fresh bottles</li>
+            <li>Morning delivery (6–8 AM)</li>
+            <li>Customise daily juice</li>
+            <li>Pause anytime</li>
+            <li>Save ₹90 vs weekly</li>
+          </ul>
+          <div class="qty-wrap">
+            <button class="qty-btn" onclick="changeQty('10day',-1)">−</button>
+            <span class="qty-val" id="qty-10day">1</span>
+            <button class="qty-btn" onclick="changeQty('10day',1)">+</button>
+            <span style="font-size:13px;color:var(--mid)">bottle/day</span>
+          </div>
+          <p class="text-sm" id="price-10day">Total: ₹899</p>
+          <button class="btn-full mt16" onclick="startSubscription('10day')">Subscribe 10-Day</button>
+          <button class="btn-ghost-sm" style="width:100%;margin-top:10px" onclick="toggleSchedulePreview('10day',this)">📅 View 10-Day Schedule ▾</button>
+          <div id="sched-preview-10day" class="sched-preview" style="display:none"></div>
+        </div>
+        <div class="plan-card">
+          <h3>Monthly</h3>
+          <div class="plan-price">₹2,399 <span>/ 30 days</span></div>
+          <ul class="plan-features">
+            <li>30 fresh bottles</li>
+            <li>Morning delivery (6–8 AM)</li>
+            <li>Customise daily juice</li>
+            <li>Pause anytime</li>
+            <li>Save ₹596</li>
+            <li>Priority support</li>
+          </ul>
+          <div class="qty-wrap">
+            <button class="qty-btn" onclick="changeQty('monthly',-1)">−</button>
+            <span class="qty-val" id="qty-monthly">1</span>
+            <button class="qty-btn" onclick="changeQty('monthly',1)">+</button>
+            <span style="font-size:13px;color:var(--mid)">bottle/day</span>
+          </div>
+          <p class="text-sm" id="price-monthly">Total: ₹2,399</p>
+          <button class="btn-full mt16" onclick="startSubscription('monthly')">Subscribe Monthly</button>
+          <button class="btn-ghost-sm" style="width:100%;margin-top:10px" onclick="toggleSchedulePreview('monthly',this)">📅 View 30-Day Schedule ▾</button>
+          <div id="sched-preview-monthly" class="sched-preview" style="display:none"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -694,26 +739,34 @@ Start your healthy morning routine today.
           </div>
         </div>
         <div class="contact-right">
-          <div class="contact-form-card">
-            <h3>Subscribe Now</h3>
-            <p>Fill in your details and we'll call to confirm!</p>
-            <form id="subscribeForm" class="subscribe-form" onsubmit="handleContactForm(event)">
-              <div class="form-row">
-                <div class="form-group"><label>Full Name *</label><input type="text" id="fname" placeholder="Your full name" required /></div>
-                <div class="form-group"><label>Phone (WhatsApp) *</label><input type="tel" id="fphone" placeholder="+91 XXXXX XXXXX" required /></div>
+          <div class="contact-form-card" id="queryFormCard">
+            <h3>Send Us a Query 💬</h3>
+            <p>Have a question? We'll get back to you within a few hours!</p>
+            <div id="queryFormInner">
+              <div class="form-group"><label>Your Name *</label><input type="text" id="qname" placeholder="Your full name" /></div>
+              <div class="form-group"><label>Email Address *</label><input type="email" id="qemail" placeholder="you@email.com" /></div>
+              <div class="form-group"><label>Topic</label>
+                <select id="qtopic">
+                  <option>General Enquiry</option>
+                  <option>Subscription Plans</option>
+                  <option>Delivery Area</option>
+                  <option>Custom Order</option>
+                  <option>Feedback</option>
+                  <option>Other</option>
+                </select>
               </div>
-              <div class="form-group"><label>Delivery Address *</label><input type="text" id="faddress" placeholder="Building, Street, Area – Mumbai" required /></div>
-              <div class="form-row">
-                <div class="form-group"><label>Choose Plan</label>
-                  <select id="fplan"><option value="weekly">Weekly –₹699</option><option value="10day" selected>10-Day – ₹899</option><option value="monthly">Monthly – ₹2,399</option></select>
-                </div>
-                <div class="form-group"><label>Preferred Juice</label>
-                  <select id="fjuice"><option>Sunrise Orange</option><option>Green Detox</option><option>Red Power</option><option>Tropical Glow</option><option>Antioxidant Grape</option><option>Coconut Cool</option><option>Rotate Daily</option></select>
-                </div>
+              <div class="form-group"><label>Your Message *</label>
+                <textarea id="qmessage" rows="4" placeholder="Tell us what you'd like to know…" style="width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:10px;font-size:15px;font-family:'DM Sans',sans-serif;resize:vertical;transition:.2s;" onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'"></textarea>
               </div>
-              <button type="submit" class="btn btn-primary full-width">Confirm Subscription 🚀</button>
-              <p class="form-note">We'll send a confirmation on WhatsApp within 30 minutes.</p>
-            </form>
+              <button class="btn btn-primary full-width" onclick="submitQuery()">Send Message ✉️</button>
+              <p class="form-note" style="margin-top:10px">We reply within a few hours · No spam ever</p>
+            </div>
+            <div id="querySuccess" style="display:none;text-align:center;padding:32px 0">
+              <div style="font-size:52px;margin-bottom:14px">✅</div>
+              <h3 style="font-size:20px;margin-bottom:8px">Message Sent!</h3>
+              <p style="color:var(--mid);font-size:15px">Thanks for reaching out. We'll get back to you soon.</p>
+              <button onclick="resetQueryForm()" style="margin-top:18px;padding:10px 22px;background:var(--orange);color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif">Send Another →</button>
+            </div>
           </div>
         </div>
       </div>
@@ -830,24 +883,9 @@ Start your healthy morning routine today.
       <div class="db-tab" id="tab-plans">
         <div class="db-page-header">
           <h1>Choose a Plan</h1>
-          <p>Select your juice category, duration, and subscribe</p>
-        </div>
-        <!-- Category tabs -->
-        <div class="plan-cat-tabs" style="justify-content:flex-start;margin-bottom:24px">
-          <button class="plan-cat-btn active" data-dbcat="veg"   onclick="dbSwitchCat('veg',this)">🥦 Vegetable</button>
-          <button class="plan-cat-btn"        data-dbcat="fruit" onclick="dbSwitchCat('fruit',this)">🍊 Fruit</button>
-          <button class="plan-cat-btn"        data-dbcat="mix"   onclick="dbSwitchCat('mix',this)">🌈 Mix</button>
+          <p>Select the subscription that works best for you</p>
         </div>
         <div class="plan-cards" id="dbPlanCards"></div>
-        <!-- DB Schedule preview -->
-        <div class="schedule-preview" id="dbSchedulePreview" style="display:none;margin-top:24px">
-          <div class="schedule-header">
-            <span class="schedule-title" id="dbSchedTitle">📅 Your Daily Juice Schedule</span>
-            <span class="schedule-sub"   id="dbSchedSub"></span>
-          </div>
-          <div class="schedule-grid" id="dbSchedGrid"></div>
-          <button class="btn-full mt24" style="max-width:260px;margin-top:20px" id="dbSubscribeBtn" onclick="startSubscriptionFromDb()">Subscribe & Pay →</button>
-        </div>
         <div id="paymentStep" style="display:none">
           <div class="payment-box">
             <h3>Order Summary</h3>
@@ -861,10 +899,11 @@ Start your healthy morning routine today.
       <!-- SCHEDULE TAB -->
       <div class="db-tab" id="tab-schedule">
         <div class="db-page-header">
-          <h1>My Juice Schedule</h1>
-          <p>Your preset daily juice delivery schedule based on your plan.</p>
+          <h1>Weekly Schedule</h1>
+          <p>Choose juice per day. Toggle OFF to skip that day permanently.</p>
         </div>
         <div id="scheduleContent">Loading...</div>
+        <button class="btn-full mt24" style="max-width:220px" onclick="saveSchedule()">💾 Save Schedule</button>
       </div>
 
       <!-- ORDERS TAB -->
@@ -895,13 +934,22 @@ const API = (window.location.hostname === 'localhost' || window.location.hostnam
   ? 'http://localhost:5000/api'
   : window.location.origin + '/api';
 
-const DAYS_OF_WEEK = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+const PLAN_CFG = {
+  weekly:  { label: 'Weekly',  days: 7,  base: 699  },
+  '10day': { label: '10-Day',  days: 10, base: 899  },
+  monthly: { label: 'Monthly', days: 30, base: 2399 },
+};
+
+const JUICES_LIST = ['Sunrise Orange', 'Green Detox', 'Red Power', 'Tropical Glow', 'Antioxidant Grape', 'Coconut Cool', 'Golden Heal', 'Lemon Zing'];
+const DAYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+const DAY_LABELS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 let token = localStorage.getItem('jm_token');
 let user  = JSON.parse(localStorage.getItem('jm_user') || 'null');
 let activeSub   = null;
 let pendingSub  = null;
 let userLocation = null;
+const qty = { weekly: 1, '10day': 1, monthly: 1 };
 
 /* ─── AUTH HELPERS ─── */
 function authHeader() {
@@ -1186,34 +1234,24 @@ async function loadOverview() {
     return;
   }
 
+  const cfg = PLAN_CFG[activeSub.planType] || { label: activeSub.planType, days: '?' };
   const endDate = activeSub.endDate ? new Date(activeSub.endDate) : null;
   const today   = new Date();
   const daysLeft = endDate ? Math.max(0, Math.ceil((endDate - today) / (1000*60*60*24))) : '?';
 
-  // Compute today's juice
-  const planKey   = activeSub.planType || '';
-  const pParts    = planKey.split('-');
-  const pCat      = ['veg','fruit','mix'].includes(pParts[0]) ? pParts[0] : 'veg';
-  const pDays     = parseInt(pParts[1]) || 7;
-  const startDate = activeSub.startDate ? new Date(activeSub.startDate) : today;
-  const dayOffset = Math.max(0, Math.floor((today - startDate) / (1000*60*60*24))) % pDays;
-  const todayPool = buildScheduleForCat(pCat, pDays);
-  const todayJ    = todayPool[dayOffset];
-  const catLabel  = pCat === 'mix' ? '🌈 Mix (Fruit ↔ Veg)' : pCat === 'veg' ? '🥦 Vegetable' : '🍊 Fruit';
-
   box.innerHTML = `
     <div class="sub-banner">
       <div class="sb-tag">Active Plan</div>
-      <h3>${todayJ ? todayJ.emoji : '🥤'} Today: ${todayJ ? todayJ.name : 'Fresh Juice'}</h3>
+      <h3>🎉 ${cfg.label} Plan</h3>
       <div class="sb-meta">
-        <span>${catLabel}</span>
         <span>📅 Started: ${fmt(activeSub.startDate)}</span>
         <span>📅 Ends: ${fmt(activeSub.endDate)}</span>
+        <span>🍾 ${activeSub.bottlesPerDay || 1} bottle/day</span>
         <span>💰 ₹${activeSub.totalAmount}</span>
       </div>
       <div class="sb-actions">
         <button class="sb-btn" onclick="togglePause()">⏸ Pause Subscription</button>
-        <button class="sb-btn" onclick="dbSwitch('schedule')">📅 View Full Schedule</button>
+        <button class="sb-btn" onclick="dbSwitch('schedule')">📅 Edit Schedule</button>
       </div>
     </div>
     <div class="db-stats-row">
@@ -1303,7 +1341,7 @@ async function togglePause() {
   loadOverview();
 }
 
-/* ─── SCHEDULE (read-only preset view) ─── */
+/* ─── SCHEDULE ─── */
 async function loadSchedule() {
   if (!activeSub) {
     try {
@@ -1321,60 +1359,56 @@ async function loadSchedule() {
     return;
   }
 
-  // Parse plan key e.g. "veg-15", "mix-30", "fruit-7"
-  const planKey  = activeSub.planType || '';
-  const parts    = planKey.split('-');
-  const cat      = ['veg','fruit','mix'].includes(parts[0]) ? parts[0] : 'veg';
-  const days     = parseInt(parts[1]) || 7;
-  const catColor = CAT_COLORS[cat] || 'var(--orange)';
-  const catName  = CAT_NAMES[cat]  || 'Juice';
+  let juiceOptions = JUICES_LIST.map(n => ({ name: n }));
+  try {
+    const jRes = await fetch(`${API}/schedule/juices`);
+    const jData = await jRes.json();
+    if (Array.isArray(jData) && jData.length) juiceOptions = jData;
+  } catch { /* use default */ }
 
-  // Build schedule
-  const juices   = buildScheduleForCat(cat, days);
-  const schedule = juices.map((j, i) => ({ dayNum: i+1, dayLabel: DAY_SHORT[i], juice: j, isFruit: j.type === 'fruit' }));
+  const sched = activeSub.weeklySchedule || [];
 
-  // Today's delivery (day number based on startDate)
-  const startDate = activeSub.startDate ? new Date(activeSub.startDate) : new Date();
-  const today     = new Date();
-  const daysSinceStart = Math.max(0, Math.floor((today - startDate) / (1000*60*60*24)));
-  const todayIdx  = daysSinceStart % days;
-  const todayJuice = schedule[todayIdx];
+  const juiceDropdown = (selected) => `
+    <option ${!selected || selected === 'Rotate Daily' ? 'selected' : ''}>Rotate Daily</option>
+    ${juiceOptions.map(j => `<option ${selected === j.name ? 'selected' : ''}>${j.name}</option>`).join('')}`;
 
-  const mixLegend = cat === 'mix'
-    ? `<div style="display:flex;gap:16px;margin-bottom:16px;font-size:13px;font-weight:600">
-        <span style="color:var(--orange)">🍊 Even days = Fruit</span>
-        <span style="color:var(--green)">🥦 Odd days = Vegetable</span>
-       </div>` : '';
-
-  box.innerHTML = `
-    <div class="db-card" style="border-left:4px solid ${catColor};margin-bottom:20px">
-      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
-        <div style="font-size:48px">${todayJuice.juice.emoji}</div>
-        <div>
-          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#aaa;margin-bottom:4px">Today's Juice (Day ${todayIdx+1})</div>
-          <div style="font-size:22px;font-weight:900;color:var(--dark)">${todayJuice.juice.name}</div>
-          <div style="font-size:13px;color:var(--mid);margin-top:4px">${todayJuice.juice.desc}</div>
-          <div style="margin-top:8px;font-size:12px;font-weight:600;color:${catColor}">${catName} Plan · ${days} days · ${cat === 'mix' ? 'Alternating Fruit & Veg' : catName+' juices'}</div>
-        </div>
+  box.innerHTML = `<div class="sched-grid">${DAYS.map((d, i) => {
+    const s = sched.find(x => x.day === d) || { enabled: true, juiceType: 'Rotate Daily' };
+    return `<div class="sched-card ${s.enabled ? 'on' : ''}" id="card-${d}">
+      <div class="sched-day">
+        <strong>${DAY_LABELS[i]}</strong>
+        <label class="toggle-sw">
+          <input type="checkbox" id="tog-${d}" ${s.enabled ? 'checked' : ''} onchange="toggleDay('${d}')">
+          <span class="slider"></span>
+        </label>
       </div>
-    </div>
-    <div class="db-card">
-      <h2>Full ${days}-Day Schedule</h2>
-      <div class="card-sub">${cat === 'mix' ? 'Fruit and vegetable juices alternate each day' : `All ${catName.toLowerCase()} juices, rotating daily`}</div>
-      ${mixLegend}
-      <div class="schedule-grid" style="margin-top:0">
-        ${schedule.map(s => {
-          const cls   = cat === 'mix' ? (s.isFruit ? 'fruit-item' : 'veg-item') : cat + '-item';
-          const isToday = s.dayNum - 1 === todayIdx;
-          const badge = cat === 'mix' ? `<span style="font-size:9px;font-weight:700;color:${s.isFruit ? 'var(--orange)' : 'var(--green)'};">${s.isFruit ? '🍊' : '🥦'}</span>` : '';
-          return `<div class="sched-item ${cls}" style="${isToday ? 'outline:2px solid '+catColor+';outline-offset:2px' : ''}">
-            <div class="sched-day">Day ${s.dayNum} · ${s.dayLabel} ${badge} ${isToday ? '⬅ Today' : ''}</div>
-            <div class="sched-juice-emoji">${s.juice.emoji}</div>
-            <div class="sched-juice-name">${s.juice.name}</div>
-          </div>`;
-        }).join('')}
-      </div>
+      <select class="sched-select" id="juice-${d}" ${!s.enabled ? 'disabled' : ''}>${juiceDropdown(s.juiceType)}</select>
     </div>`;
+  }).join('')}</div>`;
+}
+
+function toggleDay(day) {
+  const on = document.getElementById('tog-' + day).checked;
+  document.getElementById('card-' + day).classList.toggle('on', on);
+  document.getElementById('juice-' + day).disabled = !on;
+}
+
+async function saveSchedule() {
+  if (!activeSub) return toast('No active subscription', 'error');
+  const weeklySchedule = DAYS.map(d => ({
+    day:       d,
+    enabled:   document.getElementById('tog-' + d)?.checked ?? true,
+    juiceType: document.getElementById('juice-' + d)?.value || 'Rotate Daily',
+  }));
+  const res  = await fetch(`${API}/subscriptions/${activeSub._id}/schedule`, {
+    method:  'PUT',
+    headers: authHeader(),
+    body:    JSON.stringify({ weeklySchedule }),
+  });
+  const data = await res.json();
+  if (!res.ok) return toast(data.error, 'error');
+  activeSub.weeklySchedule = weeklySchedule;
+  toast('Schedule saved & orders updated! ✅');
 }
 
 /* ─── ORDERS ─── */
@@ -1408,90 +1442,58 @@ async function loadOrders() {
 }
 
 /* ─── PLAN CARDS IN DASHBOARD ─── */
-let dbActiveCat  = 'veg';
-let dbActivePlan = null;  // { cat, planDef }
-
-function dbSwitchCat(cat, btn) {
-  dbActiveCat  = cat;
-  dbActivePlan = null;
-  document.querySelectorAll('[data-dbcat]').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  buildDbPlanCards();
-  document.getElementById('dbSchedulePreview').style.display = 'none';
-}
-
 function buildDbPlanCards() {
   const box = document.getElementById('dbPlanCards');
   if (!box) return;
-  const plans = PLAN_DEFS[dbActiveCat];
-  const mixNote = dbActiveCat === 'mix' ? '<li>🔄 Alternates Fruit ↔ Vegetable daily</li>' : '';
-  box.innerHTML = plans.map(p => `
-    <div class="plan-card ${p.popular ? 'popular' : ''}" id="dpc-${p.key}" style="cursor:pointer" onclick="dbSelectPlan('${p.key}')">
-      ${p.popular ? '<div class="popular-badge">⭐ Most Popular</div>' : ''}
-      <h3>${p.label}</h3>
-      <div class="plan-price" style="color:${CAT_COLORS[dbActiveCat]}">₹${p.price.toLocaleString('en-IN')} <span>/ ${p.days} days</span></div>
-      <ul class="plan-features">
-        <li>${p.days} fresh bottles total</li>
-        <li>Morning delivery (6–8 AM)</li>
-        <li>${CAT_NAMES[dbActiveCat]} plan</li>
-        ${mixNote}
-        <li>Pause anytime</li>
-        ${p.save ? `<li>${p.save}</li>` : ''}
-      </ul>
-      <button class="btn-full mt16" style="${p.popular ? `background:${CAT_COLORS[dbActiveCat]}` : ''}"
-        onclick="event.stopPropagation();dbSelectPlan('${p.key}')">See Schedule →</button>
+  box.innerHTML = Object.entries(PLAN_CFG).map(([key, cfg]) => `
+    <div class="plan-card ${key === '10day' ? 'popular' : ''}">
+      ${key === '10day' ? '<div class="popular-badge">⭐ Most Popular</div>' : ''}
+      <h3>${cfg.label}</h3>
+      <div class="plan-price">₹${cfg.base.toLocaleString()} <span>/ ${cfg.days} days</span></div>
+      <div class="qty-wrap">
+        <button class="qty-btn" onclick="changeQty('${key}',-1)">−</button>
+        <span class="qty-val" id="dqty-${key}">1</span>
+        <button class="qty-btn" onclick="changeQty('${key}',1)">+</button>
+        <span style="font-size:13px;color:var(--mid)">bottle/day</span>
+      </div>
+      <p class="text-sm" id="dprice-${key}">Total: ₹${cfg.base.toLocaleString()}</p>
+      <button class="btn-full mt16" onclick="startSubscription('${key}')">Choose ${cfg.label}</button>
     </div>`).join('');
 }
 
-function dbSelectPlan(key) {
-  const plan = PLAN_DEFS[dbActiveCat].find(p => p.key === key);
-  dbActivePlan = { cat: dbActiveCat, planDef: plan };
-
-  document.querySelectorAll('#dbPlanCards .plan-card').forEach(c => c.style.boxShadow = '');
-  const card = document.getElementById('dpc-' + key);
-  if (card) card.style.boxShadow = `0 0 0 3px ${CAT_COLORS[dbActiveCat]}`;
-
-  const juices   = buildScheduleForCat(dbActiveCat, plan.days);
-  const schedule = juices.map((j, i) => ({ dayNum: i+1, dayLabel: DAY_SHORT[i], juice: j, isFruit: j.type === 'fruit' }));
-
-  document.getElementById('dbSchedTitle').textContent = `📅 Daily Schedule — ${CAT_NAMES[dbActiveCat]} · ${plan.label}`;
-  document.getElementById('dbSchedSub').textContent   = `₹${plan.price.toLocaleString('en-IN')} · 1 bottle/day · by 8 AM${dbActiveCat === 'mix' ? ' · 🍊↔🥦 alternating' : ''}`;
-  document.getElementById('dbSubscribeBtn').textContent = `Subscribe ${CAT_NAMES[dbActiveCat]} ${plan.label} – ₹${plan.price.toLocaleString('en-IN')} →`;
-
-  document.getElementById('dbSchedGrid').innerHTML = schedule.map(s => {
-    const cls = dbActiveCat === 'mix' ? (s.isFruit ? 'fruit-item' : 'veg-item') : dbActiveCat + '-item';
-    const badge = dbActiveCat === 'mix' ? `<span style="font-size:9px;font-weight:700;color:${s.isFruit ? 'var(--orange)' : 'var(--green)'};">${s.isFruit ? '🍊 Fruit' : '🥦 Veg'}</span>` : '';
-    return `<div class="sched-item ${cls}">
-      <div class="sched-day">Day ${s.dayNum} · ${s.dayLabel} ${badge}</div>
-      <div class="sched-juice-emoji">${s.juice.emoji}</div>
-      <div class="sched-juice-name">${s.juice.name}</div>
-    </div>`;
-  }).join('');
-
-  const preview = document.getElementById('dbSchedulePreview');
-  preview.style.display = 'block';
-  preview.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+/* ─── QTY CONTROLS ─── */
+function changeQty(plan, delta) {
+  qty[plan] = Math.max(1, Math.min(4, (qty[plan] || 1) + delta));
+  const total = PLAN_CFG[plan].base * qty[plan];
+  ['', 'd'].forEach(prefix => {
+    const qEl = document.getElementById(prefix + 'qty-' + plan);
+    const pEl = document.getElementById(prefix + 'price-' + plan);
+    if (qEl) qEl.textContent = qty[plan];
+    if (pEl) pEl.textContent = `Total: ₹${total.toLocaleString()}`;
+  });
 }
 
-async function startSubscriptionFromDb() {
+/* ─── START SUBSCRIPTION ─── */
+async function startSubscription(planKey) {
   if (!user) { openAuth(); return; }
-  if (!dbActivePlan) return toast('Please select a plan first', 'error');
-  const { cat, planDef } = dbActivePlan;
+  const cfg   = PLAN_CFG[planKey];
   const start = new Date(); start.setDate(start.getDate() + 1);
   try {
     const res  = await fetch(`${API}/subscriptions`, {
-      method: 'POST', headers: authHeader(),
-      body: JSON.stringify({ planType: planDef.key, juiceCategory: cat, bottlesPerDay: 1, startDate: start.toISOString() }),
+      method:  'POST',
+      headers: authHeader(),
+      body:    JSON.stringify({ planType: planKey, bottlesPerDay: qty[planKey] || 1, startDate: start.toISOString() }),
     });
     const data = await res.json();
-    if (!res.ok) return toast(data.error || 'Failed to create subscription', 'error');
+    if (!res.ok) return toast(data.error, 'error');
     pendingSub = data.subscription;
     document.getElementById('paymentStep').style.display = '';
+    const total = cfg.base * (qty[planKey] || 1);
     document.getElementById('paymentSummary').innerHTML = `
-      <div class="payment-row"><span>Plan</span><span>${CAT_NAMES[cat]} · ${planDef.label}</span></div>
-      <div class="payment-row"><span>Bottles / Day</span><span>1</span></div>
-      <div class="payment-row"><span>Category</span><span>${cat === 'mix' ? 'Mix (Fruit ↔ Veg)' : CAT_NAMES[cat]}</span></div>
-      <div class="payment-row"><span>Total</span><span>₹${planDef.price.toLocaleString('en-IN')}</span></div>`;
+      <div class="payment-row"><span>Plan</span><span>${cfg.label} (${cfg.days} days)</span></div>
+      <div class="payment-row"><span>Bottles / Day</span><span>${qty[planKey] || 1}</span></div>
+      <div class="payment-row"><span>Total</span><span>₹${total.toLocaleString()}</span></div>`;
+    dbSwitch('plans');
     document.getElementById('paymentStep').scrollIntoView({ behavior: 'smooth' });
   } catch (err) { toast(err.message, 'error'); }
 }
@@ -1551,9 +1553,15 @@ function handleContactForm(e) {
   window.open(`https://wa.me/916375292488?text=${msg}`, '_blank');
 }
 
-/* ─── LIVE PRICING (no-op - prices defined in PLAN_DEFS) ─── */
+/* ─── LIVE PRICING ─── */
 async function loadLivePricing() {
-  // Prices managed in PLAN_DEFS above
+  try {
+    const res  = await fetch(`${API}/settings/pricing`);
+    const data = await res.json();
+    if (data.weekly)   PLAN_CFG.weekly.base   = data.weekly.price;
+    if (data['10day']) PLAN_CFG['10day'].base  = data['10day'].price;
+    if (data.monthly)  PLAN_CFG.monthly.base   = data.monthly.price;
+  } catch { /* use defaults */ }
 }
 
 /* ─── UTILITY ─── */
@@ -1573,124 +1581,15 @@ function toast(msg, type = 'success') {
    HOME PAGE DYNAMIC CONTENT
 ═══════════════════════════════════════════ */
 const JUICES_DATA = [
-  { emoji:'🍊', name:'Sunrise Orange', desc:'Classic cold-pressed orange juice packed with Vitamin C and natural sugars for a bright start.', tags:['immunity','energy'], category:'immunity', type:'fruit' },
-  { emoji:'🥦', name:'Green Detox', desc:'Spinach, cucumber, celery and apple — a powerful cleanse for your digestive system.', tags:['detox','glow'], category:'detox', type:'veg' },
-  { emoji:'🍅', name:'Red Power', desc:'Tomato, beetroot and carrot blend rich in antioxidants and iron to fuel your day.', tags:['energy','immunity'], category:'energy', type:'veg' },
-  { emoji:'🍍', name:'Tropical Glow', desc:'Pineapple, mango and turmeric for radiant skin and anti-inflammatory benefits.', tags:['glow','immunity'], category:'glow', type:'fruit' },
-  { emoji:'🍇', name:'Antioxidant Grape', desc:'Dark grape and pomegranate powerhouse that fights free radicals and supports heart health.', tags:['immunity','detox'], category:'immunity', type:'fruit' },
-  { emoji:'🥥', name:'Coconut Cool', desc:'Fresh coconut water blended with mint and lime — the ultimate hydration drink.', tags:['energy','glow'], category:'energy', type:'fruit' },
-  { emoji:'🫚', name:'Golden Heal', desc:'Turmeric, ginger, black pepper and orange — our anti-inflammatory signature blend.', tags:['immunity','detox'], category:'detox', type:'mix' },
-  { emoji:'🍋', name:'Lemon Zing', desc:'Lemon, ginger, honey and cayenne pepper for a metabolism-boosting morning kickstart.', tags:['energy','detox'], category:'energy', type:'mix' },
-  { emoji:'🥕', name:'Carrot Glow', desc:'Carrot, orange and ginger blend for glowing skin and better vision. Pure vegetable goodness.', tags:['glow','immunity'], category:'glow', type:'veg' },
-  { emoji:'🍐', name:'Pear Mint Cooler', desc:'Fresh pear, mint and cucumber — light, refreshing and great for digestion.', tags:['detox','glow'], category:'detox', type:'fruit' },
+  { emoji:'🍊', name:'Sunrise Orange', desc:'Classic cold-pressed orange juice packed with Vitamin C and natural sugars for a bright start.', tags:['immunity','energy'], category:'immunity' },
+  { emoji:'🥦', name:'Green Detox', desc:'Spinach, cucumber, celery and apple — a powerful cleanse for your digestive system.', tags:['detox','glow'], category:'detox' },
+  { emoji:'🍅', name:'Red Power', desc:'Tomato, beetroot and carrot blend rich in antioxidants and iron to fuel your day.', tags:['energy','immunity'], category:'energy' },
+  { emoji:'🍍', name:'Tropical Glow', desc:'Pineapple, mango and turmeric for radiant skin and anti-inflammatory benefits.', tags:['glow','immunity'], category:'glow' },
+  { emoji:'🍇', name:'Antioxidant Grape', desc:'Dark grape and pomegranate powerhouse that fights free radicals and supports heart health.', tags:['immunity','detox'], category:'immunity' },
+  { emoji:'🥥', name:'Coconut Cool', desc:'Fresh coconut water blended with mint and lime — the ultimate hydration drink.', tags:['energy','glow'], category:'energy' },
+  { emoji:'🫚', name:'Golden Heal', desc:'Turmeric, ginger, black pepper and orange — our anti-inflammatory signature blend.', tags:['immunity','detox'], category:'detox' },
+  { emoji:'🍋', name:'Lemon Zing', desc:'Lemon, ginger, honey and cayenne pepper for a metabolism-boosting morning kickstart.', tags:['energy','detox'], category:'energy' },
 ];
-
-/* ─── JUICE POOLS ─── */
-const VEG_JUICES   = JUICES_DATA.filter(j => j.type === 'veg');
-const FRUIT_JUICES = JUICES_DATA.filter(j => j.type === 'fruit');
-
-/* Mix = alternating fruit day / veg day */
-function buildMixSchedule(days) {
-  return Array.from({ length: days }, (_, i) => {
-    const pool = (i % 2 === 0) ? FRUIT_JUICES : VEG_JUICES;
-    const pick = Math.floor(i / 2) % pool.length;
-    return pool[pick];
-  });
-}
-
-function buildScheduleForCat(cat, days) {
-  if (cat === 'mix') return buildMixSchedule(days);
-  const pool = cat === 'veg' ? VEG_JUICES : FRUIT_JUICES;
-  return Array.from({ length: days }, (_, i) => pool[i % pool.length]);
-}
-
-/* ─── PLAN CONFIG ─── */
-const PLAN_DEFS = {
-  veg: [
-    { key:'veg-7',  label:'7 Days',  days:7,  price:649,  popular:false, save:'' },
-    { key:'veg-15', label:'15 Days', days:15, price:1199, popular:true,  save:'Save ₹180' },
-    { key:'veg-30', label:'30 Days', days:30, price:2199, popular:false, save:'Save ₹540' },
-  ],
-  fruit: [
-    { key:'fruit-7',  label:'7 Days',  days:7,  price:699,  popular:false, save:'' },
-    { key:'fruit-15', label:'15 Days', days:15, price:1299, popular:true,  save:'Save ₹195' },
-    { key:'fruit-30', label:'30 Days', days:30, price:2399, popular:false, save:'Save ₹690' },
-  ],
-  mix: [
-    { key:'mix-7',  label:'7 Days',  days:7,  price:749,  popular:false, save:'' },
-    { key:'mix-15', label:'15 Days', days:15, price:1399, popular:true,  save:'Save ₹225' },
-    { key:'mix-30', label:'30 Days', days:30, price:2599, popular:false, save:'Save ₹850' },
-  ],
-};
-
-const CAT_COLORS = { veg: 'var(--green)', fruit: 'var(--orange)', mix: '#7c3aed' };
-const CAT_NAMES  = { veg: 'Vegetable', fruit: 'Fruit', mix: 'Mix' };
-const DAY_SHORT  = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun','Mon','Tue','Wed','Thu','Fri','Sat','Sun','Mon',
-                    'Tue','Wed','Thu','Fri','Sat','Sun','Mon','Tue','Wed','Thu','Fri','Sat','Sun','Mon','Tue'];
-
-let activeCat  = 'veg';
-let activePlan = null;
-
-function switchPlanCat(cat, btn) {
-  activeCat  = cat;
-  activePlan = null;
-  document.querySelectorAll('.plan-cat-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderPlanCards();
-  document.getElementById('schedulePreview').style.display = 'none';
-}
-
-function renderPlanCards() {
-  const wrap = document.getElementById('planCardsWrap');
-  if (!wrap) return;
-  const plans = PLAN_DEFS[activeCat];
-  const mixNote = activeCat === 'mix' ? '<li>🔄 Alternates Fruit ↔ Vegetable daily</li>' : '';
-  wrap.innerHTML = plans.map(p => `
-    <div class="plan-card ${p.popular ? 'popular' : ''}" id="pc-${p.key}" style="cursor:pointer" onclick="selectPlan('${p.key}')">
-      ${p.popular ? '<div class="popular-badge">⭐ Most Popular</div>' : ''}
-      <h3>${p.label}</h3>
-      <div class="plan-price" style="color:${CAT_COLORS[activeCat]}">₹${p.price.toLocaleString('en-IN')} <span>/ ${p.days} days</span></div>
-      <ul class="plan-features">
-        <li>${p.days} fresh bottles total</li>
-        <li>Morning delivery (6–8 AM)</li>
-        <li>${CAT_NAMES[activeCat]} plan</li>
-        ${mixNote}
-        <li>Pause anytime</li>
-        ${p.save ? `<li>${p.save}</li>` : ''}
-      </ul>
-      <button class="btn-full mt16" style="${p.popular ? `background:${CAT_COLORS[activeCat]}` : ''}" onclick="event.stopPropagation();selectPlan('${p.key}')">
-        See Daily Schedule →
-      </button>
-    </div>`).join('');
-}
-
-function selectPlan(key) {
-  activePlan = key;
-  document.querySelectorAll('#planCardsWrap .plan-card').forEach(c => c.style.boxShadow = '');
-  const card = document.getElementById('pc-' + key);
-  if (card) card.style.boxShadow = `0 0 0 3px ${CAT_COLORS[activeCat]}`;
-
-  const plan     = PLAN_DEFS[activeCat].find(p => p.key === key);
-  const juices   = buildScheduleForCat(activeCat, plan.days);
-  const schedule = juices.map((j, i) => ({ dayNum: i+1, dayLabel: DAY_SHORT[i], juice: j, isFruit: j.type === 'fruit' }));
-
-  const preview = document.getElementById('schedulePreview');
-  document.getElementById('scheduleTitle').textContent = `📅 Daily Juice Schedule — ${CAT_NAMES[activeCat]} · ${plan.label}`;
-  document.getElementById('scheduleSub').textContent   = `₹${plan.price.toLocaleString('en-IN')} total · 1 bottle/day · Delivered by 8 AM${activeCat === 'mix' ? ' · 🍊 Fruit & 🥦 Veg alternate each day' : ''}`;
-
-  document.getElementById('scheduleGrid').innerHTML = schedule.map(s => {
-    const colorClass = activeCat === 'mix' ? (s.isFruit ? 'fruit-item' : 'veg-item') : activeCat + '-item';
-    const typeLabel  = activeCat === 'mix' ? `<span style="font-size:10px;font-weight:700;color:${s.isFruit ? 'var(--orange)' : 'var(--green)'};">${s.isFruit ? '🍊 Fruit' : '🥦 Veg'}</span>` : '';
-    return `<div class="sched-item ${colorClass}">
-      <div class="sched-day">Day ${s.dayNum} · ${s.dayLabel} ${typeLabel}</div>
-      <div class="sched-juice-emoji">${s.juice.emoji}</div>
-      <div class="sched-juice-name">${s.juice.name}</div>
-    </div>`;
-  }).join('');
-
-  preview.style.display = 'block';
-  preview.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
 
 function buildJuiceGrid(filter = 'all') {
   const grid = document.getElementById('juiceGrid');
@@ -1784,7 +1683,103 @@ function toggleFAQ(i) {
   });
 }
 
-/* ─── FILTER BUTTONS ─── */
+/* ─── QUERY FORM ─── */
+function submitQuery() {
+  const name    = document.getElementById('qname')?.value.trim();
+  const email   = document.getElementById('qemail')?.value.trim();
+  const message = document.getElementById('qmessage')?.value.trim();
+  if (!name)    return toast('Please enter your name', 'error');
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return toast('Please enter a valid email', 'error');
+  if (!message) return toast('Please write your message', 'error');
+  // In production you'd POST to an API here
+  document.getElementById('queryFormInner').style.display = 'none';
+  document.getElementById('querySuccess').style.display   = '';
+  toast('Message sent! We\'ll reply soon. ✅');
+}
+
+function resetQueryForm() {
+  document.getElementById('queryFormInner').style.display = '';
+  document.getElementById('querySuccess').style.display   = 'none';
+  ['qname','qemail','qmessage'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+}
+
+/* ─── PLAN SCHEDULE PREVIEW ─── */
+const PLAN_SCHEDULE = {
+  weekly: [
+    { day: 'MON', juice: 'Sunrise Orange', emoji: '🍊' },
+    { day: 'TUE', juice: 'Green Detox',    emoji: '🥦' },
+    { day: 'WED', juice: 'Red Power',      emoji: '🍅' },
+    { day: 'THU', juice: 'Carrot Glow',    emoji: '🥕' },
+    { day: 'FRI', juice: 'Tropical Glow',  emoji: '🍍' },
+    { day: 'SAT', juice: 'Coconut Cool',   emoji: '🥥' },
+    { day: 'SUN', juice: 'Golden Heal',    emoji: '✨' },
+  ],
+  '10day': [
+    { day: 'DAY 1',  juice: 'Sunrise Orange', emoji: '🍊' },
+    { day: 'DAY 2',  juice: 'Green Detox',    emoji: '🥦' },
+    { day: 'DAY 3',  juice: 'Red Power',      emoji: '🍅' },
+    { day: 'DAY 4',  juice: 'Carrot Glow',    emoji: '🥕' },
+    { day: 'DAY 5',  juice: 'Tropical Glow',  emoji: '🍍' },
+    { day: 'DAY 6',  juice: 'Coconut Cool',   emoji: '🥥' },
+    { day: 'DAY 7',  juice: 'Golden Heal',    emoji: '✨' },
+    { day: 'DAY 8',  juice: 'Lemon Zing',     emoji: '🍋' },
+    { day: 'DAY 9',  juice: 'Antioxidant Grape', emoji: '🍇' },
+    { day: 'DAY 10', juice: 'Green Detox',    emoji: '🥦' },
+  ],
+  monthly: null // generated programmatically
+};
+
+const MONTHLY_ROTATION = [
+  { juice: 'Sunrise Orange', emoji: '🍊' },
+  { juice: 'Green Detox',    emoji: '🥦' },
+  { juice: 'Red Power',      emoji: '🍅' },
+  { juice: 'Carrot Glow',    emoji: '🥕' },
+  { juice: 'Tropical Glow',  emoji: '🍍' },
+  { juice: 'Coconut Cool',   emoji: '🥥' },
+  { juice: 'Golden Heal',    emoji: '✨' },
+  { juice: 'Lemon Zing',     emoji: '🍋' },
+];
+
+function getMonthlySchedule() {
+  const days = [];
+  for (let i = 0; i < 30; i++) {
+    const r = MONTHLY_ROTATION[i % MONTHLY_ROTATION.length];
+    days.push({ day: 'D' + (i + 1), juice: r.juice, emoji: r.emoji });
+  }
+  return days;
+}
+
+function toggleSchedulePreview(plan, btn) {
+  const box = document.getElementById('sched-preview-' + plan);
+  if (!box) return;
+  const isOpen = box.style.display !== 'none';
+  if (isOpen) {
+    box.style.display = 'none';
+    if (btn) btn.textContent = btn.textContent.replace('▴', '▾');
+    return;
+  }
+  // Build content
+  const schedule = plan === 'monthly' ? getMonthlySchedule() : PLAN_SCHEDULE[plan];
+  const priceMap = { weekly: '₹699 · 1 bottle/day · Delivered by 8 AM', '10day': '₹899 · 1 bottle/day · Delivered by 8 AM', monthly: '₹2,399 · 1 bottle/day · Delivered by 8 AM' };
+  box.innerHTML = `
+    <div class="sched-preview-header">📅 Daily Schedule — ${plan === '10day' ? '10 Days' : plan === 'weekly' ? '7 Days' : '30 Days'}</div>
+    <div class="sched-days-grid">
+      ${schedule.map(d => `
+        <div class="sched-day-chip">
+          <span class="day-label">${d.day}</span>
+          <span class="juice-emoji">${d.emoji}</span>
+          <span class="day-juice">${d.juice}</span>
+        </div>`).join('')}
+    </div>
+    <div class="sched-summary"><span>Customisable after subscribing</span><strong>${priceMap[plan]}</strong></div>`;
+  box.style.display = '';
+  if (btn) btn.textContent = btn.textContent.replace('▾', '▴');
+}
+
+
 function initFilterBtns() {
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', function() {
@@ -1814,9 +1809,6 @@ window.addEventListener('DOMContentLoaded', () => {
   buildFAQ();
   initFilterBtns();
   initBackToTop();
-  renderPlanCards();
-  const sp = document.getElementById('schedulePreview');
-  if (sp) sp.style.display = 'none';
 
   document.getElementById('annClose')?.addEventListener('click', () => {
     document.querySelector('.announcement-bar').style.display = 'none';
@@ -1826,6 +1818,13 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('hamburger')?.addEventListener('click', () => {
     const links = document.getElementById('navLinks');
     links?.classList.toggle('open');
+  });
+
+  // Close nav when a nav link is clicked (mobile)
+  document.querySelectorAll('#navLinks a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('navLinks')?.classList.remove('open');
+    });
   });
 
   // Close auth on overlay click
