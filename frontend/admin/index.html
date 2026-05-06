@@ -663,7 +663,7 @@ function renderPlansManager() {
 
 function renderPlanCard(p) {
   const headerBg = COLOR_GRADIENTS[p.color] || COLOR_GRADIENTS.orange;
-  const featureInputs = p.features.map((f, i) => `
+  const featureInputs = (Array.isArray(p.features) ? p.features : []).map((f, i) => `
     <li class="feature-item">
       <input type="text" value="${f}" id="feat-${p.key}-${i}" placeholder="Feature text" />
       <button class="btn-remove-feature" onclick="removeFeature('${p.key}', ${i})" title="Remove">✕</button>
@@ -762,7 +762,11 @@ function collectPlanFromDOM(key) {
   const pop   = document.getElementById('pl-pop-' + key)?.checked            || false;
   const featEls = document.querySelectorAll(`#feat-list-${key} .feature-item input`);
   const features = [...featEls].map(el => el.value.trim()).filter(Boolean);
-  return { key, label: name, days, price, emoji, popular: pop, features,
+  
+  // Preserve existing features if none found in DOM (prevent accidental loss)
+  const finalFeatures = features.length > 0 ? features : (currentPlans[key]?.features || []);
+  
+  return { key, label: name, days, price, emoji, popular: pop, features: finalFeatures,
            color: currentPlans[key]?.color || 'orange' };
 }
 
