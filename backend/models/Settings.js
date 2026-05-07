@@ -1,9 +1,15 @@
 import mongoose from 'mongoose';
 
 const planSchema = new mongoose.Schema({
-  name: String,
-  days: Number,
-  price: Number
+  key:      { type: String, required: true },
+  label:    { type: String, required: true },
+  name:     { type: String },
+  days:     { type: Number, required: true },
+  price:    { type: Number, required: true },
+  emoji:    { type: String, default: '🥤' },
+  color:    { type: String, default: 'orange' },
+  popular:  { type: Boolean, default: false },
+  features: { type: [String], default: [] },
 });
 
 const settingsSchema = new mongoose.Schema(
