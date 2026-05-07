@@ -1,5 +1,13 @@
 import mongoose from 'mongoose';
 
+const juiceScheduleSchema = new mongoose.Schema(
+  {
+    juice: { type: String, required: true },
+    emoji: { type: String, default: '🥤' },
+  },
+  { _id: false }
+);
+
 const planSchema = new mongoose.Schema({
   key:      { type: String, required: true },
   label:    { type: String, required: true },
@@ -10,6 +18,11 @@ const planSchema = new mongoose.Schema({
   color:    { type: String, default: 'orange' },
   popular:  { type: Boolean, default: false },
   features: { type: [String], default: [] },
+  schedule: {
+    fruit:     { type: [juiceScheduleSchema], default: [] },
+    vegetable: { type: [juiceScheduleSchema], default: [] },
+    mix:       { type: [juiceScheduleSchema], default: [] },
+  },
 });
 
 const settingsSchema = new mongoose.Schema(

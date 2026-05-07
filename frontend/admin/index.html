@@ -103,6 +103,13 @@
     .plan-edit-fields { border-top: 1px solid #f1f5f9; padding-top: 16px; margin-top: 4px; }
     .plan-edit-fields h4 { font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: .6px; margin-bottom: 12px; }
     .features-list { list-style: none; margin-bottom: 12px; }
+    .schedule-editor { margin: 20px 0 12px; }
+    .schedule-hint { font-size: 13px; color: #64748b; margin-bottom: 12px; line-height: 1.5; }
+    .schedule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+    .schedule-panel { display: flex; flex-direction: column; gap: 8px; }
+    .schedule-panel label { font-size: 12px; font-weight: 700; color: #475569; }
+    .schedule-panel textarea { min-height: 96px; padding: 12px; border: 1px solid #e2e8f0; border-radius: 14px; background: #f8fafc; resize: vertical; font-size: 13px; line-height: 1.5; font-family: inherit; }
+    .schedule-panel textarea:focus { outline: none; border-color: #f97316; background: #fff7ed; }
     .feature-item { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
     .feature-item input { flex: 1; padding: 8px 10px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 13px; }
     .feature-item input:focus { outline: none; border-color: #f97316; }
@@ -683,6 +690,18 @@ function renderPlanCard(p) {
       <button class="btn-remove-feature" onclick="removeFeature('${p.key}', ${i})" title="Remove">✕</button>
     </li>`).join('');
 
+  const serializeSchedule = (list = []) => {
+    return (Array.isArray(list) ? list : []).map(item => {
+      if (!item) return '';
+      if (typeof item === 'string') return item;
+      return item.emoji ? `${item.juice}|${item.emoji}` : item.juice;
+    }).join('\n');
+  };
+
+  const fruitSchedule = serializeSchedule(p.schedule?.fruit);
+  const vegSchedule = serializeSchedule(p.schedule?.vegetable);
+  const mixSchedule = serializeSchedule(p.schedule?.mix);
+
   return `
   <div class="plan-admin-card ${p.color}-card" id="plancard-${p.key}">
     <div class="plan-card-header" style="background:${headerBg}">
@@ -719,6 +738,26 @@ function renderPlanCard(p) {
         <h4>Plan Features</h4>
         <ul class="features-list" id="feat-list-${p.key}">${featureInputs}</ul>
         <button class="btn-add-feature" onclick="addFeature('${p.key}')">+ Add Feature</button>
+
+        <div class="schedule-editor">
+          <h4>Schedule Control</h4>
+          <div class="schedule-hint">Enter one item per line. Use <code>Juice Name|Emoji</code> to override the icon.</div>
+          <div class="schedule-grid">
+            <div class="schedule-panel">
+              <label>Fruit schedule</label>
+              <textarea id="pl-sched-fruit-${p.key}" rows="3" placeholder="Green Detox|🥦\nOrange Glow|🍊">${fruitSchedule}</textarea>
+            </div>
+            <div class="schedule-panel">
+              <label>Vegetable schedule</label>
+              <textarea id="pl-sched-vegetable-${p.key}" rows="3" placeholder="Green Detox|🥦\nHerbal Cleanse|🌿">${vegSchedule}</textarea>
+            </div>
+            <div class="schedule-panel">
+              <label>Mix schedule</label>
+              <textarea id="pl-sched-mix-${p.key}" rows="3" placeholder="Sunrise Orange|🍊\nCoconut Cool|🥥">${mixSchedule}</textarea>
+            </div>
+          </div>
+        </div>
+
         <div class="popular-row">
           <label for="pl-pop-${p.key}">⭐ Mark as Most Popular</label>
           <label class="toggle-switch">
@@ -776,12 +815,38 @@ function collectPlanFromDOM(key) {
   const pop   = document.getElementById('pl-pop-' + key)?.checked            || false;
   const featEls = document.querySelectorAll(`#feat-list-${key} .feature-item input`);
   const features = [...featEls].map(el => el.value.trim()).filter(Boolean);
-  
+
+  const parseSchedule = value => {
+    if (!value || !value.trim()) return [];
+    return value.split('\n').map(line => {
+      const text = line.trim();
+      if (!text) return null;
+      const [juice, emoji] = text.split('|').map(s => s.trim());
+      return { juice: juice || 'Rotate Daily', emoji: emoji || '🥤' };
+    }).filter(Boolean);
+  };
+
+  const schedule = {
+    fruit:     parseSchedule(document.getElementById('pl-sched-fruit-' + key)?.value),
+    vegetable: parseSchedule(document.getElementById('pl-sched-vegetable-' + key)?.value),
+    mix:       parseSchedule(document.getElementById('pl-sched-mix-' + key)?.value),
+  };
+
   // Preserve existing features if none found in DOM (prevent accidental loss)
   const finalFeatures = features.length > 0 ? features : (currentPlans[key]?.features || []);
-  
-  return { key, label: name, name: name, days, price, emoji, popular: pop, features: finalFeatures,
-           color: currentPlans[key]?.color || 'orange' };
+
+  return {
+    key,
+    label: name,
+    name: name,
+    days,
+    price,
+    emoji,
+    popular: pop,
+    features: finalFeatures,
+    color: currentPlans[key]?.color || 'orange',
+    schedule: schedule,
+  };
 }
 
 /* ══ SAVE ALL PLANS ══════════════════════════ */
@@ -876,7 +941,18 @@ function addNewPlan() {
   // Avoid duplicate keys
   const finalKey = currentPlans[key] ? key + '_' + days : key;
 
-  currentPlans[finalKey] = { key: finalKey, label: name, name, days, price, emoji, color, popular, features };
+  currentPlans[finalKey] = {
+    key: finalKey,
+    label: name,
+    name,
+    days,
+    price,
+    emoji,
+    color,
+    popular,
+    features,
+    schedule: { fruit: [], vegetable: [], mix: [] },
+  };
 
   // Clear form
   ['np-name','np-days','np-price','np-emoji','np-features'].forEach(id => {
@@ -994,10 +1070,11 @@ async function loadTodayOrders() {
 function ordersTable(orders) {
   const pillCls = { pending:'pill-pending', assigned:'pill-pending', out_for_delivery:'pill-pending', delivered:'pill-active', cancelled:'pill-paused' };
   return `<div style="overflow-x:auto"><table><thead><tr>
-    <th>Customer</th><th>Phone</th><th>Juice</th><th>Date</th><th>Delivery Boy</th><th>Status</th><th>OTP</th>
+    <th>Customer</th><th>Phone</th><th>Category</th><th>Juice</th><th>Date</th><th>Delivery Boy</th><th>Status</th><th>OTP</th>
   </tr></thead><tbody>${orders.map(o => `<tr>
     <td>${o.userId?.name || '—'}</td>
     <td>${o.userId?.phone || '—'}</td>
+    <td>${o.juiceCategory || '—'}</td>
     <td>${o.juiceType}</td>
     <td>${fmt(o.deliveryDate)}</td>
     <td>${o.deliveryBoyId?.name || '<span style="color:#94a3b8">Unassigned</span>'}</td>

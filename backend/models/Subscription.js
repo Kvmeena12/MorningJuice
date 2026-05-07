@@ -12,8 +12,9 @@ const dayScheduleSchema = new mongoose.Schema(
 const subscriptionSchema = new mongoose.Schema(
   {
     userId:         { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    planType:       { type: String, enum: ['weekly', '10day', 'monthly'], required: true },
+    planType:       { type: String, required: true },
     bottlesPerDay:  { type: Number, default: 1, min: 1, max: 4 },
+    juiceCategory:  { type: String, enum: ['fruit', 'vegetable', 'mix'], default: 'fruit' },
     weeklySchedule: [dayScheduleSchema],
     skippedDates: [{ type: Date }],   // ← ADD THIS LINE
     startDate:      { type: Date, required: true },

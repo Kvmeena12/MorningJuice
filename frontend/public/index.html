@@ -467,6 +467,9 @@
     .plan-features li:last-child { border-bottom: none; }
     .plan-features li::before { content: "✓ "; color: var(--orange); font-weight: 700; }
     .qty-wrap { display: flex; align-items: center; gap: 12px; margin: 16px 0; }
+    .category-group { margin-bottom: 16px; }
+    .category-select { width: 100%; padding: 10px 12px; border: 2px solid var(--border); border-radius: 10px; font-size: 14px; font-family: 'DM Sans', sans-serif; background: #fff; }
+    .category-select:focus { outline: none; border-color: var(--orange); }
     .qty-btn { width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--orange); background: none; color: var(--orange); font-size: 20px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: .2s; }
     .qty-btn:hover { background: var(--orange); color: #fff; }
     .qty-val { font-size: 22px; font-weight: 700; color: var(--dark); min-width: 28px; text-align: center; }
@@ -1290,10 +1293,18 @@ let activeSub   = null;
 let pendingSub  = null;
 let userLocation = null;
 const qty = {}; // populated dynamically by loadPlansFromAPI
+const selectedCategory = {}; // persisted category selection per plan
 
 /* ─── AUTH HELPERS ─── */
 function authHeader() {
   return { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
+}
+
+function setCategory(planKey, value) {
+  const normalized = ['fruit','vegetable','mix'].includes(value) ? value : 'fruit';
+  selectedCategory[planKey] = normalized;
+  const selectors = [document.getElementById('cat-' + planKey), document.getElementById('dcat-' + planKey)];
+  selectors.forEach(el => { if (el) el.value = normalized; });
 }
 
 function openAuth()  { document.getElementById('authOverlay').classList.add('open'); }
@@ -1805,6 +1816,14 @@ function renderPublicPlanCards() {
         <button class="qty-btn" onclick="changeQty('${p.key}',1)">+</button>
         <span style="font-size:13px;color:var(--mid)">bottle/day</span>
       </div>
+      <div class="category-group">
+        <label style="display:block;font-size:13px;color:var(--mid);margin-bottom:8px">Juice preference</label>
+        <select class="category-select" id="cat-${p.key}" onchange="setCategory('${p.key}', this.value)">
+          <option value="fruit" ${selectedCategory[p.key] === 'fruit' ? 'selected' : ''}>🍊 Fruit</option>
+          <option value="vegetable" ${selectedCategory[p.key] === 'vegetable' ? 'selected' : ''}>🥦 Vegetable</option>
+          <option value="mix" ${selectedCategory[p.key] === 'mix' ? 'selected' : ''}>🌿 Mix</option>
+        </select>
+      </div>
       <p class="text-sm" id="price-${p.key}">Total: ₹${(p.price || 0).toLocaleString()}</p>
       <button class="btn-full mt16" onclick="startSubscription('${p.key}')">Subscribe ${p.label}</button>
       <button class="btn-ghost-sm" style="width:100%;margin-top:10px" onclick="toggleSchedulePreview('${p.key}',this)">${schedLabel}</button>
@@ -1832,6 +1851,14 @@ function buildDbPlanCards() {
         <span class="qty-val" id="dqty-${p.key}">1</span>
         <button class="qty-btn" onclick="changeQty('${p.key}',1)">+</button>
         <span style="font-size:13px;color:var(--mid)">bottle/day</span>
+      </div>
+      <div class="category-group">
+        <label style="display:block;font-size:13px;color:var(--mid);margin-bottom:8px">Juice preference</label>
+        <select class="category-select" id="dcat-${p.key}" onchange="setCategory('${p.key}', this.value)">
+          <option value="fruit" ${selectedCategory[p.key] === 'fruit' ? 'selected' : ''}>🍊 Fruit</option>
+          <option value="vegetable" ${selectedCategory[p.key] === 'vegetable' ? 'selected' : ''}>🥦 Vegetable</option>
+          <option value="mix" ${selectedCategory[p.key] === 'mix' ? 'selected' : ''}>🌿 Mix</option>
+        </select>
       </div>
       <p class="text-sm" id="dprice-${p.key}">Total: ₹${(p.price || 0).toLocaleString()}</p>
       <button class="btn-full mt16" onclick="startSubscription('${p.key}')">Choose ${p.label}</button>
@@ -1865,15 +1892,22 @@ async function startSubscription(planKey) {
     const res  = await fetch(`${API}/subscriptions`, {
       method:  'POST',
       headers: authHeader(),
-      body:    JSON.stringify({ planType: planKey, bottlesPerDay: qty[planKey] || 1, startDate: start.toISOString() }),
+      body:    JSON.stringify({
+        planType: planKey,
+        bottlesPerDay: qty[planKey] || 1,
+        juiceCategory: selectedCategory[planKey] || 'fruit',
+        startDate: start.toISOString(),
+      }),
     });
     const data = await res.json();
     if (!res.ok) return toast(data.error, 'error');
     pendingSub = data.subscription;
     document.getElementById('paymentStep').style.display = '';
     const total = p.price * (qty[planKey] || 1);
+    const categoryLabel = { fruit: 'Fruit', vegetable: 'Vegetable', mix: 'Mix' }[selectedCategory[planKey] || 'fruit'];
     document.getElementById('paymentSummary').innerHTML = `
       <div class="payment-row"><span>Plan</span><span>${p.label} (${p.days} days)</span></div>
+      <div class="payment-row"><span>Juice</span><span>${categoryLabel}</span></div>
       <div class="payment-row"><span>Bottles / Day</span><span>${qty[planKey] || 1}</span></div>
       <div class="payment-row"><span>Total</span><span>₹${total.toLocaleString()}</span></div>`;
     dbSwitch('plans');
@@ -1968,10 +2002,14 @@ async function loadPlansFromAPI() {
 
         if (Object.keys(freshMap).length > 0) {
           PLAN_CFG = freshMap;
-          // Re-init qty for all plan keys
-          Object.keys(PLAN_CFG).forEach(k => { if (qty[k] === undefined) qty[k] = 1; });
-          // Remove qty keys that no longer exist
+          // Re-init qty and category for all plan keys
+          Object.keys(PLAN_CFG).forEach(k => {
+            if (qty[k] === undefined) qty[k] = 1;
+            if (selectedCategory[k] === undefined) selectedCategory[k] = 'fruit';
+          });
+          // Remove qty/category keys that no longer exist
           Object.keys(qty).forEach(k => { if (!PLAN_CFG[k]) delete qty[k]; });
+          Object.keys(selectedCategory).forEach(k => { if (!PLAN_CFG[k]) delete selectedCategory[k]; });
           renderPublicPlanCards();
           buildDbPlanCards();
           return; // ✅ Done — API data is good, skip defaults
@@ -1984,7 +2022,11 @@ async function loadPlansFromAPI() {
 
   // ⬇️ Fallback: API failed or returned empty — use hardcoded defaults
   PLAN_CFG = JSON.parse(JSON.stringify(DEFAULT_PLANS_PUBLIC));
-  Object.keys(PLAN_CFG).forEach(k => { qty[k] = 1; });
+  Object.keys(PLAN_CFG).forEach(k => {
+    qty[k] = 1;
+    if (selectedCategory[k] === undefined) selectedCategory[k] = 'fruit';
+  });
+  Object.keys(selectedCategory).forEach(k => { if (!PLAN_CFG[k]) delete selectedCategory[k]; });
 
   // Try to at least patch prices from /api/settings/pricing
   try {
@@ -2251,18 +2293,29 @@ const SCHEDULES = {
 const DAY_LABELS_SHORT = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
 
 function buildScheduleDays(plan, category) {
-  const catData = SCHEDULES[category];
-  const priceMap = { weekly: { price: '₹699', days: 7 }, '10day': { price: '₹899', days: 10 }, monthly: { price: '₹2,399', days: 30 } };
-  const totalDays = priceMap[plan].days;
+  const planObj = PLAN_CFG[plan] || { days: 7 };
+  const totalDays = Number(planObj.days) || 7;
+  const catData = SCHEDULES[category] || SCHEDULES.fruit;
+  const planSchedule = planObj.schedule || {};
+  const customRotation = Array.isArray(planSchedule[category]) ? planSchedule[category] : [];
 
   let days = [];
-  if (plan === 'weekly') {
-    days = catData.weekly.map((d, i) => ({ label: d.day, juice: d.juice, emoji: d.emoji }));
+  if (totalDays === 7) {
+    if (customRotation.length === 7) {
+      days = customRotation.map((item, index) => ({
+        label: DAY_LABELS_SHORT[index],
+        juice: item.juice || 'Rotate Daily',
+        emoji: item.emoji || '🥤',
+      }));
+    } else {
+      const rotation = catData.weekly || SCHEDULES.fruit.weekly;
+      days = rotation.map((d) => ({ label: d.day, juice: d.juice, emoji: d.emoji }));
+    }
   } else {
-    const rotation = catData[plan] || catData.monthly;
+    const rotation = customRotation.length ? customRotation : (catData[plan] || catData.monthly || SCHEDULES.fruit.monthly);
     for (let i = 0; i < totalDays; i++) {
-      const r = rotation[i % rotation.length];
-      const label = plan === '10day' ? ('D' + (i + 1)) : ('D' + (i + 1));
+      const r = rotation[i % rotation.length] || rotation[0] || { juice: 'Rotate Daily', emoji: '🥤' };
+      const label = 'D' + (i + 1);
       days.push({ label, juice: r.juice, emoji: r.emoji });
     }
   }
@@ -2273,11 +2326,10 @@ function renderScheduleGrid(plan, category) {
   const box = document.getElementById('sched-preview-' + plan);
   if (!box) return;
   const days = buildScheduleDays(plan, category);
-  const priceMap = { weekly: '₹699', '10day': '₹899', monthly: '₹2,399' };
-  const planLabel = { weekly: '7-Day', '10day': '10-Day', monthly: '30-Day' }[plan];
-  const catLabel = { fruit: 'Fruit Juices', vegetable: 'Vegetable Juices', mix: 'Mix (Fruit + Veg)' }[category];
+  const planObj = PLAN_CFG[plan] || { label: plan, days: '?' };
+  const planLabel = `${planObj.label} · ${planObj.days}-Day`;
+  const catLabel = { fruit: 'Fruit Juices', vegetable: 'Vegetable Juices', mix: 'Mix (Fruit + Veg)' }[category] || 'Fruit Juices';
 
-  // Keep tabs, update grid
   const grid = box.querySelector('.sched-days-grid');
   const label = box.querySelector('.sched-preview-label');
   if (label) label.textContent = `📅 ${planLabel} · ${catLabel} · 1 bottle/day · Delivered by 8 AM`;
@@ -2305,10 +2357,11 @@ function toggleSchedulePreview(plan, btn) {
     return;
   }
 
-  const planLabel = { weekly: '7-Day', '10day': '10-Day', monthly: '30-Day' }[plan];
-  const priceMap = { weekly: '₹699', '10day': '₹899', monthly: '₹2,399' };
+  const planObj = PLAN_CFG[plan] || { label: plan, days: '?', price: 0 };
   const defaultCat = 'fruit';
   const days = buildScheduleDays(plan, defaultCat);
+  const planLabel = `${planObj.label} · ${planObj.days}-Day`;
+  const totalPrice = planObj.price ? `₹${planObj.price.toLocaleString()}` : '₹0';
 
   box.innerHTML = `
     <div class="sched-cat-tabs">
@@ -2327,7 +2380,7 @@ function toggleSchedulePreview(plan, btn) {
     </div>
     <div class="sched-summary">
       <span>You can customise anytime from your dashboard</span>
-      <strong>${priceMap[plan]} total</strong>
+      <strong>${totalPrice} total</strong>
     </div>`;
   box.style.display = '';
   if (btn) btn.textContent = btn.textContent.replace('▾', '▴');

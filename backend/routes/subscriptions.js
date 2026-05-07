@@ -18,11 +18,33 @@ const DEFAULT_PRICING = {
 
 async function getPricing() {
   try {
-    const doc = await Settings.findOne({ key: 'pricing' });
-    return doc ? doc.value : DEFAULT_PRICING;
+    const doc = await Settings.findOne({ key: 'plans' });
+    if (doc?.plans?.length) {
+      return doc.plans.reduce((map, plan) => {
+        if (!plan?.key) return map;
+        const normalizedKey = plan.key.toString().trim();
+        map[normalizedKey] = {
+          days:  Number(plan.days)  || 7,
+          price: Number(plan.price) || 0,
+          label: plan.label || normalizedKey,
+        };
+        const normalizedLabel = plan.label ? plan.label.toString().trim().toLowerCase() : null;
+        if (normalizedLabel && !map[normalizedLabel]) {
+          map[normalizedLabel] = map[normalizedKey];
+        }
+        return map;
+      }, {});
+    }
+    return DEFAULT_PRICING;
   } catch {
     return DEFAULT_PRICING;
   }
+}
+
+function resolvePlan(planType, pricing) {
+  if (!planType) return null;
+  const normalized = planType.toString().trim();
+  return pricing[normalized] || pricing[normalized.toLowerCase()];
 }
 
 const DAY_NAMES = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
@@ -66,10 +88,13 @@ async function generateOrders(subscription, user) {
 // POST /api/subscriptions  — create subscription (payment pending)
 router.post('/', protect, async (req, res) => {
   try {
-    const { planType, bottlesPerDay = 1, weeklySchedule = [], startDate } = req.body;
+    const { planType, bottlesPerDay = 1, juiceCategory = 'fruit', weeklySchedule = [], startDate } = req.body;
+
+    const allowedCategories = ['fruit','vegetable','mix'];
+    const normalizedCategory = allowedCategories.includes(juiceCategory) ? juiceCategory : 'fruit';
 
     const pricing = await getPricing();
-    const plan = pricing[planType];
+    const plan = resolvePlan(planType, pricing);
     if (!plan) return res.status(400).json({ error: 'Invalid plan type' });
 
     const start = new Date(startDate || Date.now());
@@ -82,6 +107,7 @@ router.post('/', protect, async (req, res) => {
       userId: req.user._id,
       planType,
       bottlesPerDay,
+      juiceCategory: normalizedCategory,
       weeklySchedule,
       startDate: start,
       endDate: end,
