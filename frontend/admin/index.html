@@ -622,17 +622,22 @@ async function loadPlans() {
     const res  = await fetch(`${API}/plans`);
     const data = await res.json();
     if (Array.isArray(data) && data.length) {
-      currentPlans = Object.fromEntries(data.map(p => [p.key || p.name.toLowerCase().replace(/[^a-z0-9]/g, '_'), {
-        key:    p.key || p.name.toLowerCase().replace(/[^a-z0-9]/g, '_'),
-        label:  p.label || p.name,
-        days:   p.days || 0,
-        price:  p.price || 0,
-        emoji:  p.emoji || '🥤',
-        color:  p.color || 'orange',
-        popular:p.popular || false,
-        features: Array.isArray(p.features) ? p.features : [],
-      }]));
-    }
+      currentPlans = Object.fromEntries(data.map(p => {
+        // Support both 'label' and 'name' from backend
+        const resolvedLabel = p.label || p.name || p.key || 'Plan';
+        const resolvedKey   = p.key   || p.name?.toLowerCase().replace(/[^a-z0-9]/g, '_') || String(Math.random());
+        return [resolvedKey, {
+          key:      resolvedKey,
+          label:    resolvedLabel,
+          name:     resolvedLabel,
+          days:     p.days     || p.duration || 0,
+          price:    p.price    || p.amount   || 0,
+          emoji:    p.emoji    || '🥤',
+          color:    p.color    || 'orange',
+          popular:  p.popular  || false,
+          features: Array.isArray(p.features) ? p.features : [],
+        }];
+      }));    }
   } catch (err) {
     console.warn('Could not load admin plans from API, using defaults.', err);
   }
@@ -766,7 +771,7 @@ function collectPlanFromDOM(key) {
   // Preserve existing features if none found in DOM (prevent accidental loss)
   const finalFeatures = features.length > 0 ? features : (currentPlans[key]?.features || []);
   
-  return { key, label: name, days, price, emoji, popular: pop, features: finalFeatures,
+  return { key, label: name, name: name, days, price, emoji, popular: pop, features: finalFeatures,
            color: currentPlans[key]?.color || 'orange' };
 }
 
