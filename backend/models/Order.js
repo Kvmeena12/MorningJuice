@@ -7,6 +7,7 @@ const orderSchema = new mongoose.Schema(
     deliveryBoyId:   { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
     deliveryDate:    { type: Date, required: true },
     juiceType:       { type: String, required: true },
+    juiceCategory:   { type: String, enum: ['fruit', 'vegetable', 'mix'], default: 'fruit' },
     quantity:        { type: Number, default: 1 },
     deliveryAddress: { type: String },
     status: {

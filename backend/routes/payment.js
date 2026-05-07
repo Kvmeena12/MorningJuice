@@ -34,6 +34,7 @@ async function generateOrders(subscription, user) {
         userId:          subscription.userId,
         deliveryDate:    new Date(cur),
         juiceType,
+        juiceCategory:   subscription.juiceCategory || 'fruit',
         quantity:        subscription.bottlesPerDay,
         deliveryAddress: user.address,
         otp:             String(Math.floor(1000 + Math.random() * 9000)),
