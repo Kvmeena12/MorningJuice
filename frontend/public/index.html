@@ -2001,6 +2001,11 @@ async function loadPlansFromAPI() {
   buildDbPlanCards();
 }
 
+window.addEventListener('focus', () => {
+  // Reload plans when the user returns to the tab, so admin-added plans appear quickly.
+  loadPlansFromAPI();
+});
+
 /* ─── UTILITY ─── */
 function fmt(d) {
   if (!d) return '—';
