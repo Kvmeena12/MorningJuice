@@ -1820,7 +1820,7 @@ function buildDbPlanCards() {
   const plans = Object.values(PLAN_CFG);
   if (!plans.length) { box.innerHTML = '<p style="color:var(--mid)">No plans available.</p>'; return; }
   box.innerHTML = plans.map(p => {
-    const featHTML = (p.features || []).map(f => `<li style="padding:7px 0;font-size:13px;color:var(--mid);border-bottom:1px solid var(--border)">✓ <span style="color:var(--orange);font-weight:700">✓</span> ${f}</li>`).join('');
+    const featHTML = (p.features || []).map(f => `<li style="padding:7px 0;font-size:13px;color:var(--mid);border-bottom:1px solid var(--border)"><span style="color:var(--orange);font-weight:700">✓</span> ${f}</li>`).join('');
     return `
     <div class="plan-card ${p.popular ? 'popular' : ''}">
       ${p.popular ? '<div class="popular-badge">⭐ Most Popular</div>' : ''}
@@ -1937,60 +1937,62 @@ function handleContactForm(e) {
 }
 
 /* ─── LOAD ALL PLAN DATA FROM API ─── */
+/* ─── LOAD ALL PLAN DATA FROM API ─── */
 async function loadPlansFromAPI() {
-  // Always start with clean defaults so plan names are never undefined/random
-  PLAN_CFG = JSON.parse(JSON.stringify(DEFAULT_PLANS_PUBLIC));
-  Object.keys(PLAN_CFG).forEach(k => { qty[k] = 1; });
-
   try {
     const res = await fetch(`${API}/plans?_=${Date.now()}`);
     if (res.ok) {
       const data = await res.json();
       if (Array.isArray(data) && data.length) {
+        // ✅ Trust API completely — build fresh map from whatever API returns
+        const freshMap = {};
         data.forEach(p => {
-          // Match API plan to our known keys using key, or by matching days
-          const knownKey = p.key
-            || (p.days === 7  ? 'weekly'
-              : p.days === 10 ? '10day'
-              : p.days === 30 ? 'monthly'
-              : null);
+          // Resolve key: use explicit key, or generate from label/name
+          const label = (p.label || p.name || '').trim();
+          const key = p.key
+            || (label ? label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '') : null);
 
-          if (knownKey && PLAN_CFG[knownKey]) {
-            // Only update fields that came from admin — never replace label with garbage
-            if (p.price  && p.price > 0)            PLAN_CFG[knownKey].price    = p.price;
-            if (p.label  && p.label.length > 1)     PLAN_CFG[knownKey].label    = p.label;
-            if (p.name   && p.name.length  > 1)     PLAN_CFG[knownKey].label    = PLAN_CFG[knownKey].label || p.name;
-            if (Array.isArray(p.features) && p.features.length) PLAN_CFG[knownKey].features = p.features;
-            if (p.popular !== undefined)             PLAN_CFG[knownKey].popular  = p.popular;
-            if (p.days)                              PLAN_CFG[knownKey].days     = p.days;
-          } else if (knownKey) {
-            // New plan from API not in defaults — only add if it has a real name
-            const label = (p.label || p.name || '').trim();
-            if (label && p.price > 0) {
-              PLAN_CFG[knownKey] = {
-                key: knownKey, label, days: p.days || 7,
-                price: p.price, popular: p.popular || false,
-                features: Array.isArray(p.features) ? p.features : [],
-              };
-              qty[knownKey] = 1;
-            }
-          }
-          // If key is truly random/unknown and no label → skip (don't add garbage plan)
+          if (!key || !label || !(p.price > 0)) return; // skip truly garbage entries
+
+          freshMap[key] = {
+            key,
+            label,
+            days:     Number(p.days)    || 7,
+            price:    Number(p.price)   || 0,
+            popular:  !!p.popular,
+            features: Array.isArray(p.features) ? p.features.filter(Boolean) : [],
+            emoji:    p.emoji  || '🥤',
+            color:    p.color  || 'orange',
+          };
         });
+
+        if (Object.keys(freshMap).length > 0) {
+          PLAN_CFG = freshMap;
+          // Re-init qty for all plan keys
+          Object.keys(PLAN_CFG).forEach(k => { if (qty[k] === undefined) qty[k] = 1; });
+          // Remove qty keys that no longer exist
+          Object.keys(qty).forEach(k => { if (!PLAN_CFG[k]) delete qty[k]; });
+          renderPublicPlanCards();
+          buildDbPlanCards();
+          return; // ✅ Done — API data is good, skip defaults
+        }
       }
     }
   } catch (e) {
     console.warn('loadPlansFromAPI: network error, using defaults', e);
   }
 
-  // Also patch prices from /api/settings/pricing if available
+  // ⬇️ Fallback: API failed or returned empty — use hardcoded defaults
+  PLAN_CFG = JSON.parse(JSON.stringify(DEFAULT_PLANS_PUBLIC));
+  Object.keys(PLAN_CFG).forEach(k => { qty[k] = 1; });
+
+  // Try to at least patch prices from /api/settings/pricing
   try {
-    const res2 = await fetch(`${API}/settings/pricing`);
+    const res2 = await fetch(`${API}/settings/pricing?_=${Date.now()}`);
     if (res2.ok) {
       const pricing = await res2.json();
       Object.entries(pricing).forEach(([key, val]) => {
         if (PLAN_CFG[key] && val.price > 0) PLAN_CFG[key].price = val.price;
-        if (PLAN_CFG[key] && val.label && val.label.length > 1) PLAN_CFG[key].label = val.label;
       });
     }
   } catch { /* silent */ }

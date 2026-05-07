@@ -818,11 +818,26 @@ async function saveAllPlans() {
     currentPlans = updated;
     renderPlansSummary();
     renderPricingPage();
+    renderPlansManager(); // re-render to confirm saved state
 
     document.getElementById('plansStatus').className = 'save-status ok';
     document.getElementById('plansStatus').textContent = '✅ All plans saved! Website updated.';
     document.getElementById('plansLastUpdated').textContent = 'Last updated: ' + new Date().toLocaleString('en-IN');
     toast('✅ Plans saved successfully!');
+
+    // Re-fetch from API after 1s to confirm backend actually stored it
+    setTimeout(async () => {
+      try {
+        const checkRes  = await fetch(`${API}/plans?_=${Date.now()}`);
+        if (checkRes.ok) {
+          const checkData = await checkRes.json();
+          if (Array.isArray(checkData) && checkData.length) {
+            // Re-load from confirmed server state
+            await loadPlans();
+          }
+        }
+      } catch { /* silent */ }
+    }, 1000);
   } catch (err) {
     document.getElementById('plansStatus').className = 'save-status err';
     document.getElementById('plansStatus').textContent = '❌ ' + err.message;
@@ -855,10 +870,13 @@ function addNewPlan() {
   if (!days || days < 1) return toast('Please enter valid number of days', 'error');
   if (!price || price < 1) return toast('Please enter a valid price', 'error');
 
-  // Generate key from name
-  const key = name.toLowerCase().replace(/[^a-z0-9]/g, '') + '_' + Date.now();
+  // Generate clean key from name (no timestamp — consistent across saves)
+  const key = name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '');
 
-  currentPlans[key] = { key, label: name + ' Plan', days, price, emoji, color, popular, features };
+  // Avoid duplicate keys
+  const finalKey = currentPlans[key] ? key + '_' + days : key;
+
+  currentPlans[finalKey] = { key: finalKey, label: name, name, days, price, emoji, color, popular, features };
 
   // Clear form
   ['np-name','np-days','np-price','np-emoji','np-features'].forEach(id => {
@@ -871,7 +889,7 @@ function addNewPlan() {
   renderPlansManager();
   renderPlansSummary();
   renderPricingPage();
-  toast(`"${currentPlans[key].label}" added! Click "Save All Plans" to publish.`, 'success');
+  toast(`"${currentPlans[finalKey].label}" added! Click "Save All Plans" to publish.`, 'success');
 }
 
 /* ══ PRICING PAGE (price-only) ══════════════ */
