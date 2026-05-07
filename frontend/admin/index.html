@@ -618,28 +618,37 @@ async function loadStats() {
 
 /* ══ LOAD PLANS FROM API (or use defaults) ══ */
 async function loadPlans() {
+  // Always start from defaults so plan names/features are never blank
+  currentPlans = JSON.parse(JSON.stringify(DEFAULT_PLANS));
   try {
     const res  = await fetch(`${API}/plans`);
     const data = await res.json();
     if (Array.isArray(data) && data.length) {
-      currentPlans = Object.fromEntries(data.map(p => {
-        // Support both 'label' and 'name' from backend
-        const resolvedLabel = p.label || p.name || p.key || 'Plan';
-        const resolvedKey   = p.key   || p.name?.toLowerCase().replace(/[^a-z0-9]/g, '_') || String(Math.random());
-        return [resolvedKey, {
+      data.forEach(p => {
+        const resolvedLabel = (p.label || p.name || '').trim();
+        // Match by explicit key, or by days count to avoid random keys
+        const resolvedKey = p.key
+          || (p.days === 7  ? 'weekly'
+            : p.days === 10 ? '10day'
+            : p.days === 30 ? 'monthly'
+            : (resolvedLabel ? resolvedLabel.toLowerCase().replace(/[^a-z0-9]/g, '_') : null));
+        if (!resolvedKey) return; // skip garbage
+        const existing = currentPlans[resolvedKey] || {};
+        currentPlans[resolvedKey] = {
           key:      resolvedKey,
-          label:    resolvedLabel,
-          name:     resolvedLabel,
-          days:     p.days     || p.duration || 0,
-          price:    p.price    || p.amount   || 0,
-          emoji:    p.emoji    || '🥤',
-          color:    p.color    || 'orange',
-          popular:  p.popular  || false,
-          features: Array.isArray(p.features) ? p.features : [],
-        }];
-      }));    }
+          label:    resolvedLabel || existing.label || resolvedKey,
+          name:     resolvedLabel || existing.label || resolvedKey,
+          days:     p.days     || existing.days  || 7,
+          price:    p.price    || existing.price || 0,
+          emoji:    p.emoji    || existing.emoji || '🥤',
+          color:    p.color    || existing.color || 'orange',
+          popular:  p.popular  !== undefined ? p.popular : (existing.popular || false),
+          features: Array.isArray(p.features) && p.features.length ? p.features : (existing.features || []),
+        };
+      });
+    }
   } catch (err) {
-    console.warn('Could not load admin plans from API, using defaults.', err);
+    console.warn('Could not load plans from API, using defaults.', err);
   }
   renderPlansSummary();
   renderPlansManager();
