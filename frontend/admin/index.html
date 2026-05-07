@@ -621,7 +621,7 @@ async function loadPlans() {
   // Always start from defaults so plan names/features are never blank
   currentPlans = JSON.parse(JSON.stringify(DEFAULT_PLANS));
   try {
-    const res  = await fetch(`${API}/plans`);
+    const res  = await fetch(`${API}/plans?_=${Date.now()}`);
     const data = await res.json();
     if (Array.isArray(data) && data.length) {
       data.forEach(p => {
