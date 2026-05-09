@@ -491,10 +491,10 @@ const DEFAULT_PLANS = {
     ]
   },
   '10day': {
-    key:      '10day',
-    label:    '10-Day Plan',
-    days:     10,
-    price:    899,
+    key:      '15 days',
+    label:    '1Wellness Boost ⭐',
+    days:     15,
+    price:    1249,
     emoji:    '🥬',
     color:    'blue',
     popular:  true,
@@ -503,7 +503,7 @@ const DEFAULT_PLANS = {
       'Morning delivery (6–8 AM)',
       'Customise daily juice',
       'Pause anytime',
-      'Save ₹90 vs weekly'
+      'Save ₹135+ vs weekly'
     ]
   },
   monthly: {
@@ -635,9 +635,9 @@ async function loadPlans() {
         const resolvedLabel = (p.label || p.name || '').trim();
         // Match by explicit key, or by days count to avoid random keys
         const resolvedKey = p.key
-          || (p.days === 7  ? 'weekly'
-            : p.days === 10 ? '10day'
-            : p.days === 30 ? 'monthly'
+          || (p.days === 7  ? 'Monthly Wellness'
+            : p.days === 15 ? 'Wellness Boost ⭐'
+            : p.days === 30 ? 'Monthly Wellness'
             : (resolvedLabel ? resolvedLabel.toLowerCase().replace(/[^a-z0-9]/g, '_') : null));
         if (!resolvedKey) return; // skip garbage
         const existing = currentPlans[resolvedKey] || {};
